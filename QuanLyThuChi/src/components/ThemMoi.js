@@ -122,8 +122,9 @@ const styles = StyleSheet.create({
   buttonCardItem: {
     height: 40,
     backgroundColor: "rgb(76,171,242)",
-    marginBottom: 2,
-    borderBottomEndRadius: 20
+    //marginBottom: 2,
+    borderRadius:5,
+    margin:5
   },
   textButton: {
     color: "white",

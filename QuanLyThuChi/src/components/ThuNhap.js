@@ -440,7 +440,12 @@ export default class ThuNhap extends React.Component {
                   style={{
                     ...styles.buttonCardItem,
                     backgroundColor: "white",
-                    marginTop: 0
+                    marginTop: 0,
+                    height:30,
+                    width:30,
+                    borderRadius:15,
+                    justifyContent:'center',
+                    alignItems:'center',
                   }}
                   onPress={this.resetNguoiThu}
                 >

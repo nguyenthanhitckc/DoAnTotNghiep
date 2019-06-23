@@ -378,7 +378,12 @@ export default class ChiTieu extends React.Component {
                   style={{
                     ...styles.buttonCardItem,
                     backgroundColor: "white",
-                    marginTop: 0
+                    marginTop: 0,
+                    height:30,
+                    width:30,
+                    borderRadius:15,
+                    justifyContent:'center',
+                    alignItems:'center',
                   }}
                   onPress={this.resetNguoiChi}
                 >
@@ -386,7 +391,7 @@ export default class ChiTieu extends React.Component {
                     name="times"
                     style={{
                       ...styles.icon,
-                      color: "red"
+                      color: "red",
                     }}
                   />
                 </Button>

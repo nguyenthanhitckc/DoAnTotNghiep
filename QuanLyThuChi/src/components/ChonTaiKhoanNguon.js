@@ -1,4 +1,4 @@
-// Import thư viện
+// Import thư viện 
 import React, { Component } from "react";
 import { Text, Dimensions } from "react-native";
 import {
