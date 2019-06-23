@@ -84,7 +84,7 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
 
     render() {
         const { navigation } = this.props;
-        console.log(this.state.ghi_chep);
+        var ghi_chep = this.state.ghi_chep;
         return (
             <Container>
                 <Header style={styles.header}>
@@ -110,6 +110,30 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                             </Right>
                         </CardItem>
                     </Card>
+                    <Card>
+                        {ghi_chep.map((item, i) => (
+                            <CardItem
+                                key={i}
+                                button
+                                onPress={() => { }}
+                                style={styles.cardItem}
+                            >
+                                <Left style={{ flex: 1 }}>
+                                    <Icon name={item.icon_hang_muc} style={styles.icon} />
+                                </Left>
+                                <Body style={{ flex: 6, flexDirection: 'column', marginLeft: 10 }}>
+                                    <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
+                                    <Text style={{ fontSize: 15, marginTop: 5 }}>{item.mo_ta}</Text>
+                                    <Text style={{ fontSize: 20, marginTop: 5 }}>{moment(item.ngay).format('DD/MM/YYYY')}</Text>
+                                </Body>
+                                <Right style={{ flex: 6 }}>
+                                    <Text style={{ ...styles.textContentMoney, color: item.loai == 'chitieu' ? 'red' : 'green' }}>
+                                        {this.formatMoney(item.so_tien)} đ
+                                 </Text>
+                                </Right>
+                            </CardItem>
+                        ))}
+                    </Card>
                 </Content>
 
                 <MyFooter navigation={this.props.navigation} />
@@ -132,7 +156,6 @@ const styles = StyleSheet.create({
     cardItem: {
         borderColor: "grey",
         borderBottomWidth: 1,
-        height: 50,
         marginTop: 5
     },
     content: {
@@ -175,7 +198,7 @@ const styles = StyleSheet.create({
         paddingLeft: 10
     },
     textContentMoney: {
-        color: "white",
+        color: "#3a455c",
         fontSize: 20
     },
     textHeader: {

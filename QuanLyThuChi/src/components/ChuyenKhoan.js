@@ -249,6 +249,8 @@ export default class ChuyenKhoan extends React.Component {
       machuyenkhoan = await this.phatSinhMaChuyenKhoan();
       let mataikhoannguon = this.state.taiKhoanNguon;
       let mataikhoandich = this.state.taiKhoanDich;
+      let tentaikhoandich = this.state.tenTaiKhoanDich;
+      let tentaikhoannguon = this.state.tenTaiKhoanNguon;
       let moneyTmp = this.state.soTien.replace(/,/g, "");
       let sotien = Number(moneyTmp);
       let ngay = moment(this.state.ngayChuyenKhoan).format(
@@ -293,14 +295,18 @@ export default class ChuyenKhoan extends React.Component {
       machitieu = await this.phatSinhMaChiTieu();
       db.transaction(function (tx) {
         tx.executeSql(
-          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi,ngay,mo_ta) VALUES (?,?,?,?,?,?)",
+          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
           [
             machitieu,
             mataikhoannguon,
             sotien,
             "hmc0004",
+            "Chuyển đến tài khoản " + tentaikhoandich,
+            "credit-card",
             ngay,
-            "Chuyển cho ví " + this.state.tenTaiKhoanDich
+            mota,
+            machuyenkhoan,
+            'chitieu'
           ]
         );
       });
@@ -332,14 +338,18 @@ export default class ChuyenKhoan extends React.Component {
       mathunhap = await this.phatSinhMaThuNhap();
       db.transaction(function (tx) {
         tx.executeSql(
-          "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu,ngay,mo_ta) VALUES (?,?,?,?,?,?)",
+          "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
           [
             mathunhap,
             mataikhoandich,
             sotien,
             "hmt0003",
+            "Nhận từ tài khoản " + tentaikhoannguon,
+            "credit-card",
             ngay,
-            "Nhận từ ví " + this.state.tenTaiKhoanNguon
+            mota,
+            machuyenkhoan,
+            'thunhap'
           ]
         );
       });
@@ -366,35 +376,35 @@ export default class ChuyenKhoan extends React.Component {
         );
       });
 
+      let phiCKTmp = this.state.phiChuyenKhoan.replace(/,/g, "");
       // Phí chuyển khoản
-      if (this.state.soTien != "") {
+      if (phiCKTmp != "") {
+        let phiCK = Number(phiCKTmp);
+        let sotien = phiCK;
         let machitieu = "";
         machitieu = await this.phatSinhMaChiTieu();
         let mataikhoan = this.state.taiKhoanNguon;
-        let phiCKTmp = this.state.phiChuyenKhoan.replace(/,/g, "");
-        let phiCK = Number(phiCKTmp);
-        let sotien = phiCK;
-        let mahangmucchi = "hmc0004";
+
+
         let ngay = moment(this.state.ngayChuyenKhoan).format(
           "YYYY/MM/DD HH:mm:ss"
         );
-        let mota =
-          "Phí chuyển khoản từ tài khoản " +
-          this.state.tenTaiKhoanNguon +
-          " đến tài khoản " +
-          this.state.tenTaiKhoanDich;
+        let mota = this.state.moTa;
 
         db.transaction(function (tx) {
           tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ngay, mo_ta, ma_chuyen_khoan) VALUES (?,?,?,?,?,?,?)",
+            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
             [
               machitieu,
               mataikhoan,
               sotien,
-              mahangmucchi,
+              "hmc0004",
+              "Phí chuyển khoản từ " + tentaikhoannguon + " đến " + tentaikhoandich,
+              "credit-card",
               ngay,
               mota,
-              machuyenkhoan
+              machuyenkhoan,
+              'chitieu'
             ]
           );
         });

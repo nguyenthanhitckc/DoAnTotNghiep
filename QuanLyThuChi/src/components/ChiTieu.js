@@ -31,7 +31,7 @@ export default class ChiTieu extends React.Component {
     super(props);
     this.state = {
       soTien: "",
-      iconHangMuc: "comment-question",
+      iconHangMuc: "",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "",
@@ -158,14 +158,16 @@ export default class ChiTieu extends React.Component {
       let moneyTmp = this.state.soTien.replace(/,/g, "");
       let sotien = Number(moneyTmp);
       let mahangmucchi = this.state.hangMuc;
+      let tenhangmuc = this.state.tenHangMuc;
+      let iconhangmuc = this.state.iconHangMuc;
       let ngay = moment(this.state.ngayChi).format("YYYY/MM/DD HH:mm:ss");
       let manguoichi = this.state.nguoiChi;
       let mota = this.state.moTa;
       // Thêm chi tiêu vào bảng chitieu
       db.transaction(function (tx) {
         tx.executeSql(
-          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi,ngay,ma_nguoi_chi,mo_ta) VALUES (?,?,?,?,?,?,?)",
-          [machitieu, mataikhoan, sotien, mahangmucchi, ngay, manguoichi, mota],
+          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_chi, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
+          [machitieu, mataikhoan, sotien, mahangmucchi, tenhangmuc, iconhangmuc, ngay, manguoichi, mota, 'chitieu'],
           (tx, results) => {
             if (results.rowsAffected > 0) {
               Alert.alert(
@@ -379,11 +381,11 @@ export default class ChiTieu extends React.Component {
                     ...styles.buttonCardItem,
                     backgroundColor: "white",
                     marginTop: 0,
-                    height:30,
-                    width:30,
-                    borderRadius:15,
-                    justifyContent:'center',
-                    alignItems:'center',
+                    height: 30,
+                    width: 30,
+                    borderRadius: 15,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                   onPress={this.resetNguoiChi}
                 >

@@ -163,14 +163,16 @@ export default class ThuNhapCopy extends React.Component {
       let moneyTmp = this.state.soTien.replace(/,/g, "");
       let sotien = Number(moneyTmp);
       let mahangmucthu = this.state.hangMuc;
+      let tenhangmuc = this.state.tenHangMuc;
+      let iconhangmuc = this.state.iconHangMuc;
       let ngay = moment(this.state.ngayThu).format("YYYY/MM/DD HH:mm:ss");
       let manguoithu = this.state.nguoiThu;
       let mota = this.state.moTa;
       // Thêm chi tiêu vào bảng chitieu
       db.transaction(function (tx) {
         tx.executeSql(
-          "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu,ngay,ma_nguoi_thu,mo_ta) VALUES (?,?,?,?,?,?,?)",
-          [mathunhap, mataikhoan, sotien, mahangmucthu, ngay, manguoithu, mota],
+          "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_thu, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
+          [mathunhap, mataikhoan, sotien, mahangmucthu, tenhangmuc, iconhangmuc, ngay, manguoithu, mota, 'thunhap'],
           (tx, results) => {
             if (results.rowsAffected > 0) {
               Alert.alert(

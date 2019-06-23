@@ -287,14 +287,18 @@ export default class DieuChinhSoDu extends React.Component {
       let madieuchinh = "";
       madieuchinh = await this.phatSinhMaDieuChinh();
       let mataikhoan = this.state.taiKhoan;
+      let tentaikhoan = this.state.tenTaiKhoan;
       let loaidieuchinh = this.state.loaiDieuChinh;
       let moneyTmp = this.state.soDu.replace(/,/g, "");
       let chenhlech = Number(moneyTmp);
       let sotienthucteTmp = this.state.soTienThucTe.replace(/,/g, "");
       let sotienthucte = Number(sotienthucteTmp);
       let mahangmuc = this.state.hangMuc;
+      let tenhangmuc = this.state.tenHangMuc;
+      let iconhangmuc = this.state.iconHangMuc;
       let ngay = moment(this.state.ngayDieuChinh).format("YYYY/MM/DD HH:mm:ss");
       let mota = this.state.moTa;
+      console.log('a', mataikhoan, 'b', tentaikhoan);
       // Thêm điều chỉnh vào bảng dieuchinh
       db.transaction(function (tx) {
         tx.executeSql(
@@ -320,6 +324,10 @@ export default class DieuChinhSoDu extends React.Component {
                 ],
                 { cancelable: false }
               );
+              tx.executeSql(
+                "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
+                [sotienthucte, mataikhoan]
+              );
             } else {
               alert("Bạn đã thêm không thành công");
             }
@@ -328,44 +336,30 @@ export default class DieuChinhSoDu extends React.Component {
       });
 
       // Thay đổi
-      db.transaction(tx => {
-        tx.executeSql(
-          "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-          [sotienthucte, this.state.taiKhoan]
-        );
-      });
+      // db.transaction(tx => {
+      //   tx.executeSql(
+      //     "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
+      //     [sotienthucte, this.state.taiKhoan]
+      //   );
+      // });
 
-      if (this.state.loaiDieuChinh == "chitieu") {
+      if (loaidieuchinh == "chitieu") {
         // Thêm vào bảng chi tiêu
         let machitieu = "";
         machitieu = await this.phatSinhMaChiTieu();
-        let mataikhoan = this.state.taiKhoan;
-        let moneyTmp = this.state.soDu.replace(/,/g, "");
-        let sotien = Number(moneyTmp);
-        let mahangmuc = this.state.hangMuc;
-        let ngay = moment(this.state.ngayDieuChinh).format(
-          "YYYY/MM/DD HH:mm:ss"
-        );
         db.transaction(function (tx) {
           tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi,ngay,mo_ta) VALUES (?,?,?,?,?,?)",
-            [machitieu, mataikhoan, sotien, mahangmuc, ngay, "Điều chỉnh số dư"]
+            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?)",
+            [machitieu, mataikhoan, chenhlech, mahangmuc, tenhangmuc, iconhangmuc, ngay, "Điều chỉnh số dư tài khoản " + tentaikhoan, 'chitieu']
           );
         });
       } else {
         let mathunhap = "";
         mathunhap = await this.phatSinhMaThuNhap();
-        let mataikhoan = this.state.taiKhoan;
-        let moneyTmp = this.state.soDu.replace(/,/g, "");
-        let sotien = Number(moneyTmp);
-        let mahangmuc = this.state.hangMuc;
-        let ngay = moment(this.state.ngayDieuChinh).format(
-          "YYYY/MM/DD HH:mm:ss"
-        );
         db.transaction(function (tx) {
           tx.executeSql(
-            "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu,ngay,mo_ta) VALUES (?,?,?,?,?,?)",
-            [mathunhap, mataikhoan, sotien, mahangmuc, ngay, "Điều chỉnh số dư"]
+            "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?)",
+            [mathunhap, mataikhoan, chenhlech, mahangmuc, tenhangmuc, iconhangmuc, ngay, "Điều chỉnh số dư tài khoản " + tentaikhoan, 'thunhap']
           );
         });
       }
@@ -414,9 +408,7 @@ export default class DieuChinhSoDu extends React.Component {
               button
               onPress={() =>
                 navigation.navigate("ChonTaiKhoanDCSD", {
-                  returnDataTaiKhoanDieuChinh: this.returnDataTaiKhoanDieuChinh.bind(
-                    this
-                  )
+                  returnDataTaiKhoanDieuChinh: this.returnDataTaiKhoanDieuChinh.bind(this)
                 })
               }
               style={{
