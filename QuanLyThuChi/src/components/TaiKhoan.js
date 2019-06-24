@@ -31,15 +31,17 @@ export default class TaiKhoan extends Component {
     this.formatMoney = this.formatMoney.bind(this);
   }
   componentDidMount() {
+    this.setState({
+      taiKhoanDangSuDung: [],
+      taiKhoanNgungSuDung: [],
+      tongTienTaiKhoanDangSuDung: 0,
+      tongTienTaiKhoanNgungSuDung: 0
+    });
     this.props.navigation.addListener("didFocus", payload => {
       let taiKhoanDangSuDung = [];
       let taiKhoanNgungSuDung = [];
-      this.setState({
-        taiKhoanDangSuDung: [],
-        taiKhoanNgungSuDung: [],
-        tongTienTaiKhoanDangSuDung: 0,
-        tongTienTaiKhoanNgungSuDung: 0
-      });
+      let tongTienTaiKhoanDangSuDung = 0;
+      let tongTienTaiKhoanNgungSuDung = 0;
       db.transaction(tx => {
         tx.executeSql(
           "SELECT * FROM taikhoan WHERE dang_su_dung like 'y' and xoa like 'n'",
@@ -48,33 +50,27 @@ export default class TaiKhoan extends Component {
             var len = results.rows.length;
             for (let i = 0; i < len; i++) {
               let row = results.rows.item(i);
-              let tongTienTaiKhoanDangSuDung =
-                this.state.tongTienTaiKhoanDangSuDung + row.so_tien;
-              this.setState({
-                tongTienTaiKhoanDangSuDung: tongTienTaiKhoanDangSuDung
-              });
+              tongTienTaiKhoanDangSuDung += row.so_tien;
               taiKhoanDangSuDung.push(row);
             }
-            this.setState({ taiKhoanDangSuDung: taiKhoanDangSuDung });
-          }
-        );
-      });
-      db.transaction(tx => {
-        tx.executeSql(
-          "SELECT * FROM taikhoan WHERE dang_su_dung like 'n' and xoa like 'n'",
-          [],
-          (tx, results) => {
-            var len = results.rows.length;
-            for (let i = 0; i < len; i++) {
-              let row = results.rows.item(i);
-              let tongTienTaiKhoanNgungSuDung =
-                this.state.tongTienTaiKhoanNgungSuDung + row.so_tien;
-              this.setState({
-                tongTienTaiKhoanNgungSuDung: tongTienTaiKhoanNgungSuDung
-              });
-              taiKhoanNgungSuDung.push(row);
-            }
-            this.setState({ taiKhoanNgungSuDung: taiKhoanNgungSuDung });
+            tx.executeSql(
+              "SELECT * FROM taikhoan WHERE dang_su_dung like 'n' and xoa like 'n'",
+              [],
+              (tx, results) => {
+                var len = results.rows.length;
+                for (let i = 0; i < len; i++) {
+                  let row = results.rows.item(i);
+                  tongTienTaiKhoanNgungSuDung += row.so_tien;
+                  taiKhoanNgungSuDung.push(row);
+                }
+              }
+            );
+            this.setState({
+              taiKhoanNgungSuDung: taiKhoanNgungSuDung,
+              taiKhoanDangSuDung: taiKhoanDangSuDung,
+              tongTienTaiKhoanDangSuDung: tongTienTaiKhoanDangSuDung,
+              tongTienTaiKhoanNgungSuDung: tongTienTaiKhoanNgungSuDung
+            });
           }
         );
       });

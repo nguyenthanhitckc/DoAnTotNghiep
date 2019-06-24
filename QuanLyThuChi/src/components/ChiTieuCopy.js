@@ -242,7 +242,7 @@ export default class ChiTieuCopy extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flex: 2 }}>
-            <Button transparent>
+            <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="bars" style={styles.iconHeader} />
             </Button>
           </Left>
@@ -250,7 +250,7 @@ export default class ChiTieuCopy extends React.Component {
             <Text style={styles.textHeader}>THÊM CHI TIÊU</Text>
           </Body>
           <Right style={{ flex: 2 }}>
-            <Button transparent>
+            <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={styles.iconHeader} />
             </Button>
           </Right>

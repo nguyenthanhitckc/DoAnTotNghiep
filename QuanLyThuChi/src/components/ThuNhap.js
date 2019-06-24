@@ -233,12 +233,15 @@ export default class ThuNhap extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flexDirection: "row" }}>
-            <Button transparent>
+            <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
           </Left>
+          <Body style={{ flex: 8 }}>
+            <Text style={styles.textHeader}>THÊM THU NHẬP</Text>
+          </Body>
           <Right>
-            <Button transparent>
+            <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
           </Right>

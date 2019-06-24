@@ -21,15 +21,9 @@ export default class KHAC extends Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
-            </Button>
-          </Left>
-          <Body style={{ flex: 8 }}>
+          <Body>
             <Text style={{ color: "white", fontWeight: "bold" }}>KHÁC</Text>
           </Body>
-          <Right style={{ flex: 2 }} />
         </Header>
         <Content
           style={{

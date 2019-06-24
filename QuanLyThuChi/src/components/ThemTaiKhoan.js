@@ -169,16 +169,12 @@ export default class ThemTaiKhoan extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="bars" style={styles.iconHeader} />
-            </Button>
-          </Left>
+          <Left style={{ flex: 2 }}></Left>
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>THÊM TÀI KHOẢN</Text>
           </Body>
           <Right style={{ flex: 2 }}>
-            <Button transparent>
+            <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={styles.iconHeader} />
             </Button>
           </Right>
