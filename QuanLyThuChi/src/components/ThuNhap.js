@@ -21,7 +21,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import MateIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
-import MyFooter from "./../MyFooter";
 import db from "../../connectionDB";
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
@@ -500,9 +499,9 @@ export default class ThuNhap extends React.Component {
             >
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
             </Button>
-            <Button vertical onPress={() => navigation.navigate("HanMucChi")}>
+            <Button vertical onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="filter" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Hạn mức chi</Text>
+              <Text style={stylesFooter.textFooter}>Ghi chép</Text>
             </Button>
             <Button vertical onPress={() => navigation.navigate("Khac")}>
               <Icon name="ellipsis-h" style={stylesFooter.iconFooter} />

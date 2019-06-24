@@ -501,9 +501,9 @@ export default class ThuNhapCopy extends React.Component {
             >
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
             </Button>
-            <Button vertical onPress={() => navigation.navigate("HanMucChi")}>
+            <Button vertical onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="filter" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Hạn mức chi</Text>
+              <Text style={stylesFooter.textFooter}>Ghi chép</Text>
             </Button>
             <Button vertical onPress={() => navigation.navigate("Khac")}>
               <Icon name="ellipsis-h" style={stylesFooter.iconFooter} />

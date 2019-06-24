@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { Text, StyleSheet, Dimensions, Alert } from "react-native";
 import {
     Body,
+    Button,
     Card,
     CardItem,
     Container,
@@ -22,9 +23,9 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            canh_xem: "",
+            cach_xem: "thang",
             ngay: 0,
-            thang: 5,
+            thang: 0,
             quy: 0,
             tu_ngay: 0,
             den_ngay: 0,
@@ -39,7 +40,8 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
         const { params } = this.props.navigation.state;
         await this.setState({
             tong_chi: 0,
-            tong_thu: 0
+            tong_thu: 0,
+            thang: moment(new Date()).month + 1
         });
         let tmp = [];
         db.transaction(tx => {
@@ -78,41 +80,108 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
     }
 
     renderGhiChepTheoThang(item, i) {
-        let thang = this.state.thang;
-        console.log('ahihi', thang, moment(new Date(item.ngay)).month() + 1);
-        if (moment(new Date(item.ngay)).month() + 1 == thang) {
-            return (
-                <CardItem
-                    key={i}
-                    button
-                    onPress={() => { }}
-                    style={styles.cardItem}
-                >
-                    <Left style={{ flex: 1 }}>
-                        <Icon name={item.icon_hang_muc} style={styles.icon} />
-                    </Left>
-                    <Body style={{ flex: 6, flexDirection: 'column', marginLeft: 10 }}>
-                        <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
-                        <Text style={{ fontSize: 15, marginTop: 5 }}>{item.mo_ta}</Text>
-                        <Text style={{ fontSize: 20, marginTop: 5 }}>{moment(item.ngay).format('DD/MM/YYYY')}</Text>
-                    </Body>
-                    <Right style={{ flex: 6 }}>
-                        <Text style={{ ...styles.textContentMoney, color: item.loai == 'chitieu' ? 'red' : 'green' }}>
-                            {this.formatMoney(item.so_tien)} đ
-                                 </Text>
-                    </Right>
-                </CardItem>)
+        let cach_xem = this.state.cach_xem;
+        if (cach_xem == "thang") {
+            let thang = this.state.thang;
+            if (moment(new Date(item.ngay)).month() + 1 == thang) {
+                return (
+                    <CardItem
+                        key={i}
+                        button
+                        onPress={() => { }}
+                        style={styles.cardItem}
+                    >
+                        <Left style={{ flex: 1 }}>
+                            <Icon name={item.icon_hang_muc} style={styles.icon} />
+                        </Left>
+                        <Body style={{ flex: 6, flexDirection: 'column', marginLeft: 10 }}>
+                            <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
+                            <Text style={{ fontSize: 15, marginTop: 5 }}>{item.mo_ta}</Text>
+                            <Text style={{ fontSize: 20, marginTop: 5 }}>{moment(item.ngay).format('DD/MM/YYYY')}</Text>
+                        </Body>
+                        <Right style={{ flex: 6 }}>
+                            <Text style={{ ...styles.textContentMoney, color: item.loai == 'chitieu' ? 'red' : 'green' }}>
+                                {this.formatMoney(item.so_tien)} đ
+                            </Text>
+                        </Right>
+                    </CardItem>)
 
-        }
-        else {
-            return null;
+            }
+            else {
+                return null;
+            }
+        } else if (cach_xem == "ngay") {
+            let ngay = this.state.ngay;
+            if (moment(new Date(item.ngay)).date() == ngay) {
+                return (
+                    <CardItem
+                        key={i}
+                        button
+                        onPress={() => { }}
+                        style={styles.cardItem}
+                    >
+                        <Left style={{ flex: 1 }}>
+                            <Icon name={item.icon_hang_muc} style={styles.icon} />
+                        </Left>
+                        <Body style={{ flex: 6, flexDirection: 'column', marginLeft: 10 }}>
+                            <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
+                            <Text style={{ fontSize: 15, marginTop: 5 }}>{item.mo_ta}</Text>
+                            <Text style={{ fontSize: 20, marginTop: 5 }}>{moment(item.ngay).format('DD/MM/YYYY')}</Text>
+                        </Body>
+                        <Right style={{ flex: 6 }}>
+                            <Text style={{ ...styles.textContentMoney, color: item.loai == 'chitieu' ? 'red' : 'green' }}>
+                                {this.formatMoney(item.so_tien)} đ
+                            </Text>
+                        </Right>
+                    </CardItem>)
+
+            }
+            else {
+                return null;
+            }
+        } else if (cach_xem == "quy") {
+            let quy = this.state.quy;
+            let thang_a = 0;
+            let thang_b = 0;
+            let thang_c = 0;
+            if (quy == 1) { thang_a = 1; thang_b = 2; thang_c = 3 }
+            else if (quy == 2) { thang_a = 4; thang_b = 5; thang_c = 6 }
+            else if (quy == 3) { thang_a = 7; thang_b = 8; thang_c = 9 }
+            else { thang_a = 10; thang_b = 11; thang_c = 12 }
+            let thang_item = moment(new Date(item.ngay)).month() + 1
+            if (thang_item == thang_a || thang_item == thang_b || thang_item == thang_c) {
+                return (
+                    <CardItem
+                        key={i}
+                        button
+                        onPress={() => { }}
+                        style={styles.cardItem}
+                    >
+                        <Left style={{ flex: 1 }}>
+                            <Icon name={item.icon_hang_muc} style={styles.icon} />
+                        </Left>
+                        <Body style={{ flex: 6, flexDirection: 'column', marginLeft: 10 }}>
+                            <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
+                            <Text style={{ fontSize: 15, marginTop: 5 }}>{item.mo_ta}</Text>
+                            <Text style={{ fontSize: 20, marginTop: 5 }}>{moment(item.ngay).format('DD/MM/YYYY')}</Text>
+                        </Body>
+                        <Right style={{ flex: 6 }}>
+                            <Text style={{ ...styles.textContentMoney, color: item.loai == 'chitieu' ? 'red' : 'green' }}>
+                                {this.formatMoney(item.so_tien)} đ
+                            </Text>
+                        </Right>
+                    </CardItem>)
+
+            }
+            else {
+                return null;
+            }
+        } else if (cach_xem == "tu_chon") {
         }
     }
 
     render() {
         const { navigation } = this.props;
-        console.log('lieu dep trai chim nho');
-        console.log(this.state.ghi_chep);
         return (
             <Container>
                 <Header style={styles.header}>
@@ -120,6 +189,10 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                 </Header>
 
                 <Content style={styles.content}>
+                    <Button onPress={() => navigation.navigate("CachXemLichSuGhiChep")}>
+                        <Text>Tháng</Text>
+                        <Icon active name="chevron-circle-right"></Icon>
+                    </Button>
                     <Card>
                         <CardItem>
                             <Left>
