@@ -12,7 +12,6 @@ import {
     Right
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
-import MateIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
 import MyFooter from "./../MyFooter";
 import db from "../../connectionDB";
@@ -25,7 +24,7 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
         this.state = {
             canh_xem: "",
             ngay: 0,
-            thang: 0,
+            thang: 5,
             quy: 0,
             tu_ngay: 0,
             den_ngay: 0,
@@ -45,8 +44,8 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
         let tmp = [];
         db.transaction(tx => {
             tx.executeSql(
-                "SELECT * FROM chitieu WHERE ma_tai_khoan = ?",
-                [this.state.ma_tai_khoan],
+                "SELECT * FROM chitieu",
+                [],
                 (tx, results) => {
                     var len = results.rows.length;
                     for (let i = 0; i < len; i++) {
@@ -54,8 +53,8 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                         tmp.push(row);
                     }
                     tx.executeSql(
-                        "SELECT * FROM thunhap WHERE ma_tai_khoan = ?",
-                        [this.state.ma_tai_khoan],
+                        "SELECT * FROM thunhap",
+                        [],
                         (tx, results) => {
                             var len = results.rows.length;
                             for (let i = 0; i < len; i++) {
@@ -78,8 +77,42 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
         return y;
     }
 
+    renderGhiChepTheoThang(item, i) {
+        let thang = this.state.thang;
+        console.log('ahihi', thang, moment(new Date(item.ngay)).month() + 1);
+        if (moment(new Date(item.ngay)).month() + 1 == thang) {
+            return (
+                <CardItem
+                    key={i}
+                    button
+                    onPress={() => { }}
+                    style={styles.cardItem}
+                >
+                    <Left style={{ flex: 1 }}>
+                        <Icon name={item.icon_hang_muc} style={styles.icon} />
+                    </Left>
+                    <Body style={{ flex: 6, flexDirection: 'column', marginLeft: 10 }}>
+                        <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
+                        <Text style={{ fontSize: 15, marginTop: 5 }}>{item.mo_ta}</Text>
+                        <Text style={{ fontSize: 20, marginTop: 5 }}>{moment(item.ngay).format('DD/MM/YYYY')}</Text>
+                    </Body>
+                    <Right style={{ flex: 6 }}>
+                        <Text style={{ ...styles.textContentMoney, color: item.loai == 'chitieu' ? 'red' : 'green' }}>
+                            {this.formatMoney(item.so_tien)} đ
+                                 </Text>
+                    </Right>
+                </CardItem>)
+
+        }
+        else {
+            return null;
+        }
+    }
+
     render() {
         const { navigation } = this.props;
+        console.log('lieu dep trai chim nho');
+        console.log(this.state.ghi_chep);
         return (
             <Container>
                 <Header style={styles.header}>
@@ -104,6 +137,12 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                                 <Text style={{ color: 'red' }}>{this.formatMoney(this.state.tong_chi)}đ</Text>
                             </Right>
                         </CardItem>
+                    </Card>
+                    <Card>
+                        {this.state.ghi_chep.map((item, i) => {
+                            return this.renderGhiChepTheoThang(item, i);
+                        }
+                        )}
                     </Card>
                 </Content>
 
