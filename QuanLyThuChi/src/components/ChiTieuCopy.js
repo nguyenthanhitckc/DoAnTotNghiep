@@ -387,7 +387,12 @@ export default class ChiTieuCopy extends React.Component {
                   style={{
                     ...styles.buttonCardItem,
                     backgroundColor: "white",
-                    marginTop: 0
+                    marginTop: 0,
+                    height: 30,
+                    width: 30,
+                    borderRadius: 15,
+                    justifyContent: 'center',
+                    alignItems: 'center',
                   }}
                   onPress={this.resetNguoiChi}
                 >
@@ -405,7 +410,7 @@ export default class ChiTieuCopy extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c" }}
+              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />

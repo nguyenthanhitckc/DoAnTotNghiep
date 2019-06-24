@@ -31,7 +31,7 @@ export default class ChiTieu extends React.Component {
     super(props);
     this.state = {
       soTien: "",
-      iconHangMuc: "",
+      iconHangMuc: "comment-question",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "",
@@ -403,7 +403,7 @@ export default class ChiTieu extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c" }}
+              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />

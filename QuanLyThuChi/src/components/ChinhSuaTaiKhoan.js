@@ -19,7 +19,9 @@ import {
   Right
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
+import IconMater from "react-native-vector-icons/MaterialCommunityIcons";
 import db from "../../connectionDB";
+import MyFooter from './../MyFooter'
 
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
@@ -368,7 +370,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c" }}
+              style={{ height: 40, backgroundColor: "#4cabf2" }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />
@@ -395,37 +397,16 @@ export default class ChinhSuaTaiKhoan extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c", marginTop: 10 }}
+              style={{ height: 40, backgroundColor: "#dc3545", marginTop: 10 }}
               onPress={this.XoaTaiKhoan}
             >
+              <IconMater name="delete" style={styles.iconHeader} />
               <Text style={{ color: "white", fontWeight: "bold" }}>Xóa</Text>
             </Button>
           </Card>
         </Content>
 
-        <Footer style={styles.footer}>
-          <FooterTab style={styles.footer}>
-            <Button vertical onPress={() => navigation.navigate("TongQuan")}>
-              <Icon name="home" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Tổng quan</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("TaiKhoan")}>
-              <Icon name="credit-card" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Tài khoản</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("ThemMoi")}>
-              <Icon name="plus-circle" style={styles.iconPlusCircle} />
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("HanMucChi")}>
-              <Icon name="filter" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Hạn mức chi</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("Khac")}>
-              <Icon name="ellipsis-h" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Khác</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <MyFooter navigation={this.props.navigation} />
       </Container>
     );
   }
@@ -462,7 +443,7 @@ const styles = StyleSheet.create({
     height: 40
   },
   header: {
-    backgroundColor: "#3a445c",
+    backgroundColor: "rgb(76,171,242)",
     borderBottomColor: "#757575",
     height: 40
   },

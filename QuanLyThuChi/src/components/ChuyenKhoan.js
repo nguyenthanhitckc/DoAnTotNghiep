@@ -452,7 +452,7 @@ export default class ChuyenKhoan extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flexDirection: "row" }}>
+          <Left style={{ flex: 2}}>
             <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -460,7 +460,7 @@ export default class ChuyenKhoan extends React.Component {
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>CHUYỂN KHOẢN</Text>
           </Body>
-          <Right>
+          <Right style={{ flex: 2}}>
             <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -670,7 +670,7 @@ export default class ChuyenKhoan extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c" }}
+              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />

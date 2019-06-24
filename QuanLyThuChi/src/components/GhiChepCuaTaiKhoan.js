@@ -173,7 +173,8 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: "rgb(76,171,242)",
         borderBottomColor: "#757575",
-        height: 40
+        height: 40,
+        alignItems:"center"
     },
     icon: {
         color: "#3a455c",

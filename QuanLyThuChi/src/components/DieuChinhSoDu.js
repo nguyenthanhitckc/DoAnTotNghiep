@@ -390,15 +390,15 @@ export default class DieuChinhSoDu extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flexDirection: "row" }}>
+          <Left style={{ flex: 2}}>
             <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
           </Left>
-          <Body style={{ flex: 8 }}>
+          <Body style={{ flex: 8,alignItems:"center" }}>
             <Text style={styles.textHeader}>ĐIỀU CHỈNH SỐ DƯ</Text>
           </Body>
-          <Right>
+          <Right style={{flex:2}}>
             <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -615,7 +615,7 @@ export default class DieuChinhSoDu extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c" }}
+              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -698,7 +698,7 @@ const styles = StyleSheet.create({
   textHeader: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   textFooter: {
     color: "white",

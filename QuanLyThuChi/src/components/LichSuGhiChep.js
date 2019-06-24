@@ -189,7 +189,7 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                 </Header>
 
                 <Content style={styles.content}>
-                    <Button onPress={() => navigation.navigate("CachXemLichSuGhiChep")}>
+                    <Button onPress={() => navigation.navigate("CachXemLichSuGhiChep")}style={{margin:5}}>
                         <Text>Tháng</Text>
                         <Icon active name="chevron-circle-right"></Icon>
                     </Button>
@@ -256,7 +256,10 @@ const styles = StyleSheet.create({
     header: {
         backgroundColor: "rgb(76,171,242)",
         borderBottomColor: "#757575",
-        height: 40
+        height: 40,
+        justifyContent: 'center',
+        alignItems: 'center',
+       
     },
     icon: {
         color: "#3a455c",
@@ -287,7 +290,7 @@ const styles = StyleSheet.create({
     textHeader: {
         color: "white",
         fontSize: 15,
-        fontWeight: "bold"
+        fontWeight: "bold",
     },
     textFooter: {
         color: "white",

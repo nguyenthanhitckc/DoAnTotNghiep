@@ -231,7 +231,7 @@ export default class ThuNhap extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flexDirection: "row" }}>
+          <Left style={{ flex: 2}}>
             <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -239,7 +239,7 @@ export default class ThuNhap extends React.Component {
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>THÊM THU NHẬP</Text>
           </Body>
-          <Right>
+          <Right style={{ flex: 2}}>
             <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -467,7 +467,7 @@ export default class ThuNhap extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "rgb(76,171,242)" }}
+              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
