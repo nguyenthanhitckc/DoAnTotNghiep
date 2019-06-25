@@ -26,11 +26,13 @@ import db from "../../connectionDB";
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
 
-export default class ChiTieuCopy extends React.Component {
+export default class ChinhSuaChiTieu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      maChiTieu: "",
       soTien: "",
+      soTienSuaDoi: "",
       iconHangMuc: "comment-question",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
@@ -45,20 +47,55 @@ export default class ChiTieuCopy extends React.Component {
     };
     this.buttonOnClick = this.buttonOnClick.bind(this);
     this.formatMoney = this.formatMoney.bind(this);
-    this.phatSinhMaChiTieu = this.phatSinhMaChiTieu.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
-    this.showDateTimePicker = this.showDateTimePicker.bind(this);
     this.resetNguoiChi = this.resetNguoiChi.bind(this);
+    this.XoaChiTieu = this.XoaChiTieu.bind(this);
   }
 
   // Function
   componentDidMount() {
     const { params } = this.props.navigation.state;
+    // console.log(params);
+    let ten_tai_khoan = "";
+    let ten_nguoi_chi = "Chọn người chi";
+    db.transaction(tx => {
+      tx.executeSql(
+        "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
+        [params.tai_khoan],
+        (tx, results) => {
+          ten_tai_khoan = results.rows.item(0).ten_tai_khoan;
+          if (params.nguoi_chi != "") {
+            tx.executeSql(
+              "SELECT * FROM danhsachchi WHERE ma_nguoi_chi like ?",
+              [params.nguoi_chi],
+              (tx, results) => {
+                ten_nguoi_chi = results.rows.item(0).ten;
+                this.setState({
+                  tenTaiKhoan: ten_tai_khoan,
+                  tenNguoiChi: ten_nguoi_chi
+                });
+              }
+            );
+          } else {
+            this.setState({
+              tenTaiKhoan: ten_tai_khoan,
+              tenNguoiChi: ten_nguoi_chi
+            });
+          }
+        }
+      );
+    });
     this.setState({
-      soTien: params.so_tien,
+      maChiTieu: params.ma_chi_tieu,
+      soTien: this.formatMoney2(params.so_tien + ""),
+      soTienSuaDoi: this.formatMoney2(params.so_tien + ""),
+      iconHangMuc: params.icon_hang_muc,
+      hangMuc: params.hang_muc,
+      tenHangMuc: params.ten_hang_muc,
       moTa: params.mo_ta,
-      taiKhoan: params.ma_tai_khoan,
-      tenTaiKhoan: params.ten_tai_khoan
+      ngayChi: params.ngay_chi,
+      taiKhoan: params.tai_khoan,
+      nguoiChi: params.nguoi_chi
     });
   }
 
@@ -68,62 +105,26 @@ export default class ChiTieuCopy extends React.Component {
     moment(this.state.ngayChi).format("YYYY/MM/DD HH:mm:ss");
   };
 
-  showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
-  };
-
   formatMoney(money) {
     var x = money.replace(/,/g, "");
     var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
-    this.setState({ soTien: y });
+    this.setState({ soTienSuaDoi: y });
     return y;
   }
 
-  phatSinhMaChiTieu() {
-    let query = "SELECT * FROM chitieu;";
-    return new Promise((resolve, reject) =>
-      db.transaction(tx => {
-        tx.executeSql(
-          query,
-          [],
-          (tx, results) => {
-            var soDong = results.rows.length;
-            if (soDong == 0) {
-              resolve("ct0001");
-            } else {
-              let soHienTai;
-              let data;
-              let maCT = "ct";
-              db.transaction(tx => {
-                tx.executeSql(
-                  "SELECT ma_chi_tieu FROM chitieu WHERE ma_chi_tieu like (SELECT MAX(ma_chi_tieu) FROM chitieu)",
-                  [],
-                  (tx, results) => {
-                    data = results.rows.item(0).ma_chi_tieu;
-                    soHienTai = parseInt(data.slice(2, 6), 10) + 1;
-                    let str = "" + soHienTai;
-                    let pad = "0000";
-                    maCT =
-                      maCT + pad.substring(0, pad.length - str.length) + str;
-                    resolve(maCT);
-                  }
-                );
-              });
-            }
-          },
-          function(tx, error) {
-            reject(error);
-          }
-        );
-      })
-    );
+  formatMoney2(money) {
+    var x = money.replace(/,/g, "");
+    var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    return y;
   }
+
   resetNguoiChi() {
     this.setState({
       nguoiChi: "",
       tenNguoiChi: "Chi cho ai"
     });
   }
+
   async buttonOnClick() {
     // Kiểm tra đầy đủ:
     if (this.state.soTien == "") {
@@ -160,11 +161,13 @@ export default class ChiTieuCopy extends React.Component {
         { cancelable: false }
       );
     } else {
-      let machitieu = "";
-      machitieu = await this.phatSinhMaChiTieu();
+      const { goBack } = this.props.navigation;
+      let machitieu = this.state.maChiTieu;
       let mataikhoan = this.state.taiKhoan;
-      let moneyTmp = this.state.soTien.replace(/,/g, "");
-      let sotien = Number(moneyTmp);
+      let moneycu = this.state.soTien.replace(/,/g, "");
+      let sotiencu = Number(moneycu);
+      let moneyTmp = this.state.soTienSuaDoi.replace(/,/g, "");
+      let sotiensuadoi = Number(moneyTmp);
       let mahangmucchi = this.state.hangMuc;
       let tenhangmuc = this.state.tenHangMuc;
       let iconhangmuc = this.state.iconHangMuc;
@@ -174,24 +177,23 @@ export default class ChiTieuCopy extends React.Component {
       // Thêm chi tiêu vào bảng chitieu
       db.transaction(function(tx) {
         tx.executeSql(
-          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_chi, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
+          "UPDATE chitieu SET ma_tai_khoan = ?, so_tien = ?, ma_hang_muc_chi = ?, ten_hang_muc = ?, icon_hang_muc = ?, ngay = ?, ma_nguoi_chi = ?, mo_ta = ? WHERE ma_chi_tieu = ?",
           [
-            machitieu,
             mataikhoan,
-            sotien,
+            sotiensuadoi,
             mahangmucchi,
             tenhangmuc,
             iconhangmuc,
             ngay,
             manguoichi,
             mota,
-            "chitieu"
+            machitieu
           ],
           (tx, results) => {
             if (results.rowsAffected > 0) {
               Alert.alert(
                 "Thành công",
-                "Bạn đã thêm thành công",
+                "Bạn đã chỉnh sửa thành công",
                 [
                   {
                     text: "Ok"
@@ -200,7 +202,7 @@ export default class ChiTieuCopy extends React.Component {
                 { cancelable: false }
               );
             } else {
-              alert("Bạn đã thêm không thành công");
+              alert("Bạn đã chỉnh sửa không thành công");
             }
           }
         );
@@ -219,7 +221,7 @@ export default class ChiTieuCopy extends React.Component {
           );
         });
       });
-      duLieu -= sotien;
+      duLieu = duLieu + sotiencu - sotiensuadoi;
       this.setState({ soTienTrongVi: duLieu });
       db.transaction(tx => {
         tx.executeSql(
@@ -228,7 +230,66 @@ export default class ChiTieuCopy extends React.Component {
         );
       });
     }
-    this.forceUpdate();
+  }
+
+  XoaChiTieu() {
+    const { goBack } = this.props.navigation;
+    let moneycu = this.state.soTien.replace(/,/g, "");
+    let sotiencu = Number(moneycu);
+    console.log(sotiencu);
+    Alert.alert(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa chi tiêu này",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            db.transaction(tx => {
+              tx.executeSql(
+                "DELETE FROM chitieu WHERE ma_chi_tieu like ?",
+                [this.state.maChiTieu],
+                (tx, results) => {
+                  tx.executeSql(
+                    "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
+                    [this.state.taiKhoan],
+                    (tx, results) => {
+                      let duLieu = results.rows.item(0).so_tien;
+                      duLieu = duLieu + sotiencu;
+                      tx.executeSql(
+                        "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
+                        [duLieu, this.state.taiKhoan]
+                      );
+                    }
+                  );
+                  // duLieu = duLieu + sotiencu;
+                  // tx.executeSql(
+                  //   "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
+                  //   [duLieu, this.state.taiKhoan]
+                  // );
+                  Alert.alert(
+                    "Thành công",
+                    "Bạn đã xóa chi tiêu thành công",
+                    [
+                      {
+                        text: "Ok"
+                      }
+                    ],
+                    { cancelable: false }
+                  );
+                  goBack();
+                }
+              );
+            });
+          }
+        }
+      ],
+      { cancelable: false }
+    );
   }
 
   returnDataHangMuc(iconHangMuc, hangMuc, tenHangMuc) {
@@ -249,6 +310,7 @@ export default class ChiTieuCopy extends React.Component {
 
   render() {
     const { navigation } = this.props;
+    const { params } = this.props.navigation.state;
     return (
       <Container>
         <Header style={styles.header}>
@@ -285,7 +347,7 @@ export default class ChiTieuCopy extends React.Component {
                   keyboardType="numeric"
                   selectTextOnFocus
                   onChangeText={this.formatMoney}
-                  value={this.state.soTien}
+                  value={this.state.soTienSuaDoi}
                 />
                 <Text style={styles.textContent}>đ</Text>
               </InputGroup>
@@ -431,7 +493,20 @@ export default class ChiTieuCopy extends React.Component {
               <Text
                 style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
               >
-                Ghi
+                Lưu
+              </Text>
+            </Button>
+            <Button
+              block
+              info
+              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+              onPress={this.XoaChiTieu}
+            >
+              <Icon name="save" style={styles.iconHeader} />
+              <Text
+                style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+              >
+                Xóa
               </Text>
             </Button>
           </Card>

@@ -52,7 +52,7 @@ export default class ChuyenKhoan extends React.Component {
   }
 
   // Function
-  componentDidMount() { }
+  componentDidMount() {}
 
   formatMoney(money) {
     var x = money.replace(/,/g, "");
@@ -110,7 +110,7 @@ export default class ChuyenKhoan extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -150,7 +150,7 @@ export default class ChuyenKhoan extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -190,7 +190,7 @@ export default class ChuyenKhoan extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -258,7 +258,7 @@ export default class ChuyenKhoan extends React.Component {
       );
       let mota = this.state.moTa;
       // Thêm chuyển khoản vào bảng chuyển khoản
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "INSERT INTO chuyenkhoan(ma_chuyen_khoan, ma_tai_khoan_nguon, ma_tai_khoan_dich, so_tien, ngay, mo_ta) VALUES (?,?,?,?,?,?)",
           [machuyenkhoan, mataikhoannguon, mataikhoandich, sotien, ngay, mota],
@@ -293,9 +293,9 @@ export default class ChuyenKhoan extends React.Component {
       // Thêm vào bảng chi tiêu
       let machitieu = "";
       machitieu = await this.phatSinhMaChiTieu();
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
-          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
+          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, la_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
           [
             machitieu,
             mataikhoannguon,
@@ -306,7 +306,8 @@ export default class ChuyenKhoan extends React.Component {
             ngay,
             mota,
             machuyenkhoan,
-            'chitieu'
+            "chitieu",
+            "chitieu"
           ]
         );
       });
@@ -336,9 +337,9 @@ export default class ChuyenKhoan extends React.Component {
       // Thêm vào bảng thu nhập
       let mathunhap = "";
       mathunhap = await this.phatSinhMaThuNhap();
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
-          "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
+          "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, la_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
           [
             mathunhap,
             mataikhoandich,
@@ -349,7 +350,8 @@ export default class ChuyenKhoan extends React.Component {
             ngay,
             mota,
             machuyenkhoan,
-            'thunhap'
+            "thunhap",
+            "thunhap"
           ]
         );
       });
@@ -385,26 +387,29 @@ export default class ChuyenKhoan extends React.Component {
         machitieu = await this.phatSinhMaChiTieu();
         let mataikhoan = this.state.taiKhoanNguon;
 
-
         let ngay = moment(this.state.ngayChuyenKhoan).format(
           "YYYY/MM/DD HH:mm:ss"
         );
         let mota = this.state.moTa;
 
-        db.transaction(function (tx) {
+        db.transaction(function(tx) {
           tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, la_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
             [
               machitieu,
               mataikhoan,
               sotien,
               "hmc0004",
-              "Phí chuyển khoản từ " + tentaikhoannguon + " đến " + tentaikhoandich,
+              "Phí chuyển khoản từ " +
+                tentaikhoannguon +
+                " đến " +
+                tentaikhoandich,
               "credit-card",
               ngay,
               mota,
               machuyenkhoan,
-              'chitieu'
+              "chitieu",
+              "phi"
             ]
           );
         });
@@ -452,15 +457,18 @@ export default class ChuyenKhoan extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2}}>
-            <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
+          <Left style={{ flex: 2 }}>
+            <Button
+              transparent
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
           </Left>
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>CHUYỂN KHOẢN</Text>
           </Body>
-          <Right style={{ flex: 2}}>
+          <Right style={{ flex: 2 }}>
             <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -670,7 +678,7 @@ export default class ChuyenKhoan extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
+              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />

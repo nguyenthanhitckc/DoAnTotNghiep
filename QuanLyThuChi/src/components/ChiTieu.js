@@ -47,21 +47,16 @@ export default class ChiTieu extends React.Component {
     this.formatMoney = this.formatMoney.bind(this);
     this.phatSinhMaChiTieu = this.phatSinhMaChiTieu.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
-    this.showDateTimePicker = this.showDateTimePicker.bind(this);
     this.resetNguoiChi = this.resetNguoiChi.bind(this);
   }
 
   // Function
-  componentDidMount() { }
+  componentDidMount() {}
 
   hideDateTimePicker = datetime => {
     this.setState({ isDateTimePickerVisible: false });
     this.setState({ ngayChi: datetime });
     moment(this.state.ngayChi).format("YYYY/MM/DD HH:mm:ss");
-  };
-
-  showDateTimePicker = () => {
-    this.setState({ isDateTimePickerVisible: true });
   };
 
   formatMoney(money) {
@@ -103,7 +98,7 @@ export default class ChiTieu extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -164,10 +159,21 @@ export default class ChiTieu extends React.Component {
       let manguoichi = this.state.nguoiChi;
       let mota = this.state.moTa;
       // Thêm chi tiêu vào bảng chitieu
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_chi, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
-          [machitieu, mataikhoan, sotien, mahangmucchi, tenhangmuc, iconhangmuc, ngay, manguoichi, mota, 'chitieu'],
+          [
+            machitieu,
+            mataikhoan,
+            sotien,
+            mahangmucchi,
+            tenhangmuc,
+            iconhangmuc,
+            ngay,
+            manguoichi,
+            mota,
+            "chitieu"
+          ],
           (tx, results) => {
             if (results.rowsAffected > 0) {
               Alert.alert(
@@ -235,7 +241,10 @@ export default class ChiTieu extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flex: 2 }}>
-            <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
+            <Button
+              transparent
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="bars" style={styles.iconHeader} />
             </Button>
           </Left>
@@ -384,8 +393,8 @@ export default class ChiTieu extends React.Component {
                     height: 30,
                     width: 30,
                     borderRadius: 15,
-                    justifyContent: 'center',
-                    alignItems: 'center',
+                    justifyContent: "center",
+                    alignItems: "center"
                   }}
                   onPress={this.resetNguoiChi}
                 >
@@ -393,7 +402,7 @@ export default class ChiTieu extends React.Component {
                     name="times"
                     style={{
                       ...styles.icon,
-                      color: "red",
+                      color: "red"
                     }}
                   />
                 </Button>
@@ -403,7 +412,7 @@ export default class ChiTieu extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
+              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />
@@ -438,7 +447,10 @@ export default class ChiTieu extends React.Component {
             >
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
             </Button>
-            <Button vertical onPress={() => navigation.navigate("LichSuGhiChep")}>
+            <Button
+              vertical
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="filter" style={stylesFooter.iconFooter} />
               <Text style={stylesFooter.textFooter}>Ghi chép</Text>
             </Button>

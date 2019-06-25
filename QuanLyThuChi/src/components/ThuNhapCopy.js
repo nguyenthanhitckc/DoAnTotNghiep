@@ -113,7 +113,7 @@ export default class ThuNhapCopy extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -169,10 +169,21 @@ export default class ThuNhapCopy extends React.Component {
       let manguoithu = this.state.nguoiThu;
       let mota = this.state.moTa;
       // Thêm chi tiêu vào bảng chitieu
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_thu, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
-          [mathunhap, mataikhoan, sotien, mahangmucthu, tenhangmuc, iconhangmuc, ngay, manguoithu, mota, 'thunhap'],
+          [
+            mathunhap,
+            mataikhoan,
+            sotien,
+            mahangmucthu,
+            tenhangmuc,
+            iconhangmuc,
+            ngay,
+            manguoithu,
+            mota,
+            "thunhap"
+          ],
           (tx, results) => {
             if (results.rowsAffected > 0) {
               Alert.alert(
@@ -238,15 +249,18 @@ export default class ThuNhapCopy extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2}}>
-            <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
+          <Left style={{ flex: 2 }}>
+            <Button
+              transparent
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
           </Left>
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>THÊM THU NHẬP</Text>
           </Body>
-          <Right style={{ flex: 2}}>
+          <Right style={{ flex: 2 }}>
             <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -455,8 +469,8 @@ export default class ThuNhapCopy extends React.Component {
                     height: 30,
                     width: 30,
                     borderRadius: 15,
-                   // justifyContent: 'center',
-                    alignItems: 'center',
+                    // justifyContent: 'center',
+                    alignItems: "center"
                   }}
                   onPress={this.resetNguoiThu}
                 >
@@ -474,7 +488,7 @@ export default class ThuNhapCopy extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
+              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -506,7 +520,10 @@ export default class ThuNhapCopy extends React.Component {
             >
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
             </Button>
-            <Button vertical onPress={() => navigation.navigate("LichSuGhiChep")}>
+            <Button
+              vertical
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="filter" style={stylesFooter.iconFooter} />
               <Text style={stylesFooter.textFooter}>Ghi chép</Text>
             </Button>

@@ -55,7 +55,7 @@ export default class DieuChinhSoDu extends React.Component {
   }
 
   // Function
-  componentDidMount() { }
+  componentDidMount() {}
 
   async formatMoney(money) {
     var x = money.replace(/,/g, "");
@@ -149,7 +149,7 @@ export default class DieuChinhSoDu extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -189,7 +189,7 @@ export default class DieuChinhSoDu extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -229,7 +229,7 @@ export default class DieuChinhSoDu extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -298,9 +298,9 @@ export default class DieuChinhSoDu extends React.Component {
       let iconhangmuc = this.state.iconHangMuc;
       let ngay = moment(this.state.ngayDieuChinh).format("YYYY/MM/DD HH:mm:ss");
       let mota = this.state.moTa;
-      console.log('a', mataikhoan, 'b', tentaikhoan);
+      console.log("a", mataikhoan, "b", tentaikhoan);
       // Thêm điều chỉnh vào bảng dieuchinh
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "INSERT INTO dieuchinhsodu(ma_dieu_chinh, ma_tai_khoan, loai_dieu_chinh, so_tien, ma_hang_muc, ngay, mo_ta) VALUES (?,?,?,?,?,?,?)",
           [
@@ -347,19 +347,41 @@ export default class DieuChinhSoDu extends React.Component {
         // Thêm vào bảng chi tiêu
         let machitieu = "";
         machitieu = await this.phatSinhMaChiTieu();
-        db.transaction(function (tx) {
+        db.transaction(function(tx) {
           tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?)",
-            [machitieu, mataikhoan, chenhlech, mahangmuc, tenhangmuc, iconhangmuc, ngay, "Điều chỉnh số dư tài khoản " + tentaikhoan, 'chitieu']
+            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai, la_dieu_chinh_so_du) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            [
+              machitieu,
+              mataikhoan,
+              chenhlech,
+              mahangmuc,
+              tenhangmuc,
+              iconhangmuc,
+              ngay,
+              "Điều chỉnh số dư tài khoản " + tentaikhoan,
+              "chitieu",
+              "dcsd"
+            ]
           );
         });
       } else {
         let mathunhap = "";
         mathunhap = await this.phatSinhMaThuNhap();
-        db.transaction(function (tx) {
+        db.transaction(function(tx) {
           tx.executeSql(
-            "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?)",
-            [mathunhap, mataikhoan, chenhlech, mahangmuc, tenhangmuc, iconhangmuc, ngay, "Điều chỉnh số dư tài khoản " + tentaikhoan, 'thunhap']
+            "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai, la_dieu_chinh_so_du) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            [
+              mathunhap,
+              mataikhoan,
+              chenhlech,
+              mahangmuc,
+              tenhangmuc,
+              iconhangmuc,
+              ngay,
+              "Điều chỉnh số dư tài khoản " + tentaikhoan,
+              "thunhap",
+              "dcsd"
+            ]
           );
         });
       }
@@ -390,15 +412,18 @@ export default class DieuChinhSoDu extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2}}>
-            <Button transparent onPress={() => navigation.navigate("LichSuGhiChep")}>
+          <Left style={{ flex: 2 }}>
+            <Button
+              transparent
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
             </Button>
           </Left>
-          <Body style={{ flex: 8,alignItems:"center" }}>
+          <Body style={{ flex: 8, alignItems: "center" }}>
             <Text style={styles.textHeader}>ĐIỀU CHỈNH SỐ DƯ</Text>
           </Body>
-          <Right style={{flex:2}}>
+          <Right style={{ flex: 2 }}>
             <Button transparent onPress={this.buttonOnClick}>
               <Icon name="check" style={{ color: "white", fontSize: 18 }} />
             </Button>
@@ -411,7 +436,9 @@ export default class DieuChinhSoDu extends React.Component {
               button
               onPress={() =>
                 navigation.navigate("ChonTaiKhoanDCSD", {
-                  returnDataTaiKhoanDieuChinh: this.returnDataTaiKhoanDieuChinh.bind(this)
+                  returnDataTaiKhoanDieuChinh: this.returnDataTaiKhoanDieuChinh.bind(
+                    this
+                  )
                 })
               }
               style={{
@@ -615,7 +642,7 @@ export default class DieuChinhSoDu extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2",margin:5 }}
+              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -698,7 +725,7 @@ const styles = StyleSheet.create({
   textHeader: {
     color: "white",
     fontSize: 15,
-    fontWeight: "bold",
+    fontWeight: "bold"
   },
   textFooter: {
     color: "white",
