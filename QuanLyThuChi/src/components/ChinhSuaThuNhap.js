@@ -365,7 +365,7 @@ export default class ChinhSuaThuNhap extends React.Component {
             </CardItem>
           </Card>
 
-          <Card>
+          <Card style={{flex:1}}>
             <CardItem
               button
               onPress={() =>
@@ -493,11 +493,13 @@ export default class ChinhSuaThuNhap extends React.Component {
                 </Button>
               </Right>
             </CardItem>
-
-            <Button
+         
+          </Card>
+          <Card style={{flexDirection:"row"}}>
+          <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+              style={{flex:1, height: 40, backgroundColor: "#4cabf2", margin: 5, }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />
@@ -510,17 +512,19 @@ export default class ChinhSuaThuNhap extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+              style={{flex:1, height: 40, backgroundColor: "#dc3545", margin: 5,}}
               onPress={this.XoaThuNhap}
             >
-              <Icon name="save" style={styles.iconHeader} />
+              <MateIcon name="delete" style={styles.iconHeader} />
               <Text
                 style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
               >
                 Xóa
               </Text>
             </Button>
+            
           </Card>
+          
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>

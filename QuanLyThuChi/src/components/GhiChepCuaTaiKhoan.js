@@ -151,7 +151,7 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                 style={styles.cardItem}
               >
                 <Left style={{ flex: 1 }}>
-                  <Icon name={item.icon_hang_muc} style={styles.icon} />
+                  <MateIcon name={item.icon_hang_muc} style={styles.icon} />
                 </Left>
                 <Body
                   style={{ flex: 6, flexDirection: "column", marginLeft: 10 }}

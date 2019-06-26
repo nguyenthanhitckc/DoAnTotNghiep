@@ -367,45 +367,52 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                 />
               </Item>
             </CardItem>
-            <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#4cabf2" }}
-              onPress={this.buttonOnClick}
-            >
-              <Icon name="save" style={styles.iconHeader} />
-              <Text
-                style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+          </Card>
+
+          <Card >
+            <CardItem style={{paddingBottom:0,paddingLeft:0,paddingRight:0,}}>
+              <Button
+                block
+                info
+                style={{flex: 1, height: 40, backgroundColor: "#4cabf2", margin: 4 }}
+                onPress={this.buttonOnClick}
               >
-                Ghi
+                <Icon name="save" style={styles.iconHeader} />
+                <Text
+                  style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+                >
+                  Ghi
               </Text>
-            </Button>
+              </Button>
+            </CardItem>
+            <CardItem style={{ flexDirection: "row",paddingLeft:0,paddingRight:0,paddingTop:0 }}>
+              <Button
+                block
+                info
+                style={{ flex: 1, height: 40, backgroundColor: "#3a455c", margin: 4 }}
+                onPress={
+                  this.state.dangSuDung == "y" ? this.NgungSuDung : this.SuDungLai
+                }
+              ><IconMater name="cancel" style={styles.iconHeader} />
+                <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>
+                  {this.state.dangSuDung == "y" ? "Ngưng Sử Dụng" : "Sử Dụng Lại"}
+                </Text>
+              </Button>
 
-            <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#3a455c", marginTop: 10 }}
-              onPress={
-                this.state.dangSuDung == "y" ? this.NgungSuDung : this.SuDungLai
-              }
-            >
-              <Text style={{ color: "white", fontWeight: "bold" }}>
-                {this.state.dangSuDung == "y" ? "Ngưng Sử Dụng" : "Sử Dụng Lại"}
-              </Text>
-            </Button>
+              <Button
+                block
+                info
+                style={{ flex: 1, height: 40, backgroundColor: "#dc3545", margin: 4 }}
+                onPress={this.XoaTaiKhoan}
+              >
+                <IconMater name="delete" style={styles.iconHeader} />
+                <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>Xóa</Text>
+              </Button>
+            </CardItem>
 
-            <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#dc3545", marginTop: 10 }}
-              onPress={this.XoaTaiKhoan}
-            >
-              <IconMater name="delete" style={styles.iconHeader} />
-              <Text style={{ color: "white", fontWeight: "bold" }}>Xóa</Text>
-            </Button>
+
           </Card>
         </Content>
-
         <MyFooter navigation={this.props.navigation} />
       </Container>
     );

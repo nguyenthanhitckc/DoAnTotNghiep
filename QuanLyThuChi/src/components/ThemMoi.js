@@ -53,7 +53,7 @@ export default class ThemMoi extends Component {
           </Body>
         </Header>
 
-        <Content style={styles.content}>
+        <Body style={styles.content}>
           <Button
             onPress={() => navigation.navigate("ChiTieu")}
             block
@@ -89,7 +89,7 @@ export default class ThemMoi extends Component {
           >
             <Text style={styles.textButton}>Điều chỉnh số dư</Text>
           </Button>
-        </Content>
+        </Body>
         <MyFooter navigation={this.props.navigation} />
       </Container>
     );
@@ -107,21 +107,22 @@ const styles = StyleSheet.create({
     marginBottom: 2
   },
   content: {
-    // position: 'absolute',
+    width:"100%",
     left: 0,
     right: 0,
     height: height - 104,
-    backgroundColor: "#ffffff"
+    backgroundColor: "#ffffff",
+    justifyContent: "center",
+    alignItems: "center"
   },
   buttonCardItem: {
-    height: 40,
-    backgroundColor: "rgb(76,171,242)",
-    //marginBottom: 2,
+    height: 80,
+    backgroundColor: "rgb(228,242,253)",
     borderRadius: 5,
-    margin: 5
+    margin: 10,
   },
   textButton: {
-    color: "white",
-    marginLeft: 5
+  color:"rgb(76,171,242)",
+  fontSize:15
   }
 });

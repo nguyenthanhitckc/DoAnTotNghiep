@@ -2,6 +2,7 @@
 import React, { Component } from "react";
 import { createAppContainer } from "react-navigation";
 import AppNavigator from "./AppNavigator";
+console.disableYellowBox = true; //disableYellowBox
 // Const
 const AppContainer = createAppContainer(AppNavigator);
 

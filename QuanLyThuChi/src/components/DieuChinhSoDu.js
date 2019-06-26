@@ -638,8 +638,8 @@ export default class DieuChinhSoDu extends React.Component {
                 />
               </Item>
             </CardItem>
-
-            <Button
+          </Card>
+          <Button
               block
               info
               style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
@@ -648,7 +648,6 @@ export default class DieuChinhSoDu extends React.Component {
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
               <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
             </Button>
-          </Card>
         </Content>
         <MyFooter navigation={this.props.navigation} />
       </Container>

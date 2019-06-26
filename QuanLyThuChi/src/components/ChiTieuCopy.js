@@ -420,8 +420,9 @@ export default class ChiTieuCopy extends React.Component {
                 </Button>
               </Right>
             </CardItem>
-
-            <Button
+          </Card>
+          
+          <Button
               block
               info
               style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
@@ -434,7 +435,6 @@ export default class ChiTieuCopy extends React.Component {
                 Ghi
               </Text>
             </Button>
-          </Card>
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>
