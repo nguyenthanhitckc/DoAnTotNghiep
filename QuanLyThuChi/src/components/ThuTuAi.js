@@ -23,8 +23,7 @@ export default class ChonHangMucChi extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      danhSachThu: [],
-      soNguoiThu: 0
+      danhSachThu: []
     };
   }
 
@@ -34,7 +33,6 @@ export default class ChonHangMucChi extends Component {
     db.transaction(tx => {
       tx.executeSql("SELECT * FROM danhsachthu", [], (tx, results) => {
         var len = results.rows.length;
-        this.setState({ soNguoiThu: len });
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
           array.push(row);
@@ -81,7 +79,7 @@ export default class ChonHangMucChi extends Component {
                 key={i}
                 button
                 onPress={() => {
-                  params.returnDataNguoiThu(item.ma_nguoi_chi, item.ten);
+                  params.returnDataNguoiThu(item.ma_nguoi_thu, item.ten);
                   goBack();
                 }}
                 style={{

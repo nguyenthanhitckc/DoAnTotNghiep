@@ -26,83 +26,85 @@ import db from "../../connectionDB";
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
 
-export default class ChinhSuaChiTieu extends React.Component {
+export default class ChinhSuaThuNhap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maChiTieu: "",
+      maThuNhap: "",
       soTien: "",
       soTienSuaDoi: "",
       iconHangMuc: "comment-question",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "",
-      ngayChi: new Date(),
+      ngayThu: new Date(),
       taiKhoan: "",
       tenTaiKhoan: "Chọn tài khoản",
-      nguoiChi: "",
-      tenNguoiChi: "Chi cho ai",
+      nguoiThu: "",
+      tenNguoiThu: "Thu từ ai",
       soTienTrongVi: 0,
       isDateTimePickerVisible: false
     };
     this.buttonOnClick = this.buttonOnClick.bind(this);
     this.formatMoney = this.formatMoney.bind(this);
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
-    this.resetNguoiChi = this.resetNguoiChi.bind(this);
-    this.XoaChiTieu = this.XoaChiTieu.bind(this);
+    this.resetNguoiThu = this.resetNguoiThu.bind(this);
+    this.XoaThuNhap = this.XoaThuNhap.bind(this);
   }
 
   // Function
   componentDidMount() {
     const { params } = this.props.navigation.state;
-    // console.log(params);
+    console.log(params);
     let ten_tai_khoan = "";
-    let ten_nguoi_chi = "Chi cho ai";
+    let ten_nguoi_thu = "Thu từ ai";
     db.transaction(tx => {
       tx.executeSql(
         "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
         [params.tai_khoan],
         (tx, results) => {
           ten_tai_khoan = results.rows.item(0).ten_tai_khoan;
-          if (params.nguoi_chi != "") {
+          if (params.nguoi_thu != "") {
             tx.executeSql(
-              "SELECT * FROM danhsachchi WHERE ma_nguoi_chi like ?",
-              [params.nguoi_chi],
+              "SELECT * FROM danhsachthu WHERE ma_nguoi_thu like ?",
+              [params.nguoi_thu],
               (tx, results) => {
-                ten_nguoi_chi = results.rows.item(0).ten;
+                console.log("aaaa", results.rows.item(0));
+                ten_nguoi_thu = results.rows.item(0).ten;
+                console.log("bbbb", ten_tai_khoan, ten_nguoi_thu);
                 this.setState({
                   tenTaiKhoan: ten_tai_khoan,
-                  tenNguoiChi: ten_nguoi_chi
+                  tenNguoiThu: ten_nguoi_thu
                 });
               }
             );
           } else {
             this.setState({
               tenTaiKhoan: ten_tai_khoan,
-              tenNguoiChi: ten_nguoi_chi
+              tenNguoiThu: ten_nguoi_thu
             });
           }
         }
       );
     });
     this.setState({
-      maChiTieu: params.ma_chi_tieu,
+      maThuNhap: params.ma_thu_nhap,
       soTien: this.formatMoney2(params.so_tien + ""),
       soTienSuaDoi: this.formatMoney2(params.so_tien + ""),
       iconHangMuc: params.icon_hang_muc,
       hangMuc: params.hang_muc,
       tenHangMuc: params.ten_hang_muc,
       moTa: params.mo_ta,
-      ngayChi: params.ngay_chi,
+      ngayThu: params.ngay_thu,
       taiKhoan: params.tai_khoan,
-      nguoiChi: params.nguoi_chi
+      nguoiThu: params.nguoi_thu
     });
   }
 
   hideDateTimePicker = datetime => {
     this.setState({ isDateTimePickerVisible: false });
-    this.setState({ ngayChi: datetime });
-    moment(this.state.ngayChi).format("YYYY/MM/DD HH:mm:ss");
+    this.setState({ ngayThu: datetime });
+    moment(this.state.ngayThu).format("YYYY/MM/DD HH:mm:ss");
   };
 
   formatMoney(money) {
@@ -118,10 +120,10 @@ export default class ChinhSuaChiTieu extends React.Component {
     return y;
   }
 
-  resetNguoiChi() {
+  resetNguoiThu() {
     this.setState({
-      nguoiChi: "",
-      tenNguoiChi: "Chi cho ai"
+      nguoiThu: "",
+      tenNguoiThu: "Thu từ ai"
     });
   }
 
@@ -141,7 +143,7 @@ export default class ChinhSuaChiTieu extends React.Component {
     } else if (this.state.hangMuc == "") {
       Alert.alert(
         "Thông báo",
-        "Bạn chưa chọn hạng mục chi!",
+        "Bạn chưa chọn hạng mục thu!",
         [
           {
             text: "Ok"
@@ -162,32 +164,32 @@ export default class ChinhSuaChiTieu extends React.Component {
       );
     } else {
       const { goBack } = this.props.navigation;
-      let machitieu = this.state.maChiTieu;
+      let mathunhap = this.state.maThuNhap;
       let mataikhoan = this.state.taiKhoan;
       let moneycu = this.state.soTien.replace(/,/g, "");
       let sotiencu = Number(moneycu);
       let moneyTmp = this.state.soTienSuaDoi.replace(/,/g, "");
       let sotiensuadoi = Number(moneyTmp);
-      let mahangmucchi = this.state.hangMuc;
+      let mahangmucthu = this.state.hangMuc;
       let tenhangmuc = this.state.tenHangMuc;
       let iconhangmuc = this.state.iconHangMuc;
-      let ngay = moment(this.state.ngayChi).format("YYYY/MM/DD HH:mm:ss");
-      let manguoichi = this.state.nguoiChi;
+      let ngay = moment(this.state.ngayThu).format("YYYY/MM/DD HH:mm:ss");
+      let manguoithu = this.state.nguoiThu;
       let mota = this.state.moTa;
-      // Thêm chi tiêu vào bảng chitieu
+      // Update bang thu nhap
       db.transaction(function(tx) {
         tx.executeSql(
-          "UPDATE chitieu SET ma_tai_khoan = ?, so_tien = ?, ma_hang_muc_chi = ?, ten_hang_muc = ?, icon_hang_muc = ?, ngay = ?, ma_nguoi_chi = ?, mo_ta = ? WHERE ma_chi_tieu = ?",
+          "UPDATE thunhap SET ma_tai_khoan = ?, so_tien = ?, ma_hang_muc_thu = ?, ten_hang_muc = ?, icon_hang_muc = ?, ngay = ?, ma_nguoi_thu = ?, mo_ta = ? WHERE ma_thu_nhap = ?",
           [
             mataikhoan,
             sotiensuadoi,
-            mahangmucchi,
+            mahangmucthu,
             tenhangmuc,
             iconhangmuc,
             ngay,
-            manguoichi,
+            manguoithu,
             mota,
-            machitieu
+            mathunhap
           ],
           (tx, results) => {
             if (results.rowsAffected > 0) {
@@ -221,7 +223,7 @@ export default class ChinhSuaChiTieu extends React.Component {
           );
         });
       });
-      duLieu = duLieu + sotiencu - sotiensuadoi;
+      duLieu = duLieu - sotiencu + sotiensuadoi;
       this.setState({ soTienTrongVi: duLieu });
       db.transaction(tx => {
         tx.executeSql(
@@ -232,14 +234,14 @@ export default class ChinhSuaChiTieu extends React.Component {
     }
   }
 
-  XoaChiTieu() {
+  XoaThuNhap() {
     const { goBack } = this.props.navigation;
     let moneycu = this.state.soTien.replace(/,/g, "");
     let sotiencu = Number(moneycu);
     console.log(sotiencu);
     Alert.alert(
       "Thông báo",
-      "Bạn có chắc chắn muốn xóa chi tiêu này",
+      "Bạn có chắc chắn muốn xóa thu nhập này",
       [
         {
           text: "Cancel",
@@ -251,15 +253,15 @@ export default class ChinhSuaChiTieu extends React.Component {
           onPress: () => {
             db.transaction(tx => {
               tx.executeSql(
-                "DELETE FROM chitieu WHERE ma_chi_tieu like ?",
-                [this.state.maChiTieu],
+                "DELETE FROM thunhap WHERE ma_thu_nhap like ?",
+                [this.state.maThuNhap],
                 (tx, results) => {
                   tx.executeSql(
                     "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
                     [this.state.taiKhoan],
                     (tx, results) => {
                       let duLieu = results.rows.item(0).so_tien;
-                      duLieu = duLieu + sotiencu;
+                      duLieu = duLieu - sotiencu;
                       tx.executeSql(
                         "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
                         [duLieu, this.state.taiKhoan]
@@ -268,7 +270,7 @@ export default class ChinhSuaChiTieu extends React.Component {
                   );
                   Alert.alert(
                     "Thành công",
-                    "Bạn đã xóa chi tiêu thành công",
+                    "Bạn đã xóa thu nhập thành công",
                     [
                       {
                         text: "Ok"
@@ -299,8 +301,8 @@ export default class ChinhSuaChiTieu extends React.Component {
     this.setState({ taiKhoan: taiKhoan, tenTaiKhoan: tenTaiKhoan });
   }
 
-  returnDataNguoiChi(nguoiChi, tenNguoiChi) {
-    this.setState({ nguoiChi: nguoiChi, tenNguoiChi: tenNguoiChi });
+  returnDataNguoiThu(nguoiThu, tenNguoiThu) {
+    this.setState({ nguoiThu: nguoiThu, tenNguoiThu: tenNguoiThu });
   }
 
   render() {
@@ -318,7 +320,7 @@ export default class ChinhSuaChiTieu extends React.Component {
             </Button>
           </Left>
           <Body style={{ flex: 8 }}>
-            <Text style={styles.textHeader}>CHỈNH SỬA CHI TIÊU</Text>
+            <Text style={styles.textHeader}>CHỈNH SỬA THU NHẬP</Text>
           </Body>
           <Right style={{ flex: 2 }}>
             <Button transparent onPress={this.buttonOnClick}>
@@ -353,7 +355,7 @@ export default class ChinhSuaChiTieu extends React.Component {
             <CardItem
               button
               onPress={() =>
-                navigation.navigate("ChonHangMucChi", {
+                navigation.navigate("ChonHangMucThu", {
                   returnDataHangMuc: this.returnDataHangMuc.bind(this)
                 })
               }
@@ -399,7 +401,7 @@ export default class ChinhSuaChiTieu extends React.Component {
                   onCancel={this.hideDateTimePicker}
                   mode={"datetime"}
                   is24Hour={true}
-                  titleIOS={"Chọn ngày chi"}
+                  titleIOS={"Chọn ngày thu"}
                   titleStyle={{ color: "#3a455c", fontSize: 20 }}
                   locale={"vie"}
                   customConfirmButtonIOS={
@@ -412,7 +414,7 @@ export default class ChinhSuaChiTieu extends React.Component {
                   cancelTextIOS={"Hủy"}
                 />
                 <Text style={styles.textContent}>
-                  {moment(this.state.ngayChi).format("DD/MM/YYYY HH:mm:ss")}
+                  {moment(this.state.ngayThu).format("DD/MM/YYYY HH:mm:ss")}
                 </Text>
               </Body>
               <Right style={{ flex: 1 }} />
@@ -441,8 +443,8 @@ export default class ChinhSuaChiTieu extends React.Component {
             <CardItem
               button
               onPress={() =>
-                navigation.navigate("ChiChoAi", {
-                  returnDataNguoiChi: this.returnDataNguoiChi.bind(this)
+                navigation.navigate("ThuTuAi", {
+                  returnDataNguoiThu: this.returnDataNguoiThu.bind(this)
                 })
               }
               style={{ ...styles.cardItem, marginRight: 0 }}
@@ -451,7 +453,7 @@ export default class ChinhSuaChiTieu extends React.Component {
                 <Icon name="user" style={styles.icon} />
               </Left>
               <Body style={{ flex: 8 }}>
-                <Text style={styles.textContent}>{this.state.tenNguoiChi}</Text>
+                <Text style={styles.textContent}>{this.state.tenNguoiThu}</Text>
               </Body>
               <Right style={{ flex: 1 }}>
                 <Button
@@ -465,7 +467,7 @@ export default class ChinhSuaChiTieu extends React.Component {
                     justifyContent: "center",
                     alignItems: "center"
                   }}
-                  onPress={this.resetNguoiChi}
+                  onPress={this.resetNguoiThu}
                 >
                   <Icon
                     name="times"
@@ -495,7 +497,7 @@ export default class ChinhSuaChiTieu extends React.Component {
               block
               info
               style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-              onPress={this.XoaChiTieu}
+              onPress={this.XoaThuNhap}
             >
               <Icon name="save" style={styles.iconHeader} />
               <Text

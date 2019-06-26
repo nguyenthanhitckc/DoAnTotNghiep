@@ -133,6 +133,19 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                       tai_khoan: item.ma_tai_khoan,
                       nguoi_chi: item.ma_nguoi_chi
                     });
+                  } else if (item.loai == "thunhap") {
+                    navigation.navigate("ChinhSuaThuNhap", {
+                      ma_thu_nhap: item.ma_thu_nhap,
+                      so_tien: item.so_tien,
+                      icon_hang_muc: item.icon_hang_muc,
+                      hang_muc: item.ma_hang_muc_chi,
+                      ten_hang_muc: item.ten_hang_muc,
+                      mo_ta: item.mo_ta,
+                      ngay_thu: item.ngay,
+                      tai_khoan: item.ma_tai_khoan,
+                      nguoi_thu: item.ma_nguoi_thu
+                    });
+                  } else if (item.loai == "chuyenkhoan") {
                   }
                 }}
                 style={styles.cardItem}

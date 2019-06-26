@@ -26,6 +26,8 @@ import ChinhSuaTaiKhoan from "./src/components/ChinhSuaTaiKhoan";
 import GhiChepCuaTaiKhoan from "./src/components/GhiChepCuaTaiKhoan";
 import CachXemLichSuGhiChep from "./src/components/CachXemLichSuGhiChep";
 import ChinhSuaChiTieu from "./src/components/ChinhSuaChiTieu";
+import ChinhSuaThuNhap from "./src/components/ChinhSuaThuNhap";
+
 const AppNavigator = createStackNavigator(
   {
     ThemMoi: { screen: ThemMoi },
@@ -53,7 +55,8 @@ const AppNavigator = createStackNavigator(
     GhiChepCuaTaiKhoan: { screen: GhiChepCuaTaiKhoan },
     LichSuGhiChep: { screen: LichSuGhiChep },
     CachXemLichSuGhiChep: { screen: CachXemLichSuGhiChep },
-    ChinhSuaChiTieu: { screen: ChinhSuaChiTieu }
+    ChinhSuaChiTieu: { screen: ChinhSuaChiTieu },
+    ChinhSuaThuNhap: { screen: ChinhSuaThuNhap }
   },
   {
     headerMode: "none"

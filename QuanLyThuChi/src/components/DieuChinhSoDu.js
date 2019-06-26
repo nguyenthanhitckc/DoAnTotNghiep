@@ -349,7 +349,7 @@ export default class DieuChinhSoDu extends React.Component {
         machitieu = await this.phatSinhMaChiTieu();
         db.transaction(function(tx) {
           tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai, la_dieu_chinh_so_du) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai, loai_dieu_chinh_so_du) VALUES (?,?,?,?,?,?,?,?,?,?)",
             [
               machitieu,
               mataikhoan,
@@ -359,8 +359,8 @@ export default class DieuChinhSoDu extends React.Component {
               iconhangmuc,
               ngay,
               "Điều chỉnh số dư tài khoản " + tentaikhoan,
-              "chitieu",
-              "dcsd"
+              "dcsd",
+              "chitieu"
             ]
           );
         });
@@ -369,7 +369,7 @@ export default class DieuChinhSoDu extends React.Component {
         mathunhap = await this.phatSinhMaThuNhap();
         db.transaction(function(tx) {
           tx.executeSql(
-            "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai, la_dieu_chinh_so_du) VALUES (?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, loai, loai_dieu_chinh_so_du) VALUES (?,?,?,?,?,?,?,?,?,?)",
             [
               mathunhap,
               mataikhoan,
@@ -379,8 +379,8 @@ export default class DieuChinhSoDu extends React.Component {
               iconhangmuc,
               ngay,
               "Điều chỉnh số dư tài khoản " + tentaikhoan,
-              "thunhap",
-              "dcsd"
+              "dcsd",
+              "thunhap"
             ]
           );
         });
