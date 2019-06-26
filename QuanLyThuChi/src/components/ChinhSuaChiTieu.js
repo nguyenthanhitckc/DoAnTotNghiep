@@ -40,9 +40,11 @@ export default class ChinhSuaChiTieu extends React.Component {
       ngayChi: new Date(),
       taiKhoan: "",
       tenTaiKhoan: "Chọn tài khoản",
+      taiKhoanMoi: "",
       nguoiChi: "",
       tenNguoiChi: "Chi cho ai",
       soTienTrongVi: 0,
+      soTienTrongViMoi: 0,
       isDateTimePickerVisible: false
     };
     this.buttonOnClick = this.buttonOnClick.bind(this);
@@ -95,6 +97,7 @@ export default class ChinhSuaChiTieu extends React.Component {
       moTa: params.mo_ta,
       ngayChi: params.ngay_chi,
       taiKhoan: params.tai_khoan,
+      taiKhoanMoi: params.tai_khoan,
       nguoiChi: params.nguoi_chi
     });
   }
@@ -163,7 +166,7 @@ export default class ChinhSuaChiTieu extends React.Component {
     } else {
       const { goBack } = this.props.navigation;
       let machitieu = this.state.maChiTieu;
-      let mataikhoan = this.state.taiKhoan;
+      let mataikhoan = this.state.taiKhoanMoi;
       let moneycu = this.state.soTien.replace(/,/g, "");
       let sotiencu = Number(moneycu);
       let moneyTmp = this.state.soTienSuaDoi.replace(/,/g, "");
@@ -209,24 +212,37 @@ export default class ChinhSuaChiTieu extends React.Component {
       });
 
       // Trừ tiền trong ví.
-      let duLieu = await new Promise((resolve, reject) => {
-        db.transaction(tx => {
-          tx.executeSql(
-            "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
-            [this.state.taiKhoan],
-            (tx, results) => {
-              let soTienTrongVi = results.rows.item(0).so_tien;
-              resolve(soTienTrongVi);
-            }
-          );
-        });
-      });
-      duLieu = duLieu + sotiencu - sotiensuadoi;
-      this.setState({ soTienTrongVi: duLieu });
       db.transaction(tx => {
         tx.executeSql(
-          "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-          [duLieu, this.state.taiKhoan]
+          "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
+          [this.state.taiKhoan],
+          (tx, results) => {
+            this.setState({
+              soTienTrongVi: results.rows.item(0).so_tien
+            });
+            tx.executeSql(
+              "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
+              [this.state.soTienTrongVi + sotiencu, this.state.taiKhoan],
+              (tx, results) => {
+                tx.executeSql(
+                  "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
+                  [this.state.taiKhoanMoi],
+                  (tx, results) => {
+                    this.setState({
+                      soTienTrongViMoi: results.rows.item(0).so_tien
+                    });
+                    tx.executeSql(
+                      "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
+                      [
+                        this.state.soTienTrongViMoi - sotiensuadoi,
+                        this.state.taiKhoanMoi
+                      ]
+                    );
+                  }
+                );
+              }
+            );
+          }
         );
       });
     }
@@ -296,7 +312,7 @@ export default class ChinhSuaChiTieu extends React.Component {
   }
 
   returnDataTaiKhoan(taiKhoan, tenTaiKhoan) {
-    this.setState({ taiKhoan: taiKhoan, tenTaiKhoan: tenTaiKhoan });
+    this.setState({ taiKhoanMoi: taiKhoan, tenTaiKhoan: tenTaiKhoan });
   }
 
   returnDataNguoiChi(nguoiChi, tenNguoiChi) {
