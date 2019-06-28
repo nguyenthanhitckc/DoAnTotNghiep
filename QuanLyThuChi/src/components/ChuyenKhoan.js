@@ -28,8 +28,8 @@ export default class ChuyenKhoan extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTien: "",
-      phiChuyenKhoan: "",
+      soTien: "0",
+      phiChuyenKhoan: "0",
       moTa: "",
       ngayChuyenKhoan: new Date(),
       taiKhoanNguon: "",
@@ -377,28 +377,24 @@ export default class ChuyenKhoan extends React.Component {
           [soTienViDich, this.state.taiKhoanDich]
         );
       });
-
-      let phiCKTmp = this.state.phiChuyenKhoan.replace(/,/g, "");
       // Phí chuyển khoản
-      if (phiCKTmp != "") {
-        let phiCK = Number(phiCKTmp);
-        let sotien = phiCK;
-        let machitieu = "";
-        machitieu = await this.phatSinhMaChiTieu();
-        let mataikhoan = this.state.taiKhoanNguon;
-
-        let ngay = moment(this.state.ngayChuyenKhoan).format(
-          "YYYY/MM/DD HH:mm:ss"
-        );
-        let mota = this.state.moTa;
+      let phiCKTmp = this.state.phiChuyenKhoan.replace(/,/g, "");
+      if (phiCKTmp == "") {
+        phiCKTmp = "0";
+      }
+      let phiCK = Number(phiCKTmp);
+      let phick = phiCK;
+      if (phick != 0) {
+        let machitieuck = "";
+        machitieuck = await this.phatSinhMaChiTieu();
 
         db.transaction(function(tx) {
           tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, la_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
             [
-              machitieu,
-              mataikhoan,
-              sotien,
+              machitieuck,
+              mataikhoannguon,
+              phick,
               "hmc0004",
               "Phí chuyển khoản từ " +
                 tentaikhoannguon +
@@ -408,7 +404,7 @@ export default class ChuyenKhoan extends React.Component {
               ngay,
               mota,
               machuyenkhoan,
-              "chitieu",
+              "chuyenkhoan",
               "phi"
             ]
           );
@@ -426,7 +422,7 @@ export default class ChuyenKhoan extends React.Component {
             );
           });
         });
-        duLieu -= sotien;
+        duLieu -= phick;
         this.setState({ soTienTrongVi: duLieu });
         db.transaction(tx => {
           tx.executeSql(
@@ -438,17 +434,19 @@ export default class ChuyenKhoan extends React.Component {
     }
   }
 
-  returnDataTaiKhoanNguon(taiKhoanNguon, tenTaiKhoanNguon) {
+  returnDataTaiKhoanNguon(taiKhoanNguon, tenTaiKhoanNguon, soTien) {
     this.setState({
       taiKhoanNguon: taiKhoanNguon,
-      tenTaiKhoanNguon: tenTaiKhoanNguon
+      tenTaiKhoanNguon: tenTaiKhoanNguon,
+      soTienTrongViNguon: soTien
     });
   }
 
-  returnDataTaiKhoanDich(taiKhoanDich, tenTaiKhoanDich) {
+  returnDataTaiKhoanDich(taiKhoanDich, tenTaiKhoanDich, soTien) {
     this.setState({
       taiKhoanDich: taiKhoanDich,
-      tenTaiKhoanDich: tenTaiKhoanDich
+      tenTaiKhoanDich: tenTaiKhoanDich,
+      soTienTrongViDich: soTien
     });
   }
 
@@ -676,14 +674,14 @@ export default class ChuyenKhoan extends React.Component {
             </CardItem>
           </Card>
           <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-              onPress={this.buttonOnClick}
-            >
-              <Icon name="save" style={{ fontSize: 18, color: "white" }} />
-              <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
-            </Button>
+            block
+            info
+            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            onPress={this.buttonOnClick}
+          >
+            <Icon name="save" style={{ fontSize: 18, color: "white" }} />
+            <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
+          </Button>
         </Content>
         <MyFooter navigation={this.props.navigation} />
       </Container>

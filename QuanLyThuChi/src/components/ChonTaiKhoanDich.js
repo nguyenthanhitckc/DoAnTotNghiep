@@ -96,7 +96,8 @@ export default class ChonTaiKhoanDich extends Component {
                 onPress={() => {
                   params.returnDataTaiKhoanDich(
                     item.ma_tai_khoan,
-                    item.ten_tai_khoan
+                    item.ten_tai_khoan,
+                    item.so_tien
                   );
                   goBack();
                 }}

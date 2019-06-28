@@ -30,7 +30,7 @@ export default class ChiTieu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTien: "",
+      soTien: "0",
       iconHangMuc: "comment-question",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
@@ -51,7 +51,7 @@ export default class ChiTieu extends React.Component {
   }
 
   // Function
-  componentDidMount() { }
+  componentDidMount() {}
 
   hideDateTimePicker = datetime => {
     this.setState({ isDateTimePickerVisible: false });
@@ -98,7 +98,7 @@ export default class ChiTieu extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -113,7 +113,7 @@ export default class ChiTieu extends React.Component {
   }
   async buttonOnClick() {
     // Kiểm tra đầy đủ:
-    if (this.state.soTien == "") {
+    if (this.state.soTien == "0" || this.state.soTien == "") {
       Alert.alert(
         "Thông báo",
         "Bạn chưa nhập số tiền!",
@@ -159,7 +159,7 @@ export default class ChiTieu extends React.Component {
       let manguoichi = this.state.nguoiChi;
       let mota = this.state.moTa;
       // Thêm chi tiêu vào bảng chitieu
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_chi, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
           [
@@ -410,18 +410,18 @@ export default class ChiTieu extends React.Component {
             </CardItem>
           </Card>
           <Button
-                block
-                info
-                style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-                onPress={this.buttonOnClick}
-              >
-                <Icon name="save" style={styles.iconHeader} />
-                <Text
-                  style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
-                >
-                  Ghi
-              </Text>
-              </Button>
+            block
+            info
+            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            onPress={this.buttonOnClick}
+          >
+            <Icon name="save" style={styles.iconHeader} />
+            <Text
+              style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+            >
+              Ghi
+            </Text>
+          </Button>
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>

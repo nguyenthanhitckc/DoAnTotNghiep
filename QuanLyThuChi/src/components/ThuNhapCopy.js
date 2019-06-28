@@ -28,7 +28,7 @@ export default class ThuNhapCopy extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTien: "",
+      soTien: "0",
       iconHangMuc: "question-circle",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
@@ -113,7 +113,7 @@ export default class ThuNhapCopy extends React.Component {
               });
             }
           },
-          function (tx, error) {
+          function(tx, error) {
             reject(error);
           }
         );
@@ -123,7 +123,7 @@ export default class ThuNhapCopy extends React.Component {
 
   async buttonOnClick() {
     // Kiểm tra đầy đủ:
-    if (this.state.soTien == "") {
+    if (this.state.soTien == "0" || this.state.soTien == "") {
       Alert.alert(
         "Thông báo",
         "Bạn chưa nhập số tiền!",
@@ -169,7 +169,7 @@ export default class ThuNhapCopy extends React.Component {
       let manguoithu = this.state.nguoiThu;
       let mota = this.state.moTa;
       // Thêm chi tiêu vào bảng chitieu
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, ma_nguoi_thu, mo_ta, loai) VALUES (?,?,?,?,?,?,?,?,?,?)",
           [
@@ -469,7 +469,7 @@ export default class ThuNhapCopy extends React.Component {
                     height: 30,
                     width: 30,
                     borderRadius: 15,
-                    justifyContent: 'center',
+                    justifyContent: "center",
                     alignItems: "center"
                   }}
                   onPress={this.resetNguoiThu}

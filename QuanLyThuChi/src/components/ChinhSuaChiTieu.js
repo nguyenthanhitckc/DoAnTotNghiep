@@ -31,8 +31,8 @@ export default class ChinhSuaChiTieu extends React.Component {
     super(props);
     this.state = {
       maChiTieu: "",
-      soTien: "",
-      soTienSuaDoi: "",
+      soTien: "0",
+      soTienSuaDoi: "0",
       iconHangMuc: "comment-question",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
@@ -494,11 +494,16 @@ export default class ChinhSuaChiTieu extends React.Component {
               </Right>
             </CardItem>
           </Card>
-          <Card style={{flexDirection:"row"}}>
-          <Button
+          <Card style={{ flexDirection: "row" }}>
+            <Button
               block
               info
-              style={{flex:1, height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+              style={{
+                flex: 1,
+                height: 40,
+                backgroundColor: "#4cabf2",
+                margin: 5
+              }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />
@@ -511,7 +516,12 @@ export default class ChinhSuaChiTieu extends React.Component {
             <Button
               block
               info
-              style={{flex:1, height: 40, backgroundColor: "#dc3545", margin: 5 }}
+              style={{
+                flex: 1,
+                height: 40,
+                backgroundColor: "#dc3545",
+                margin: 5
+              }}
               onPress={this.XoaChiTieu}
             >
               <MateIcon name="delete" style={styles.iconHeader} />

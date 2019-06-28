@@ -126,7 +126,7 @@ export default class ChiTieuCopy extends React.Component {
   }
   async buttonOnClick() {
     // Kiểm tra đầy đủ:
-    if (this.state.soTien == "") {
+    if (this.state.soTien == "0" || this.state.soTien == "") {
       Alert.alert(
         "Thông báo",
         "Bạn chưa nhập số tiền!",
@@ -421,20 +421,20 @@ export default class ChiTieuCopy extends React.Component {
               </Right>
             </CardItem>
           </Card>
-          
+
           <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-              onPress={this.buttonOnClick}
+            block
+            info
+            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            onPress={this.buttonOnClick}
+          >
+            <Icon name="save" style={styles.iconHeader} />
+            <Text
+              style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
             >
-              <Icon name="save" style={styles.iconHeader} />
-              <Text
-                style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
-              >
-                Ghi
-              </Text>
-            </Button>
+              Ghi
+            </Text>
+          </Button>
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>

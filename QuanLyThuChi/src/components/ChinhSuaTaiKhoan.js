@@ -21,7 +21,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import IconMater from "react-native-vector-icons/MaterialCommunityIcons";
 import db from "../../connectionDB";
-import MyFooter from './../MyFooter'
+import MyFooter from "./../MyFooter";
 
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
@@ -30,7 +30,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTien: "",
+      soTien: "0",
       moTa: "",
       taiKhoan: "",
       tenTaiKhoan: "",
@@ -108,7 +108,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       let sotien = Number(moneyTmp);
       let loaitaikhoan = this.state.loaiTaiKhoan;
       let mota = this.state.moTa;
-      db.transaction(function (tx) {
+      db.transaction(function(tx) {
         tx.executeSql(
           "UPDATE taikhoan SET ten_tai_khoan = ?, so_tien = ?, loai_tai_khoan = ?, mo_ta = ? WHERE ma_tai_khoan = ?",
           [tentaikhoan, sotien, loaitaikhoan, mota, mataikhoan],
@@ -135,13 +135,14 @@ export default class ChinhSuaTaiKhoan extends React.Component {
   }
 
   XoaTaiKhoan() {
+    const { goBack } = this.props.navigation;
     Alert.alert(
       "Thông báo",
       "Bạn có chắc chắn muốn xóa tài khoản",
       [
         {
           text: "Cancel",
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel"
         },
         {
@@ -178,13 +179,14 @@ export default class ChinhSuaTaiKhoan extends React.Component {
   }
 
   NgungSuDung() {
+    const { goBack } = this.props.navigation;
     Alert.alert(
       "Thông báo",
       "Bạn có chắc chắn muốn ngưng sử dụng tài khoản",
       [
         {
           text: "Cancel",
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel"
         },
         {
@@ -227,7 +229,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       [
         {
           text: "Cancel",
-          onPress: () => { },
+          onPress: () => {},
           style: "cancel"
         },
         {
@@ -369,12 +371,19 @@ export default class ChinhSuaTaiKhoan extends React.Component {
             </CardItem>
           </Card>
 
-          <Card >
-            <CardItem style={{paddingBottom:0,paddingLeft:0,paddingRight:0,}}>
+          <Card>
+            <CardItem
+              style={{ paddingBottom: 0, paddingLeft: 0, paddingRight: 0 }}
+            >
               <Button
                 block
                 info
-                style={{flex: 1, height: 40, backgroundColor: "#4cabf2", margin: 4 }}
+                style={{
+                  flex: 1,
+                  height: 40,
+                  backgroundColor: "#4cabf2",
+                  margin: 4
+                }}
                 onPress={this.buttonOnClick}
               >
                 <Icon name="save" style={styles.iconHeader} />
@@ -382,35 +391,61 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                   style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
                 >
                   Ghi
-              </Text>
+                </Text>
               </Button>
             </CardItem>
-            <CardItem style={{ flexDirection: "row",paddingLeft:0,paddingRight:0,paddingTop:0 }}>
+            <CardItem
+              style={{
+                flexDirection: "row",
+                paddingLeft: 0,
+                paddingRight: 0,
+                paddingTop: 0
+              }}
+            >
               <Button
                 block
                 info
-                style={{ flex: 1, height: 40, backgroundColor: "#3a455c", margin: 4 }}
+                style={{
+                  flex: 1,
+                  height: 40,
+                  backgroundColor: "#3a455c",
+                  margin: 4
+                }}
                 onPress={
-                  this.state.dangSuDung == "y" ? this.NgungSuDung : this.SuDungLai
+                  this.state.dangSuDung == "y"
+                    ? this.NgungSuDung
+                    : this.SuDungLai
                 }
-              ><IconMater name="cancel" style={styles.iconHeader} />
-                <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>
-                  {this.state.dangSuDung == "y" ? "Ngưng Sử Dụng" : "Sử Dụng Lại"}
+              >
+                <IconMater name="cancel" style={styles.iconHeader} />
+                <Text
+                  style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+                >
+                  {this.state.dangSuDung == "y"
+                    ? "Ngưng Sử Dụng"
+                    : "Sử Dụng Lại"}
                 </Text>
               </Button>
 
               <Button
                 block
                 info
-                style={{ flex: 1, height: 40, backgroundColor: "#dc3545", margin: 4 }}
+                style={{
+                  flex: 1,
+                  height: 40,
+                  backgroundColor: "#dc3545",
+                  margin: 4
+                }}
                 onPress={this.XoaTaiKhoan}
               >
                 <IconMater name="delete" style={styles.iconHeader} />
-                <Text style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}>Xóa</Text>
+                <Text
+                  style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
+                >
+                  Xóa
+                </Text>
               </Button>
             </CardItem>
-
-
           </Card>
         </Content>
         <MyFooter navigation={this.props.navigation} />

@@ -31,8 +31,8 @@ export default class ChinhSuaThuNhap extends React.Component {
     super(props);
     this.state = {
       maThuNhap: "",
-      soTien: "",
-      soTienSuaDoi: "",
+      soTien: "0",
+      soTienSuaDoi: "0",
       iconHangMuc: "comment-question",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
@@ -365,7 +365,7 @@ export default class ChinhSuaThuNhap extends React.Component {
             </CardItem>
           </Card>
 
-          <Card style={{flex:1}}>
+          <Card style={{ flex: 1 }}>
             <CardItem
               button
               onPress={() =>
@@ -493,13 +493,17 @@ export default class ChinhSuaThuNhap extends React.Component {
                 </Button>
               </Right>
             </CardItem>
-         
           </Card>
-          <Card style={{flexDirection:"row"}}>
-          <Button
+          <Card style={{ flexDirection: "row" }}>
+            <Button
               block
               info
-              style={{flex:1, height: 40, backgroundColor: "#4cabf2", margin: 5, }}
+              style={{
+                flex: 1,
+                height: 40,
+                backgroundColor: "#4cabf2",
+                margin: 5
+              }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />
@@ -512,7 +516,12 @@ export default class ChinhSuaThuNhap extends React.Component {
             <Button
               block
               info
-              style={{flex:1, height: 40, backgroundColor: "#dc3545", margin: 5,}}
+              style={{
+                flex: 1,
+                height: 40,
+                backgroundColor: "#dc3545",
+                margin: 5
+              }}
               onPress={this.XoaThuNhap}
             >
               <MateIcon name="delete" style={styles.iconHeader} />
@@ -522,9 +531,7 @@ export default class ChinhSuaThuNhap extends React.Component {
                 Xóa
               </Text>
             </Button>
-            
           </Card>
-          
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>

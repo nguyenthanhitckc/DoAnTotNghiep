@@ -29,7 +29,7 @@ export default class ThuNhap extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTien: "",
+      soTien: "0",
       iconHangMuc: "question-circle",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
@@ -116,7 +116,7 @@ export default class ThuNhap extends React.Component {
 
   async buttonOnClick() {
     // Kiểm tra đầy đủ:
-    if (this.state.soTien == "") {
+    if (this.state.soTien == "0" || this.state.soTien == "") {
       Alert.alert(
         "Thông báo",
         "Bạn chưa nhập số tiền!",
@@ -479,14 +479,14 @@ export default class ThuNhap extends React.Component {
             </CardItem>
           </Card>
           <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-              onPress={this.buttonOnClick}
-            >
-              <Icon name="save" style={{ fontSize: 18, color: "white" }} />
-              <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
-            </Button>
+            block
+            info
+            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            onPress={this.buttonOnClick}
+          >
+            <Icon name="save" style={{ fontSize: 18, color: "white" }} />
+            <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
+          </Button>
         </Content>
 
         <Footer style={stylesFooter.footer}>

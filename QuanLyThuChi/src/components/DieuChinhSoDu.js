@@ -28,7 +28,7 @@ export default class DieuChinhSoDu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTienThucTe: "",
+      soTienThucTe: "0",
       soTienTaiKhoan: "0",
       soTienTrongVi: 0,
       soDu: "0",
@@ -640,14 +640,14 @@ export default class DieuChinhSoDu extends React.Component {
             </CardItem>
           </Card>
           <Button
-              block
-              info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-              onPress={this.buttonOnClick}
-            >
-              <Icon name="save" style={{ fontSize: 18, color: "white" }} />
-              <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
-            </Button>
+            block
+            info
+            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            onPress={this.buttonOnClick}
+          >
+            <Icon name="save" style={{ fontSize: 18, color: "white" }} />
+            <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
+          </Button>
         </Content>
         <MyFooter navigation={this.props.navigation} />
       </Container>

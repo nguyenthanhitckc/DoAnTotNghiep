@@ -146,6 +146,9 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                       nguoi_thu: item.ma_nguoi_thu
                     });
                   } else if (item.loai == "chuyenkhoan") {
+                    navigation.navigate("ChinhSuaChuyenKhoan", {
+                      ma_chuyen_khoan: item.ma_chuyen_khoan
+                    });
                   }
                 }}
                 style={styles.cardItem}
@@ -168,7 +171,25 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                   <Text
                     style={{
                       ...styles.textContentMoney,
-                      color: item.loai == "chitieu" ? "red" : "green"
+                      color:
+                        item.loai == "chitieu"
+                          ? "red"
+                          : item.loai == "chuyenkhoan" &&
+                            item.loai_chuyen_khoan == "chitieu"
+                          ? "red"
+                          : item.loai == "chuyenkhoan" &&
+                            item.loai_chuyen_khoan == "phi"
+                          ? "red"
+                          : item.loai == "chuyenkhoan" &&
+                            item.loai_chuyen_khoan == "thunhap"
+                          ? "green"
+                          : item.loai == "dcsd" &&
+                            item.loai_dieu_chinh_so_du == "chitieu"
+                          ? "red"
+                          : item.loai == "dcsd" &&
+                            item.loai_chuyen_khoan == "thunhap"
+                          ? "green"
+                          : "green"
                     }}
                   >
                     {this.formatMoney(item.so_tien)} đ

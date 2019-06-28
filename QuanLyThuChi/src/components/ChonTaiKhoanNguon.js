@@ -1,4 +1,4 @@
-// Import thư viện 
+// Import thư viện
 import React, { Component } from "react";
 import { Text, Dimensions } from "react-native";
 import {
@@ -96,7 +96,8 @@ export default class ChonTaiKhoanNguon extends Component {
                 onPress={() => {
                   params.returnDataTaiKhoanNguon(
                     item.ma_tai_khoan,
-                    item.ten_tai_khoan
+                    item.ten_tai_khoan,
+                    item.so_tien
                   );
                   goBack();
                 }}
