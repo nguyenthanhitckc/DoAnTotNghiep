@@ -110,7 +110,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       let mota = this.state.moTa;
       db.transaction(function(tx) {
         tx.executeSql(
-          "UPDATE taikhoan SET ten_tai_khoan = ?, so_tien = ?, loai_tai_khoan = ?, mo_ta = ? WHERE ma_tai_khoan = ?",
+          "UPDATE taikhoan SET ten_tai_khoan = ?, so_tien = ?, loai_tai_khoan = ?, mo_ta = ? WHERE ma_tai_khoan like ?",
           [tentaikhoan, sotien, loaitaikhoan, mota, mataikhoan],
           (tx, results) => {
             if (results.rowsAffected > 0) {
@@ -223,6 +223,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
   }
 
   SuDungLai() {
+    const { goBack } = this.props.navigation;
     Alert.alert(
       "Thông báo",
       "Bạn có chắc chắn muốn sử dụng lại tài khoản",

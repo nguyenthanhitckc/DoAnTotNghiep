@@ -20,7 +20,6 @@ import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyFooter from "./../MyFooter";
 import db from "../../connectionDB";
-import { getConsoleOutput } from "@jest/console";
 
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
@@ -36,8 +35,8 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
       tenTaiKhoanDich: "Tới tài khoản",
       maTaiKhoanNguonMoi: "",
       maTaiKhoanDichMoi: "",
-      tenTaiKhoanNguonMoi: "",
-      tenTaiKhoanDichMoi: "",
+      tenTaiKhoanNguonMoi: "Từ tài khoản",
+      tenTaiKhoanDichMoi: "Tới tài khoản",
       soTien: "0",
       soTienSuaDoi: "0",
       soTienTrongViNguon: 0,
@@ -58,6 +57,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
     this.formatMoney2 = this.formatMoney2.bind(this);
     this.formatPhiChuyenKhoan = this.formatPhiChuyenKhoan.bind(this);
     this.phatSinhMaChiTieu = this.phatSinhMaChiTieu.bind(this);
+    this.phatSinhMaThuNhap = this.phatSinhMaThuNhap.bind(this);
   }
 
   // Function
@@ -201,6 +201,46 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
     );
   }
 
+  phatSinhMaThuNhap() {
+    let query = "SELECT * FROM thunhap;";
+    return new Promise((resolve, reject) =>
+      db.transaction(tx => {
+        tx.executeSql(
+          query,
+          [],
+          (tx, results) => {
+            var soDong = results.rows.length;
+            if (soDong == 0) {
+              resolve("tn0001");
+            } else {
+              let soHienTai;
+              let data;
+              let maTN = "tn";
+              db.transaction(tx => {
+                tx.executeSql(
+                  "SELECT ma_thu_nhap FROM thunhap WHERE ma_thu_nhap like (SELECT MAX(ma_thu_nhap) FROM thunhap)",
+                  [],
+                  (tx, results) => {
+                    data = results.rows.item(0).ma_thu_nhap;
+                    soHienTai = parseInt(data.slice(2, 6), 10) + 1;
+                    let str = "" + soHienTai;
+                    let pad = "0000";
+                    maTN =
+                      maTN + pad.substring(0, pad.length - str.length) + str;
+                    resolve(maTN);
+                  }
+                );
+              });
+            }
+          },
+          function(tx, error) {
+            reject(error);
+          }
+        );
+      })
+    );
+  }
+
   XoaChuyenKhoan() {
     const { goBack } = this.props.navigation;
     let moneycuTmp = this.state.soTien.replace(/,/g, "");
@@ -270,6 +310,15 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
   }
 
   async buttonOnClick() {
+    let machitieu = "";
+    machitieu = await this.phatSinhMaChiTieu();
+    let mathunhap = "";
+    mathunhap = await this.phatSinhMaThuNhap();
+    let maphick = "";
+    let soHienTai = parseInt(machitieu.slice(2, 6), 10) + 1;
+    let str = "" + soHienTai;
+    let pad = "0000";
+    maphick = maphick + pad.substring(0, pad.length - str.length) + str;
     // Kiểm tra đầy đủ:
     if (this.state.soTienSuaDoi == "" || this.state.soTienSuaDoi == "0") {
       Alert.alert(
@@ -317,28 +366,50 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
       );
     } else {
       let machuyenkhoan = this.state.maChuyenKhoan;
-      let mataikhoannguon = this.state.maTaiKhoanNguon;
-      let mataikhoandich = this.state.maTaiKhoanDich;
+      let mataikhoannguoncu = this.state.maTaiKhoanNguon;
+      let mataikhoandichcu = this.state.maTaiKhoanDich;
       let mataikhoannguonmoi = this.state.maTaiKhoanNguonMoi;
       let mataikhoandichmoi = this.state.maTaiKhoanDichMoi;
       let tentaikhoannguonmoi = this.state.tenTaiKhoanNguonMoi;
       let tentaikhoandichmoi = this.state.tenTaiKhoanDichMoi;
       let moneyTmp = this.state.soTienSuaDoi.replace(/,/g, "");
       let sotiencuTmp = this.state.soTien.replace(/,/g, "");
-      let phickTmp = this.state.phiChuyenKhoan.replace(/,/g, "");
+      let phickTmp = this.state.phiChuyenKhoan;
+      if (phickTmp == "") phickTmp = "0";
+      phickTmp = phickTmp.replace(/,/g, "");
       let phiCKMoiTmp = this.state.phiChuyenKhoanSuaDoi.replace(/,/g, "");
-      let sotien = Number(moneyTmp);
+      if (phiCKMoiTmp == "") phiCKMoiTmp = "0";
+      phiCKMoiTmp = phiCKMoiTmp.replace(/,/g, "");
+      let sotienmoi = Number(moneyTmp);
       let sotiencu = Number(sotiencuTmp);
       let phickcu = Number(phickTmp);
       let phickmoi = Number(phiCKMoiTmp);
-      let sotientrongvinguon = this.state.soTienTrongViNguon;
-      let sotientrongvidich = this.state.soTienTrongViDich;
+      let sotientrongvinguoncu = this.state.soTienTrongViNguon;
+      let sotientrongvidichcu = this.state.soTienTrongViDich;
       let sotientrongvinguonmoi = this.state.soTienTrongViNguonMoi;
       let sotientrongvidichmoi = this.state.soTienTrongViDichMoi;
       let ngay = moment(this.state.ngayChuyenKhoan).format(
         "YYYY/MM/DD HH:mm:ss"
       );
       let mota = this.state.moTa;
+      console.log(
+        "so tien moi: ",
+        sotienmoi,
+        "so tien cu: ",
+        sotiencu,
+        "phi chuyen khoan cu: ",
+        phickcu,
+        "phi chuyen khoan moi: ",
+        phickmoi,
+        "so tien trong vi nguon cu: ",
+        sotientrongvinguoncu,
+        "so tien trong vi nguon moi: ",
+        sotientrongvinguonmoi,
+        "sotien trong vi dich cu: ",
+        sotientrongvidichcu,
+        "so tien trong vi dich moi: ",
+        sotientrongvidichmoi
+      );
       // Update chuyển khoản
       db.transaction(function(tx) {
         tx.executeSql(
@@ -346,7 +417,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
           [
             mataikhoannguonmoi,
             mataikhoandichmoi,
-            sotien,
+            sotienmoi,
             ngay,
             mota,
             machuyenkhoan
@@ -378,307 +449,124 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
           }
         );
       });
-
-      // Update Chi tiêu
-      if (mataikhoannguon != mataikhoannguonmoi) {
-        sotientrongvinguon = sotientrongvinguon + sotiencu;
-        sotientrongvinguonmoi = sotientrongvinguonmoi - sotien;
-        db.transaction(function(tx) {
-          tx.executeSql(
-            "UPDATE chitieu SET ma_tai_khoan = ?, so_tien = ?, ten_hang_muc = ?, ngay = ?, mo_ta = ? WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'chitieu'",
-            [
-              mataikhoannguonmoi,
-              sotien,
-              "Chuyển đến tài khoản " + tentaikhoandichmoi,
-              ngay,
-              mota,
-              machuyenkhoan
-            ],
-            (tx, results) => {
-              tx.executeSql(
-                "UPDATE taikhoan set so_tien = ? where ma_tai_khoan like ?",
-                [sotientrongvinguon, mataikhoannguon],
-                (tx, results) => {
-                  tx.executeSql(
-                    "UPDATE taikhoan set so_tien = ? where ma_tai_khoan like ?",
-                    [sotientrongvinguonmoi, mataikhoannguonmoi]
-                  );
-                }
-              );
-            }
-          );
-        });
-      } else {
-        sotientrongvinguon = sotientrongvinguon + sotiencu - sotien;
-        sotientrongvinguonmoi = sotientrongvinguon;
-        db.transaction(function(tx) {
-          tx.executeSql(
-            "UPDATE chitieu SET so_tien = ?, ten_hang_muc = ?, ngay = ?, mo_ta = ? WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'chitieu'",
-            [
-              sotien,
-              "Chuyển đến tài khoản " + tentaikhoandichmoi,
-              ngay,
-              mota,
-              machuyenkhoan
-            ],
-            (tx, results) => {
-              tx.executeSql(
-                "UPDATE taikhoan set so_tien = ? where ma_tai_khoan like ?",
-                [sotientrongvinguonmoi, mataikhoannguonmoi]
-              );
-            }
-          );
-        });
+      if (mataikhoannguoncu == mataikhoannguonmoi) {
+        sotientrongvinguonmoi = sotientrongvinguoncu + sotiencu + phickcu;
       }
-
-      // Update thu nhập
-      if (mataikhoandich != mataikhoandichmoi) {
-        sotientrongvidich = sotientrongvidich - sotiencu;
-        sotientrongvidichmoi = sotientrongvidichmoi + sotien;
-        db.transaction(function(tx) {
-          tx.executeSql(
-            "UPDATE thunhap SET ma_tai_khoan = ?, so_tien = ?, ten_hang_muc = ?, ngay = ?, mo_ta = ? WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'thunhap'",
-            [
-              mataikhoandichmoi,
-              sotien,
-              "Nhận từ tài khoản " + tentaikhoannguonmoi,
-              ngay,
-              mota,
-              machuyenkhoan
-            ],
-            (tx, results) => {
-              tx.executeSql(
-                "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                [sotientrongvidich, mataikhoandich],
-                (tx, results) => {
-                  tx.executeSql(
-                    "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                    [sotientrongvidichmoi, mataikhoandichmoi]
-                  );
-                }
-              );
-            }
-          );
-        });
-      } else {
-        sotientrongvidich = sotientrongvidich - sotiencu + sotien;
-        sotientrongvidichmoi = sotientrongvidich;
-        db.transaction(function(tx) {
-          tx.executeSql(
-            "UPDATE thunhap SET so_tien = ?, ten_hang_muc = ?, ngay = ?, mo_ta = ? WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'thunhap'",
-            [
-              sotien,
-              "Nhận từ tài khoản " + tentaikhoannguonmoi,
-              ngay,
-              mota,
-              machuyenkhoan
-            ],
-            (tx, results) => {
-              tx.executeSql(
-                "UPDATE taikhoan set so_tien = ? where ma_tai_khoan like ?",
-                [sotientrongvidichmoi, mataikhoandichmoi]
-              );
-            }
-          );
-        });
+      if (mataikhoandichcu == mataikhoandichmoi) {
+        sotientrongvidichmoi = sotientrongvidichcu - sotiencu;
       }
-
-      // Phí chuyển khoản
-      if (phickmoi == "") {
-        phickmoi = 0;
+      if (
+        mataikhoannguoncu == mataikhoandichmoi &&
+        mataikhoandichcu == mataikhoannguonmoi
+      ) {
+        sotientrongvinguonmoi = sotientrongvinguonmoi - sotiencu;
+        sotientrongvidichmoi = sotientrongvidichmoi + sotiencu;
       }
-      console.log(
-        "aaaaa",
-        sotientrongvinguon,
-        sotientrongvinguonmoi,
-        sotientrongvidich,
-        sotientrongvidichmoi,
-        phickcu,
-        phickmoi
-      );
-      if (phickcu == 0 && phickmoi != 0) {
-        // Lúc trước không có phí chuyển khoản => Giờ có phí chuyển khoản
-        // => INSETRT chitieu
-        console.log("phickcu == 0 && phickmoi != 0");
-        let machitieuck = "";
-        machitieuck = await this.phatSinhMaChiTieu();
-        db.transaction(function(tx) {
-          tx.executeSql(
-            "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-            [
-              machitieuck,
-              mataikhoannguonmoi,
-              phickmoi,
-              "hmc0004",
-              "Phí chuyển khoản từ " +
-                tentaikhoannguonmoi +
-                " đến " +
-                tentaikhoandichmoi,
-              "credit-card",
-              ngay,
-              mota,
-              machuyenkhoan,
-              "chuyenkhoan",
-              "phi"
-            ],
-            (tx, results) => {
-              tx.executeSql(
-                "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                [sotientrongvinguonmoi - phickmoi, mataikhoannguonmoi]
-              );
-            }
-          );
-        });
-      } else if (phickcu != 0 && phickmoi == 0) {
-        console.log("phickcu != 0 && phickmoi == 0");
-        // Lúc trước có phí chuyển khoản => Giờ không có phí chuyển khoản
-        // => DELETE chitieu
-        db.transaction(function(tx) {
-          tx.executeSql(
-            "DELETE FROM chitieu WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'phi'",
-            [machuyenkhoan],
-            (tx, results) => {
-              tx.executeSql(
-                "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                [sotientrongvinguon + phickcu, mataikhoannguon]
-              );
-            }
-          );
-        });
-      } else if (phickcu == phickmoi) {
-        if (mataikhoannguon == mataikhoannguonmoi) {
-          console.log(
-            "phickcu == phickmoi && mataikhoannguon == mataikhoannguonmoi"
-          );
-          // Không cần làm gì
-        } else {
-          // DELETE phí ck bên tài khoản nguồn cũ, INSERT phí ck mới bên tài khoản mới
-          console.log(
-            "phickcu == phickmoi && mataikhoannguon != mataikhoannguonmoi"
-          );
-          let machitieuck = "";
-          machitieuck = await this.phatSinhMaChiTieu();
-          db.transaction(function(tx) {
+      // Trả về giá trị ban đầu
+      db.transaction(function(tx) {
+        tx.executeSql(
+          "DELETE FROM chitieu WHERE ma_chuyen_khoan like ?",
+          [machuyenkhoan],
+          (tx, reults) => {
             tx.executeSql(
-              "DELETE FROM chitieu WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'phi'",
+              "DELETE FROM thunhap WHERE ma_chuyen_khoan like ?",
               [machuyenkhoan],
-              (tx, results) => {
-                console.log("test", sotientrongvinguon + phickcu);
+              (tx, reults) => {
                 tx.executeSql(
-                  "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                  [sotientrongvinguon + phickcu, mataikhoannguon],
-                  (tx, results) => {
-                    if (phickmoi != 0) {
-                      tx.executeSql(
-                        "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                        [
-                          machitieuck,
-                          mataikhoannguonmoi,
-                          phickmoi,
-                          "hmc0004",
-                          "Phí chuyển khoản từ " +
-                            tentaikhoannguonmoi +
-                            " đến " +
-                            tentaikhoandichmoi,
-                          "credit-card",
-                          ngay,
-                          mota,
-                          machuyenkhoan,
-                          "chuyenkhoan",
-                          "phi"
-                        ],
-                        (tx, results) => {
-                          tx.executeSql(
-                            "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                            [
-                              sotientrongvinguonmoi - phickmoi,
-                              mataikhoannguonmoi
-                            ]
-                          );
-                        }
-                      );
-                    }
+                  "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
+                  [
+                    sotientrongvinguoncu + sotiencu + phickcu,
+                    mataikhoannguoncu
+                  ],
+                  (tx, reults) => {
+                    tx.executeSql(
+                      "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
+                      [sotientrongvidichcu - sotiencu, mataikhoandichcu],
+                      (tx, reults) => {
+                        tx.executeSql(
+                          "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                          [
+                            machitieu,
+                            mataikhoannguonmoi,
+                            sotienmoi,
+                            "hcm0004",
+                            "Chuyển đến tài khoản " + tentaikhoandichmoi,
+                            "credit-card",
+                            ngay,
+                            mota,
+                            machuyenkhoan,
+                            "chuyenkhoan",
+                            "chitieu"
+                          ],
+                          (tx, reults) => {
+                            tx.executeSql(
+                              "INSERT INTO thunhap(ma_thu_nhap, ma_tai_khoan, so_tien, ma_hang_muc_thu, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                              [
+                                mathunhap,
+                                mataikhoandichmoi,
+                                sotienmoi,
+                                "hcm0003",
+                                "Nhận từ tài khoản " + tentaikhoannguonmoi,
+                                "credit-card",
+                                ngay,
+                                mota,
+                                machuyenkhoan,
+                                "chuyenkhoan",
+                                "thunhap"
+                              ],
+                              (tx, reults) => {
+                                if (phickmoi != 0) {
+                                  tx.executeSql(
+                                    "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+                                    [
+                                      maphick,
+                                      mataikhoannguonmoi,
+                                      phickmoi,
+                                      "hmc0004",
+                                      "Phí chuyển khoản từ " +
+                                        tentaikhoannguonmoi +
+                                        " đến " +
+                                        tentaikhoandichmoi,
+                                      "credit-card",
+                                      ngay,
+                                      mota,
+                                      machuyenkhoan,
+                                      "chuyenkhoan",
+                                      "phi"
+                                    ]
+                                  );
+                                }
+                                tx.executeSql(
+                                  "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
+                                  [
+                                    sotientrongvinguonmoi -
+                                      sotienmoi -
+                                      phickmoi,
+                                    mataikhoannguonmoi
+                                  ],
+                                  (tx, reults) => {
+                                    tx.executeSql(
+                                      "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
+                                      [
+                                        sotientrongvidichmoi + sotienmoi,
+                                        mataikhoandichmoi
+                                      ]
+                                    );
+                                  }
+                                );
+                              }
+                            );
+                          }
+                        );
+                      }
+                    );
                   }
                 );
               }
             );
-          });
-        }
-      } else {
-        // Thay đổi phí chuyển khoản
-        if (mataikhoannguon == mataikhoannguonmoi) {
-          console.log("thay doi && mataikhoannguon == mataikhoannguonmoi");
-          db.transaction(function(tx) {
-            tx.executeSql(
-              "UPDATE chitieu SET so_tien = ?, ten_hang_muc = ?, ngay = ?, mo_ta = ? WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'phi'",
-              [
-                phickmoi,
-                "Phí chuyển khoản từ " +
-                  tentaikhoannguon +
-                  " đến " +
-                  tentaikhoandichmoi,
-                ngay,
-                mota,
-                machuyenkhoan
-              ],
-              (tx, results) => {
-                tx.executeSql(
-                  "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
-                  [sotientrongvinguon + phickcu - phickmoi, mataikhoannguon]
-                );
-              }
-            );
-          });
-        } else {
-          console.log("thay doi && mataikhoannguon != mataikhoannguonmoi");
-          let machitieuck = "";
-          machitieuck = await this.phatSinhMaChiTieu();
-          db.transaction(function(tx) {
-            tx.executeSql(
-              "DELETE FROM chitieu WHERE ma_chuyen_khoan like ? AND loai_chuyen_khoan like 'phi'",
-              [machuyenkhoan],
-              (tx, results) => {
-                tx.executeSql(
-                  "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
-                  [sotientrongvinguon + phickcu, mataikhoannguon],
-                  (tx, results) => {
-                    if (phickmoi != 0) {
-                      tx.executeSql(
-                        "INSERT INTO chitieu(ma_chi_tieu, ma_tai_khoan, so_tien, ma_hang_muc_chi, ten_hang_muc, icon_hang_muc, ngay, mo_ta, ma_chuyen_khoan, loai, loai_chuyen_khoan) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                        [
-                          machitieuck,
-                          mataikhoannguonmoi,
-                          phickmoi,
-                          "hmc0004",
-                          "Phí chuyển khoản từ " +
-                            tentaikhoannguonmoi +
-                            " đến " +
-                            tentaikhoandichmoi,
-                          "credit-card",
-                          ngay,
-                          mota,
-                          machuyenkhoan,
-                          "chuyenkhoan",
-                          "phi"
-                        ],
-                        (tx, results) => {
-                          tx.executeSql(
-                            "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-                            [
-                              sotientrongvinguonmoi - phickmoi,
-                              mataikhoannguonmoi
-                            ]
-                          );
-                        }
-                      );
-                    }
-                  }
-                );
-              }
-            );
-          });
-        }
-      }
+          }
+        );
+      });
     }
   }
 

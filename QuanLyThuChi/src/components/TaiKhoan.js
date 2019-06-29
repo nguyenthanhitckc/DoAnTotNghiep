@@ -31,13 +31,13 @@ export default class TaiKhoan extends Component {
     this.formatMoney = this.formatMoney.bind(this);
   }
   componentDidMount() {
-    this.setState({
-      taiKhoanDangSuDung: [],
-      taiKhoanNgungSuDung: [],
-      tongTienTaiKhoanDangSuDung: 0,
-      tongTienTaiKhoanNgungSuDung: 0
-    });
     this.props.navigation.addListener("didFocus", payload => {
+      this.setState({
+        taiKhoanDangSuDung: [],
+        taiKhoanNgungSuDung: [],
+        tongTienTaiKhoanDangSuDung: 0,
+        tongTienTaiKhoanNgungSuDung: 0
+      });
       let taiKhoanDangSuDung = [];
       let taiKhoanNgungSuDung = [];
       let tongTienTaiKhoanDangSuDung = 0;
@@ -47,28 +47,32 @@ export default class TaiKhoan extends Component {
           "SELECT * FROM taikhoan WHERE dang_su_dung like 'y' and xoa like 'n'",
           [],
           (tx, results) => {
-            var len = results.rows.length;
+            let len = results.rows.length;
             for (let i = 0; i < len; i++) {
               let row = results.rows.item(i);
               tongTienTaiKhoanDangSuDung += row.so_tien;
               taiKhoanDangSuDung.push(row);
             }
-            tx.executeSql(
-              "SELECT * FROM taikhoan WHERE dang_su_dung like 'n' and xoa like 'n'",
-              [],
-              (tx, results) => {
-                var len = results.rows.length;
-                for (let i = 0; i < len; i++) {
-                  let row = results.rows.item(i);
-                  tongTienTaiKhoanNgungSuDung += row.so_tien;
-                  taiKhoanNgungSuDung.push(row);
-                }
-              }
-            );
+            this.setState({
+              taiKhoanDangSuDung: taiKhoanDangSuDung,
+              tongTienTaiKhoanDangSuDung: tongTienTaiKhoanDangSuDung
+            });
+          }
+        );
+      });
+      db.transaction(tx => {
+        tx.executeSql(
+          "SELECT * FROM taikhoan WHERE dang_su_dung like 'n' and xoa like 'n'",
+          [],
+          (tx, results) => {
+            var len = results.rows.length;
+            for (let i = 0; i < len; i++) {
+              let row = results.rows.item(i);
+              tongTienTaiKhoanNgungSuDung += row.so_tien;
+              taiKhoanNgungSuDung.push(row);
+            }
             this.setState({
               taiKhoanNgungSuDung: taiKhoanNgungSuDung,
-              taiKhoanDangSuDung: taiKhoanDangSuDung,
-              tongTienTaiKhoanDangSuDung: tongTienTaiKhoanDangSuDung,
               tongTienTaiKhoanNgungSuDung: tongTienTaiKhoanNgungSuDung
             });
           }
@@ -87,6 +91,7 @@ export default class TaiKhoan extends Component {
 
   render() {
     const { navigation } = this.props;
+    console.log(this.state);
     return (
       <Container>
         <Header style={styles.header}>
@@ -113,7 +118,7 @@ export default class TaiKhoan extends Component {
                   color:
                     this.state.tongTienTaiKhoanDangSuDung +
                       this.state.tongTienTaiKhoanNgungSuDung >=
-                      0
+                    0
                       ? "black"
                       : "red"
                 }}
@@ -121,7 +126,7 @@ export default class TaiKhoan extends Component {
                 Tổng tiền:{" "}
                 {this.formatMoney(
                   this.state.tongTienTaiKhoanDangSuDung +
-                  this.state.tongTienTaiKhoanNgungSuDung
+                    this.state.tongTienTaiKhoanNgungSuDung
                 )}
                 đ
               </Text>
@@ -144,7 +149,14 @@ export default class TaiKhoan extends Component {
               <CardItem
                 key={i}
                 button
-                onPress={() => { navigation.navigate('GhiChepCuaTaiKhoan', { ma_tai_khoan: item.ma_tai_khoan, so_tien: item.so_tien, so_du_ban_dau: item.so_du_ban_dau, ten_tai_khoan: item.ten_tai_khoan }) }}
+                onPress={() => {
+                  navigation.navigate("GhiChepCuaTaiKhoan", {
+                    ma_tai_khoan: item.ma_tai_khoan,
+                    so_tien: item.so_tien,
+                    so_du_ban_dau: item.so_du_ban_dau,
+                    ten_tai_khoan: item.ten_tai_khoan
+                  });
+                }}
                 onLongPress={() =>
                   navigation.navigate("ChinhSuaTaiKhoan", {
                     ma_tai_khoan: item.ma_tai_khoan,
@@ -195,7 +207,14 @@ export default class TaiKhoan extends Component {
               <CardItem
                 key={i}
                 button
-                onPress={() => { navigation.navigate('GhiChepCuaTaiKhoan', { ma_tai_khoan: item.ma_tai_khoan, so_tien: item.so_tien, so_du_ban_dau: item.so_du_ban_dau, ten_tai_khoan: item.ten_tai_khoan }) }}
+                onPress={() => {
+                  navigation.navigate("GhiChepCuaTaiKhoan", {
+                    ma_tai_khoan: item.ma_tai_khoan,
+                    so_tien: item.so_tien,
+                    so_du_ban_dau: item.so_du_ban_dau,
+                    ten_tai_khoan: item.ten_tai_khoan
+                  });
+                }}
                 onLongPress={() =>
                   navigation.navigate("ChinhSuaTaiKhoan", {
                     ma_tai_khoan: item.ma_tai_khoan,
@@ -236,7 +255,7 @@ export default class TaiKhoan extends Component {
           </Card>
         </Content>
         <MyFooter navigation={this.props.navigation} />
-      </Container >
+      </Container>
     );
   }
 }
