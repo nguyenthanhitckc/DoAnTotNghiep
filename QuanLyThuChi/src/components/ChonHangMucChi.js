@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions } from "react-native";
+import { Text, StyleSheet, Dimensions, Image } from "react-native";
 import {
   Button,
   Body,
@@ -15,7 +15,6 @@ import {
   Right
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
-import MateIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import db from "../../connectionDB";
 
 // Const & Variable:
@@ -25,8 +24,7 @@ export default class ChonHangMucChi extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      danhMucChi: [],
-      soHangMuc: 0
+      danhMucChi: []
     };
   }
   // Function
@@ -35,7 +33,6 @@ export default class ChonHangMucChi extends Component {
     db.transaction(tx => {
       tx.executeSql("SELECT * FROM hangmucchi", [], (tx, results) => {
         var len = results.rows.length;
-        this.setState({ soHangMuc: len });
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
           array.push(row);
@@ -48,6 +45,7 @@ export default class ChonHangMucChi extends Component {
     const { navigation } = this.props;
     const { params } = this.props.navigation.state;
     const { goBack } = this.props.navigation;
+    console.log(this.state.danhMucChi);
     return (
       <Container>
         <Header style={styles.header}>
@@ -89,9 +87,13 @@ export default class ChonHangMucChi extends Component {
                 style={styles.buttonCardItem}
               >
                 <Left style={{ flex: 1 }}>
-                  <MateIcon
-                    name={item.icon}
-                    style={{ fontSize: 18, color: "white" }}
+                  <Image
+                    source={{ uri: item.icon }}
+                    style={{
+                      borderRadius: 32,
+                      width: 40,
+                      height: 40
+                    }}
                   />
                 </Left>
                 <Body style={{ flex: 8 }}>

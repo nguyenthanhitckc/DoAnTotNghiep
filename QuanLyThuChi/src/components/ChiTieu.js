@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Text, StyleSheet, Dimensions, Alert, Image } from "react-native";
 import {
   Button,
   Body,
@@ -31,7 +31,7 @@ export default class ChiTieu extends React.Component {
     super(props);
     this.state = {
       soTien: "0",
-      iconHangMuc: "comment-question",
+      iconHangMuc: "",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "",
@@ -237,6 +237,7 @@ export default class ChiTieu extends React.Component {
   render() {
     const { navigation } = this.props;
     const { params } = this.props.navigation.state;
+    console.log("aaaa", this.state.iconHangMuc);
     return (
       <Container>
         <Header style={styles.header}>
@@ -291,7 +292,16 @@ export default class ChiTieu extends React.Component {
               style={styles.cardItem}
             >
               <Left style={{ flex: 1 }}>
-                <MateIcon name={this.state.iconHangMuc} style={styles.icon} />
+                {/* <MateIcon name={this.state.iconHangMuc} style={styles.icon} /> */}
+                <Image
+                  source={{ uri: this.state.iconHangMuc }}
+                  style={{
+                    borderRadius: 20,
+                    width: 40,
+                    height: 40,
+                    backgroundColor: "grey"
+                  }}
+                />
               </Left>
               <Body style={{ flex: 8 }}>
                 <Text style={styles.textContent}>{this.state.tenHangMuc}</Text>

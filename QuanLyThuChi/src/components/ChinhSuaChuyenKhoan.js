@@ -489,7 +489,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                             machitieu,
                             mataikhoannguonmoi,
                             sotienmoi,
-                            "hcm0004",
+                            "hmc0014",
                             "Chuyển đến tài khoản " + tentaikhoandichmoi,
                             "credit-card",
                             ngay,
@@ -505,7 +505,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                                 mathunhap,
                                 mataikhoandichmoi,
                                 sotienmoi,
-                                "hcm0003",
+                                "hmt0007",
                                 "Nhận từ tài khoản " + tentaikhoannguonmoi,
                                 "credit-card",
                                 ngay,
@@ -522,7 +522,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                                       maphick,
                                       mataikhoannguonmoi,
                                       phickmoi,
-                                      "hmc0004",
+                                      "hmc0014",
                                       "Phí chuyển khoản từ " +
                                         tentaikhoannguonmoi +
                                         " đến " +

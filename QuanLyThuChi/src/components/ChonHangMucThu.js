@@ -24,8 +24,7 @@ export default class ChonHangMucThu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      danhMucThu: [],
-      soHangMuc: 0
+      danhMucThu: []
     };
   }
 
@@ -35,7 +34,6 @@ export default class ChonHangMucThu extends Component {
     db.transaction(tx => {
       tx.executeSql("SELECT * FROM hangmucthu", [], (tx, results) => {
         var len = results.rows.length;
-        this.setState({ soHangMuc: len });
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
           array.push(row);

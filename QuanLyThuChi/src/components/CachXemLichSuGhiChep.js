@@ -84,7 +84,7 @@ const TuyChon = () => (
     </Content>
   </Content>
 );
-export default class GhiChepCuaTaiKhoan extends React.Component {
+export default class CachXemLichSuGhiChep extends React.Component {
   state = {
     index: 0,
     routes: [

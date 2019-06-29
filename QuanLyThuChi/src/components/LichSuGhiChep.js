@@ -19,7 +19,7 @@ import db from "../../connectionDB";
 
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
-export default class GhiChepCuaTaiKhoan extends React.Component {
+export default class LichSuGhiChep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {

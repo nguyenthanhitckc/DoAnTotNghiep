@@ -16,7 +16,7 @@ import MyFooter from "./../MyFooter";
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
 
-export default class KHAC extends Component {
+export default class Khac extends Component {
   render() {
     return (
       <Container>

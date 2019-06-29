@@ -9,6 +9,8 @@ import {
   Container,
   Content,
   Header,
+  Input,
+  InputGroup,
   Left,
   Right
 } from "native-base";
@@ -20,13 +22,15 @@ import db from "../../connectionDB";
 const { height, width } = Dimensions.get("window");
 // var db;
 
-export default class ChonHangMucChi extends Component {
+export default class ChiChoAi extends Component {
   constructor(props) {
     super(props);
     this.state = {
       danhSachChi: [],
-      soNguoiChi: 0
+      nguoiChiMoi: ""
     };
+    this.ThemNguoiChiMoi = this.ThemNguoiChiMoi.bind(this);
+    this.TaoMaNguoiChi = this.TaoMaNguoiChi.bind(this);
   }
 
   componentDidMount() {
@@ -34,7 +38,6 @@ export default class ChonHangMucChi extends Component {
     db.transaction(tx => {
       tx.executeSql("SELECT * FROM danhsachchi", [], (tx, results) => {
         var len = results.rows.length;
-        this.setState({ soNguoiChi: len });
         for (let i = 0; i < len; i++) {
           let row = results.rows.item(i);
           array.push(row);
@@ -43,6 +46,63 @@ export default class ChonHangMucChi extends Component {
       });
     });
   }
+
+  TaoMaNguoiChi() {
+    let query = "SELECT * FROM danhsachchi;";
+    return new Promise((resolve, reject) =>
+      db.transaction(tx => {
+        tx.executeSql(
+          query,
+          [],
+          (tx, results) => {
+            var soDong = results.rows.length;
+            if (soDong == 0) {
+              resolve("nc0001");
+            } else {
+              let soHienTai;
+              let data;
+              let maCT = "nc";
+              db.transaction(tx => {
+                tx.executeSql(
+                  "SELECT ma_nguoi_chi FROM danhsachchi WHERE ma_nguoi_chi like (SELECT MAX(ma_nguoi_chi) FROM danhsachchi)",
+                  [],
+                  (tx, results) => {
+                    data = results.rows.item(0).ma_nguoi_chi;
+                    soHienTai = parseInt(data.slice(2, 6), 10) + 1;
+                    let str = "" + soHienTai;
+                    let pad = "0000";
+                    maCT =
+                      maCT + pad.substring(0, pad.length - str.length) + str;
+                    resolve(maCT);
+                  }
+                );
+              });
+            }
+          },
+          function(tx, error) {
+            reject(error);
+          }
+        );
+      })
+    );
+  }
+
+  async ThemNguoiChiMoi() {
+    const { params } = this.props.navigation.state;
+    const { goBack } = this.props.navigation;
+    let ma_nguoi_chi = "";
+    ma_nguoi_chi = await this.TaoMaNguoiChi();
+    let ten_nguoi_chi = this.state.nguoiChiMoi;
+    db.transaction(function(tx) {
+      tx.executeSql("INSERT INTO danhsachchi(ma_nguoi_chi, ten) VALUES(?, ?)", [
+        ma_nguoi_chi,
+        ten_nguoi_chi
+      ]);
+      params.returnDataNguoiChi(ma_nguoi_chi, ten_nguoi_chi);
+      goBack();
+    });
+  }
+
   render() {
     const { navigation } = this.props;
     const { params } = this.props.navigation.state;
@@ -63,6 +123,29 @@ export default class ChonHangMucChi extends Component {
 
         <Content style={styles.content}>
           <Card style={styles.card}>
+            <CardItem>
+              <InputGroup borderType="underline">
+                <Icon name="user" style={styles.icon} />
+                <Input
+                  placeholder="Nhập người chi mới"
+                  style={{
+                    ...styles.input,
+                    color: "#3a455c",
+                    fontWeight: "bold"
+                  }}
+                  placeholderTextColor="red"
+                  keyboardType="default"
+                  onChangeText={nguoiChiMoi =>
+                    this.setState({ nguoiChiMoi: nguoiChiMoi })
+                  }
+                  value={this.state.nguoiChiMoi}
+                />
+                <Text style={styles.textContent}>đ</Text>
+              </InputGroup>
+              <Button transparent onPress={this.ThemNguoiChiMoi}>
+                <Icon name="check" style={styles.iconHeader} />
+              </Button>
+            </CardItem>
             {this.state.danhSachChi.map((item, i) => (
               <CardItem
                 key={i}
