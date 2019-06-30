@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Text, StyleSheet, Dimensions, Alert, Image } from "react-native";
 import {
   Button,
   Body,
@@ -29,7 +29,7 @@ export default class ThuNhapCopy extends React.Component {
     super(props);
     this.state = {
       soTien: "0",
-      iconHangMuc: "question-circle",
+      iconHangMuc: "",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "",
@@ -326,9 +326,14 @@ export default class ThuNhapCopy extends React.Component {
               }}
             >
               <Left style={{ flex: 1 }}>
-                <Icon
-                  name="question-circle"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                <Image
+                  source={{ uri: this.state.iconHangMuc }}
+                  style={{
+                    borderRadius: 20,
+                    width: 40,
+                    height: 40,
+                    backgroundColor: "grey"
+                  }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>

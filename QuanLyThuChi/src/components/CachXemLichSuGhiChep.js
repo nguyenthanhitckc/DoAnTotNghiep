@@ -16,7 +16,8 @@ import { TabView, SceneMap } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
 import MyFooter from "./../MyFooter";
-
+const { params } = this.props.navigation.state;
+const { goBack } = this.props.navigation;
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
 const Ngay = () => (
@@ -85,18 +86,23 @@ const TuyChon = () => (
   </Content>
 );
 export default class CachXemLichSuGhiChep extends React.Component {
-  state = {
-    index: 0,
-    routes: [
-      { key: "ngay", title: "Ngày" },
-      { key: "thang", title: "Tháng" },
-      { key: "quy", title: "Quý" },
-      { key: "tuychon", title: "Tùy chọn" }
-    ]
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      index: 0,
+      routes: [
+        { key: "ngay", title: "Ngày" },
+        { key: "thang", title: "Tháng" },
+        { key: "quy", title: "Quý" },
+        { key: "tuychon", title: "Tùy chọn" }
+      ]
+    };
+  }
+  static CachXem(value) {
+    console.log(value);
+  }
   render() {
     const { navigation } = this.props;
-    console.log(this.state.ghi_chep);
     return (
       <Container>
         <Header style={styles.header}>

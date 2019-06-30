@@ -292,7 +292,6 @@ export default class ChiTieu extends React.Component {
               style={styles.cardItem}
             >
               <Left style={{ flex: 1 }}>
-                {/* <MateIcon name={this.state.iconHangMuc} style={styles.icon} /> */}
                 <Image
                   source={{ uri: this.state.iconHangMuc }}
                   style={{

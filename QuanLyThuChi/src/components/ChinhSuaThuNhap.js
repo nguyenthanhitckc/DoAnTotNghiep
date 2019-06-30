@@ -1,9 +1,9 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Alert, Dimensions, Image, StyleSheet, Text } from "react-native";
 import {
-  Button,
   Body,
+  Button,
   Card,
   CardItem,
   Container,
@@ -376,7 +376,15 @@ export default class ChinhSuaThuNhap extends React.Component {
               style={styles.cardItem}
             >
               <Left style={{ flex: 1 }}>
-                <MateIcon name={this.state.iconHangMuc} style={styles.icon} />
+                <Image
+                  source={{ uri: this.state.iconHangMuc }}
+                  style={{
+                    borderRadius: 20,
+                    width: 40,
+                    height: 40,
+                    backgroundColor: "grey"
+                  }}
+                />
               </Left>
               <Body style={{ flex: 8 }}>
                 <Text style={styles.textContent}>{this.state.tenHangMuc}</Text>

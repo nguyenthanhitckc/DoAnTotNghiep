@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Text, StyleSheet, Dimensions, Alert, Image } from "react-native";
 import {
   Button,
   Body,
@@ -18,7 +18,6 @@ import {
   Right
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
-import MateIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import db from "../../connectionDB";
@@ -31,7 +30,7 @@ export default class ChiTieuCopy extends React.Component {
     super(props);
     this.state = {
       soTien: "",
-      iconHangMuc: "comment-question",
+      iconHangMuc: "",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "",
@@ -303,7 +302,15 @@ export default class ChiTieuCopy extends React.Component {
               style={styles.cardItem}
             >
               <Left style={{ flex: 1 }}>
-                <MateIcon name={this.state.iconHangMuc} style={styles.icon} />
+                <Image
+                  source={{ uri: this.state.iconHangMuc }}
+                  style={{
+                    borderRadius: 20,
+                    width: 40,
+                    height: 40,
+                    backgroundColor: "grey"
+                  }}
+                />
               </Left>
               <Body style={{ flex: 8 }}>
                 <Text style={styles.textContent}>{this.state.tenHangMuc}</Text>

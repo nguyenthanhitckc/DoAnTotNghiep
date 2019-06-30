@@ -1,6 +1,13 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert, Platform } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Dimensions,
+  Alert,
+  Platform,
+  Image
+} from "react-native";
 import {
   Button,
   Body,
@@ -33,7 +40,7 @@ export default class DieuChinhSoDu extends React.Component {
       soTienTrongVi: 0,
       soDu: "0",
       loaiDieuChinh: "",
-      iconHangMuc: "question-circle",
+      iconHangMuc: "",
       hangMuc: "",
       tenHangMuc: "Chọn hạng mục",
       moTa: "Điều chỉnh số dư tài khoản",
@@ -599,9 +606,14 @@ export default class DieuChinhSoDu extends React.Component {
               }}
             >
               <Left style={{ flex: 1 }}>
-                <Icon
-                  name={this.state.iconHangMuc}
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                <Image
+                  source={{ uri: this.state.iconHangMuc }}
+                  style={{
+                    borderRadius: 20,
+                    width: 40,
+                    height: 40,
+                    backgroundColor: "grey"
+                  }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>

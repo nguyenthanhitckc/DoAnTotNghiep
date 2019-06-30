@@ -1,9 +1,9 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Alert, Dimensions, Image, StyleSheet, Text } from "react-native";
 import {
-  Button,
   Body,
+  Button,
   Card,
   CardItem,
   Container,
@@ -30,22 +30,22 @@ export default class ChinhSuaChiTieu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      maChiTieu: "",
-      soTien: "0",
-      soTienSuaDoi: "0",
-      iconHangMuc: "comment-question",
       hangMuc: "",
-      tenHangMuc: "Chọn hạng mục",
+      iconHangMuc: "",
+      isDateTimePickerVisible: false,
+      maChiTieu: "",
       moTa: "",
       ngayChi: new Date(),
-      taiKhoan: "",
-      tenTaiKhoan: "Chọn tài khoản",
-      taiKhoanMoi: "",
       nguoiChi: "",
-      tenNguoiChi: "Chi cho ai",
+      soTien: "0",
+      soTienSuaDoi: "0",
       soTienTrongVi: 0,
       soTienTrongViMoi: 0,
-      isDateTimePickerVisible: false
+      taiKhoan: "",
+      taiKhoanMoi: "",
+      tenHangMuc: "Chọn hạng mục",
+      tenNguoiChi: "Chi cho ai",
+      tenTaiKhoan: "Chọn tài khoản"
     };
     this.buttonOnClick = this.buttonOnClick.bind(this);
     this.formatMoney = this.formatMoney.bind(this);
@@ -376,7 +376,15 @@ export default class ChinhSuaChiTieu extends React.Component {
               style={styles.cardItem}
             >
               <Left style={{ flex: 1 }}>
-                <MateIcon name={this.state.iconHangMuc} style={styles.icon} />
+                <Image
+                  source={{ uri: this.state.iconHangMuc }}
+                  style={{
+                    borderRadius: 20,
+                    width: 40,
+                    height: 40,
+                    backgroundColor: "grey"
+                  }}
+                />
               </Left>
               <Body style={{ flex: 8 }}>
                 <Text style={styles.textContent}>{this.state.tenHangMuc}</Text>

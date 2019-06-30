@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Platform } from "react-native";
+import { Text, StyleSheet, Dimensions, Platform, Image } from "react-native";
 import {
   Button,
   Body,
@@ -79,9 +79,14 @@ export default class ChonHangMucThu extends Component {
                 style={styles.buttonCardItem}
               >
                 <Left style={{ flex: 1 }}>
-                  <MateIcon
-                    name={item.icon}
-                    style={{ fontSize: 18, color: "white" }}
+                  <Image
+                    source={{ uri: item.icon }}
+                    style={{
+                      borderRadius: 20,
+                      width: 40,
+                      height: 40,
+                      backgroundColor: "grey"
+                    }}
                   />
                 </Left>
                 <Body style={{ flex: 8 }}>
