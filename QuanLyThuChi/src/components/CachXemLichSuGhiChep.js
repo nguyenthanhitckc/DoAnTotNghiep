@@ -16,93 +16,45 @@ import { TabView, SceneMap } from "react-native-tab-view";
 import Icon from "react-native-vector-icons/FontAwesome";
 import moment from "moment";
 import MyFooter from "./../MyFooter";
-const { params } = this.props.navigation.state;
-const { goBack } = this.props.navigation;
+import DateTimePicker from "react-native-modal-datetime-picker";
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
-const Ngay = () => (
-  <Content>
-    <Button light full>
-      <Text light>Ngày này</Text>
-    </Button>
 
-    <Button light full>
-      <Text light>Ngày trước</Text>
-    </Button>
-
-    <Button light full>
-      <Text light>Tự chọn</Text>
-    </Button>
-  </Content>
-);
-
-const Thang = () => (
-  <Content>
-    <Button light full>
-      <Text light>Tháng này</Text>
-    </Button>
-
-    <Button light full>
-      <Text light>Tháng trước</Text>
-    </Button>
-
-    <Button light full>
-      <Text light>Tự chọn</Text>
-    </Button>
-  </Content>
-);
-const Quy = () => (
-  <Content>
-    <Content>
-      <Button light full>
-        <Text light>Quý 1</Text>
-      </Button>
-
-      <Button light full>
-        <Text light>Quý 2</Text>
-      </Button>
-
-      <Button light full>
-        <Text light>Quý 3</Text>
-      </Button>
-
-      <Button light full>
-        <Text light>Quý 4</Text>
-      </Button>
-    </Content>
-  </Content>
-);
-const TuyChon = () => (
-  <Content>
-    <Content>
-      <Button light full>
-        <Text light>Từ ngày</Text>
-      </Button>
-
-      <Button light full>
-        <Text light>Đến ngày</Text>
-      </Button>
-    </Content>
-  </Content>
-);
 export default class CachXemLichSuGhiChep extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      index: 0,
-      routes: [
-        { key: "ngay", title: "Ngày" },
-        { key: "thang", title: "Tháng" },
-        { key: "quy", title: "Quý" },
-        { key: "tuychon", title: "Tùy chọn" }
-      ]
+      canh_xem: "",
+      ngay: new Date(),
+      quy: "",
+      tu_ngay: "",
+      den_ngay: "",
+      isDateTimePickerVisible: false
     };
   }
-  static CachXem(value) {
-    console.log(value);
-  }
+
+  confirmDateTimePicker = datetime => {
+    const { params } = this.props.navigation.state;
+    const { goBack } = this.props.navigation;
+    this.setState({ isDateTimePickerVisible: false });
+    this.setState({ ngay: datetime });
+    params.returnDataCachXem(
+      "Ngày",
+      moment(new Date(this.state.ngay).format("YYYY/MM/DD")),
+      this.state.quy,
+      this.state.tu_ngay,
+      this.state.den_ngay
+    );
+    goBack();
+  };
+
+  hideDateTimePicker = datetime => {
+    this.setState({ isDateTimePickerVisible: false });
+  };
+
   render() {
-    const { navigation } = this.props;
+    const { params } = this.props.navigation.state;
+    const { goBack } = this.props.navigation;
     return (
       <Container>
         <Header style={styles.header}>
@@ -110,17 +62,127 @@ export default class CachXemLichSuGhiChep extends React.Component {
         </Header>
 
         <Content>
-          <TabView
-            navigationState={this.state}
-            renderScene={SceneMap({
-              ngay: Ngay,
-              thang: Thang,
-              quy: Quy,
-              tuychon: TuyChon
-            })}
-            onIndexChange={index => this.setState({ index })}
-            initialLayout={{ width: Dimensions.get("window").width }}
-          />
+          <Card>
+            <DateTimePicker
+              isVisible={this.state.isDateTimePickerVisible}
+              onConfirm={this.confirmDateTimePicker}
+              onCancel={this.hideDateTimePicker}
+              mode={"datetime"}
+              is24Hour={true}
+              titleIOS={"Chọn ngày"}
+              titleStyle={{ color: "#3a455c", fontSize: 20 }}
+              locale={"vie"}
+              customConfirmButtonIOS={
+                <Text style={{ ...styles.textContent, textAlign: "center" }}>
+                  Xác nhận
+                </Text>
+              }
+              cancelTextIOS={"Hủy"}
+            />
+            <CardItem style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#3a455c"
+                }}
+              >
+                NGÀY
+              </Text>
+              <Button
+                full
+                transparent
+                onPress={() => {
+                  this.setState({
+                    ngay: moment(new Date()).format("YYYY/MM/DD")
+                  });
+                  params.returnDataCachXem(
+                    "Ngày",
+                    this.state.ngay,
+                    this.state.quy,
+                    this.state.tu_ngay,
+                    this.state.den_ngay
+                  );
+                  goBack();
+                }}
+              >
+                <Text>Ngày này</Text>
+              </Button>
+              <Button
+                full
+                transparent
+                onPress={() => {
+                  this.setState({
+                    ngay: moment(new Date())
+                      .subtract(1, "days")
+                      .format("YYYY/MM/DD")
+                  });
+                  params.returnDataCachXem(
+                    "Ngày",
+                    this.state.ngay,
+                    this.state.quy,
+                    this.state.tu_ngay,
+                    this.state.den_ngay
+                  );
+                  goBack();
+                }}
+              >
+                <Text>Ngày trước</Text>
+              </Button>
+              <Button
+                full
+                transparent
+                onPress={() => {
+                  this.setState({ isDateTimePickerVisible: true });
+                }}
+              >
+                <Text>Ngày khác</Text>
+              </Button>
+            </CardItem>
+            <CardItem style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#3a455c"
+                }}
+              >
+                THÁNG
+              </Text>
+              <Button full transparent>
+                <Text>Tháng này</Text>
+              </Button>
+              <Button full transparent>
+                <Text>Tháng trước</Text>
+              </Button>
+              <Button full transparent>
+                <Text>Tháng khác</Text>
+              </Button>
+            </CardItem>
+            <CardItem style={{ flexDirection: "column" }}>
+              <Text
+                style={{
+                  fontSize: 18,
+                  fontWeight: "bold",
+                  color: "#3a455c"
+                }}
+              >
+                QUÝ
+              </Text>
+              <Button full transparent>
+                <Text>Quý I</Text>
+              </Button>
+              <Button full transparent>
+                <Text>Quý II</Text>
+              </Button>
+              <Button full transparent>
+                <Text>Quý III</Text>
+              </Button>
+              <Button full transparent>
+                <Text>Quý IV</Text>
+              </Button>
+            </CardItem>
+          </Card>
         </Content>
 
         <MyFooter navigation={this.props.navigation} />

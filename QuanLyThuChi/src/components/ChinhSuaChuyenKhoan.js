@@ -603,11 +603,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>CHỈNH SỬA CHUYỂN KHOẢN</Text>
           </Body>
-          <Right style={{ flex: 2 }}>
-            <Button transparent onPress={this.buttonOnClick}>
-              <Icon name="check" style={{ color: "white", fontSize: 18 }} />
-            </Button>
-          </Right>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Content style={styles.content}>

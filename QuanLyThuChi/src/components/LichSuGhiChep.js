@@ -198,7 +198,7 @@ export default class LichSuGhiChep extends React.Component {
   returnDataCachXem(cach_xem, ngay, quy, tu_ngay, den_ngay) {
     this.setState({
       cach_xem: cach_xem,
-      ngay: ngay,
+      ngay: moment(new Date(ngay)).format("YYYY/MM/DD"),
       quy: quy,
       tu_ngay: tu_ngay,
       den_ngay: den_ngay

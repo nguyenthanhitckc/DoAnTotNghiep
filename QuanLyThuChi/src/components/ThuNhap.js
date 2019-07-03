@@ -324,7 +324,7 @@ export default class ThuNhap extends React.Component {
                     borderRadius: 20,
                     width: 40,
                     height: 40,
-                    backgroundColor: "grey"
+                    backgroundColor: "#b8b8b8"
                   }}
                 />
               </Left>

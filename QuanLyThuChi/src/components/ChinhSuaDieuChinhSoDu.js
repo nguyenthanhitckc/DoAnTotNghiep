@@ -31,23 +31,25 @@ import db from "../../connectionDB";
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
 
-export default class DieuChinhSoDu extends React.Component {
+export default class ChinhSuaDieuChinhSoDu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      soTienThucTe: "0",
-      soTienTaiKhoan: "0",
-      soDu: "0",
-      loaiDieuChinh: "",
-      iconHangMuc: "",
+      chenhLech: "Chênh lệch",
       hangMuc: "",
-      tenHangMuc: "Chọn hạng mục",
+      iconHangMuc: "",
+      isDateTimePickerVisible: false,
+      loaiDieuChinh: "",
+      maDieuChinh: "",
       moTa: "Điều chỉnh số dư tài khoản",
       ngayDieuChinh: new Date(),
-      taiKhoan: "",
-      tenTaiKhoan: "Chọn tài khoản",
-      chenhLech: "Chênh lệch",
-      isDateTimePickerVisible: false
+      soDuCu: "0",
+      soTienTaiKhoanCu: "0",
+      soTienThucTeCu: "0",
+      taiKhoanCu: "",
+      tenHangMuc: "Chọn hạng mục",
+      tenTaiKhoanCu: "Chọn tài khoản",
+      soTienTrongViCu: 0
     };
     this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
     this.showDateTimePicker = this.showDateTimePicker.bind(this);
@@ -55,13 +57,55 @@ export default class DieuChinhSoDu extends React.Component {
     this.formatMoney = this.formatMoney.bind(this);
     this.formatMoneySoTienTaiKhoan = this.formatMoneySoTienTaiKhoan.bind(this);
     this.formatMoneySoDu = this.formatMoneySoDu.bind(this);
-    this.phatSinhMaDieuChinh = this.phatSinhMaDieuChinh.bind(this);
     this.phatSinhMaChiTieu = this.phatSinhMaChiTieu.bind(this);
     this.phatSinhMaThuNhap = this.phatSinhMaThuNhap.bind(this);
+    this.XoaDieuChinh = this.XoaDieuChinh.bind(this);
+    this.formatMoneyTmp = this.formatMoneyTmp.bind(this);
   }
 
   // Function
-  componentDidMount() {}
+  componentDidMount() {
+    const { params } = this.props.navigation.state;
+    db.transaction(tx => {
+      tx.executeSql(
+        "SELECT * FROM dieuchinhsodu WHERE ma_dieu_chinh like ?",
+        [params.ma_dieu_chinh],
+        (tx, results) => {
+          let row = results.rows.item(0);
+          this.setState({
+            hangMuc: row.ma_hang_muc,
+            iconHangMuc: row.icon_hang_muc,
+            loaiDieuChinh: row.loai_dieu_chinh,
+            maDieuChinh: row.ma_dieu_chinh,
+            moTa: row.mo_ta,
+            ngayDieuChinh: row.ngay,
+            soDuCu: this.formatMoneyTmp(row.so_tien),
+            soTienTaiKhoanCu: this.formatMoneyTmp(row.so_tien_tren_ghi_chep),
+            soTienThucTeCu: this.formatMoneyTmp(row.so_tien_thuc_te),
+            taiKhoanCu: row.ma_tai_khoan,
+            tenHangMuc: row.ten_hang_muc
+          });
+          tx.executeSql(
+            "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
+            [this.state.taiKhoanCu],
+            (tx, results) => {
+              this.setState({
+                soTienTrongViCu: results.rows.item(0).so_tien,
+                tenTaiKhoanCu: results.rows.item(0).ten_tai_khoan
+              });
+            }
+          );
+        }
+      );
+    });
+  }
+
+  formatMoneyTmp(money) {
+    money += "";
+    var x = money.replace(/,/g, "");
+    var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+    return y;
+  }
 
   async formatMoney(money) {
     var x = money.replace(/,/g, "");
@@ -122,46 +166,6 @@ export default class DieuChinhSoDu extends React.Component {
   showDateTimePicker = () => {
     this.setState({ isDateTimePickerVisible: true });
   };
-
-  phatSinhMaDieuChinh() {
-    let query = "SELECT * FROM dieuchinhsodu;";
-    return new Promise((resolve, reject) =>
-      db.transaction(tx => {
-        tx.executeSql(
-          query,
-          [],
-          (tx, results) => {
-            var soDong = results.rows.length;
-            if (soDong == 0) {
-              resolve("dc0001");
-            } else {
-              let soHienTai;
-              let data;
-              let maDC = "dc";
-              db.transaction(tx => {
-                tx.executeSql(
-                  "SELECT ma_dieu_chinh FROM dieuchinhsodu WHERE ma_dieu_chinh like (SELECT MAX(ma_dieu_chinh) FROM dieuchinhsodu)",
-                  [],
-                  (tx, results) => {
-                    data = results.rows.item(0).ma_dieu_chinh;
-                    soHienTai = parseInt(data.slice(2, 6), 10) + 1;
-                    let str = "" + soHienTai;
-                    let pad = "0000";
-                    maDC =
-                      maDC + pad.substring(0, pad.length - str.length) + str;
-                    resolve(maDC);
-                  }
-                );
-              });
-            }
-          },
-          function(tx, error) {
-            reject(error);
-          }
-        );
-      })
-    );
-  }
 
   phatSinhMaThuNhap() {
     let query = "SELECT * FROM thunhap;";
@@ -299,8 +303,6 @@ export default class DieuChinhSoDu extends React.Component {
       let chenhlech = Number(moneyTmp);
       let sotienthucteTmp = this.state.soTienThucTe.replace(/,/g, "");
       let sotienthucte = Number(sotienthucteTmp);
-      let sotientrenghichepTmp = this.state.soTienTaiKhoan.replace(/,/g, "");
-      sotientrenghichep = Number(sotientrenghichepTmp);
       let mahangmuc = this.state.hangMuc;
       let tenhangmuc = this.state.tenHangMuc;
       let iconhangmuc = this.state.iconHangMuc;
@@ -310,17 +312,13 @@ export default class DieuChinhSoDu extends React.Component {
       // Thêm điều chỉnh vào bảng dieuchinh
       db.transaction(function(tx) {
         tx.executeSql(
-          "INSERT INTO dieuchinhsodu(ma_dieu_chinh, ma_tai_khoan, loai_dieu_chinh, so_tien, so_tien_thuc_te, so_tien_tren_ghi_chep, ma_hang_muc, ten_hang_muc, icon_hang_muc, ngay, mo_ta) VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+          "INSERT INTO dieuchinhsodu(ma_dieu_chinh, ma_tai_khoan, loai_dieu_chinh, so_tien, ma_hang_muc, ngay, mo_ta) VALUES (?,?,?,?,?,?,?)",
           [
             madieuchinh,
             mataikhoan,
             loaidieuchinh,
             chenhlech,
-            sotienthucte,
-            sotientrenghichep,
             mahangmuc,
-            tenhangmuc,
-            iconhangmuc,
             ngay,
             mota
           ],
@@ -346,14 +344,6 @@ export default class DieuChinhSoDu extends React.Component {
           }
         );
       });
-
-      // Thay đổi
-      // db.transaction(tx => {
-      //   tx.executeSql(
-      //     "UPDATE taikhoan set so_tien=? where ma_tai_khoan like ?",
-      //     [sotienthucte, this.state.taiKhoan]
-      //   );
-      // });
 
       if (loaidieuchinh == "chitieu") {
         // Thêm vào bảng chi tiêu
@@ -403,6 +393,72 @@ export default class DieuChinhSoDu extends React.Component {
     this.forceUpdate();
   }
 
+  XoaDieuChinh() {
+    const { goBack } = this.props.navigation;
+    let so_tien_dieu_chinhTmp = this.state.soDuCu.replace(/,/g, "");
+    let so_tien_dieu_chinh = Number(so_tien_dieu_chinhTmp);
+    let so_tien_hien_tai = this.state.soTienTrongViCu;
+    let so_tien_tra_ve = 0;
+    if (this.state.loaiDieuChinh == "chitieu") {
+      so_tien_tra_ve = so_tien_hien_tai + so_tien_dieu_chinh;
+    } else {
+      so_tien_tra_ve = so_tien_hien_tai - so_tien_dieu_chinh;
+    }
+    Alert.alert(
+      "Thông báo",
+      "Bạn có chắc chắn muốn xóa chi tiêu này",
+      [
+        {
+          text: "Cancel",
+          onPress: () => {},
+          style: "cancel"
+        },
+        {
+          text: "OK",
+          onPress: () => {
+            db.transaction(tx => {
+              tx.executeSql(
+                "DELETE FROM dieuchinhsodu WHERE ma_dieu_chinh like ?",
+                [this.state.maDieuChinh],
+                (tx, results) => {
+                  tx.executeSql(
+                    "DELETE FROM chitieu WHERE ma_dieu_chinh like ?",
+                    [this.state.maDieuChinh],
+                    (tx, results) => {
+                      tx.executeSql(
+                        "DELETE FROM thunhap WHERE ma_dieu_chinh like ?",
+                        [this.state.maDieuChinh],
+                        (tx, results) => {
+                          tx.executeSql(
+                            "UPDATE taikhoan SET so_tien = ? WHERE ma_tai_khoan like ?",
+                            [so_tien_tra_ve, this.state.taiKhoanCu]
+                          );
+                        }
+                      );
+                    }
+                  );
+
+                  Alert.alert(
+                    "Thành công",
+                    "Bạn đã xóa chuyển khoản thành công",
+                    [
+                      {
+                        text: "Ok"
+                      }
+                    ],
+                    { cancelable: false }
+                  );
+                  goBack();
+                }
+              );
+            });
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+
   returnDataHangMuc(iconHangMuc, hangMuc, tenHangMuc) {
     this.setState({
       iconHangMuc: iconHangMuc,
@@ -435,26 +491,14 @@ export default class DieuChinhSoDu extends React.Component {
             </Button>
           </Left>
           <Body style={{ flex: 8, alignItems: "center" }}>
-            <Text style={styles.textHeader}>ĐIỀU CHỈNH SỐ DƯ</Text>
+            <Text style={styles.textHeader}>CHỈNH SỬA ĐIỀU CHỈNH SỐ DƯ</Text>
           </Body>
-          <Right style={{ flex: 2 }}>
-            <Button transparent onPress={this.buttonOnClick}>
-              <Icon name="check" style={{ color: "white", fontSize: 18 }} />
-            </Button>
-          </Right>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Content style={styles.content}>
           <Card>
             <CardItem
-              button
-              onPress={() =>
-                navigation.navigate("ChonTaiKhoanDCSD", {
-                  returnDataTaiKhoanDieuChinh: this.returnDataTaiKhoanDieuChinh.bind(
-                    this
-                  )
-                })
-              }
               style={{
                 borderColor: "grey",
                 borderBottomWidth: 0.7,
@@ -469,22 +513,13 @@ export default class DieuChinhSoDu extends React.Component {
               </Left>
               <Body style={{ flex: 8 }}>
                 <Text style={{ fontSize: 20, color: "black" }}>
-                  {this.state.tenTaiKhoan}
+                  {this.state.tenTaiKhoanCu}
                 </Text>
               </Body>
-              <Right style={{ flex: 1 }}>
-                <Icon
-                  name="chevron-circle-right"
-                  style={{ fontSize: 18, color: "#3a455c" }}
-                />
-              </Right>
+              <Right style={{ flex: 1 }} />
             </CardItem>
 
-            <CardItem
-              button
-              onPress={() => this.setState({ isDateTimePickerVisible: true })}
-              style={{ borderColor: "grey", borderBottomWidth: 0.7 }}
-            >
+            <CardItem style={{ borderColor: "grey", borderBottomWidth: 0.7 }}>
               <Left style={{ flex: 1 }}>
                 <Icon
                   active
@@ -493,24 +528,6 @@ export default class DieuChinhSoDu extends React.Component {
                 />
               </Left>
               <Body style={{ flex: 8 }}>
-                <DateTimePicker
-                  isVisible={this.state.isDateTimePickerVisible}
-                  onConfirm={this.hideDateTimePicker}
-                  onCancel={this.hideDateTimePicker}
-                  mode={"datetime"}
-                  is24Hour={true}
-                  titleIOS={"Chọn ngày chi"}
-                  titleStyle={{ color: "#3a455c", fontSize: 20 }}
-                  locale={"vie"}
-                  customConfirmButtonIOS={
-                    <Text
-                      style={{ ...styles.textContent, textAlign: "center" }}
-                    >
-                      Xác nhận
-                    </Text>
-                  }
-                  cancelTextIOS={"Hủy"}
-                />
                 <Text style={styles.textContent}>
                   {moment(this.state.ngayDieuChinh).format(
                     "DD/MM/YYYY HH:mm:ss"
@@ -520,7 +537,6 @@ export default class DieuChinhSoDu extends React.Component {
               <Right style={{ flex: 1 }} />
             </CardItem>
           </Card>
-
           <Card>
             <CardItem>
               <Item>
@@ -532,7 +548,7 @@ export default class DieuChinhSoDu extends React.Component {
                 <Body style={{ flex: 0 }} />
                 <Right style={{ flex: 6 }}>
                   <Text style={{ fontWeight: "bold", color: "black" }}>
-                    {this.state.soTienTaiKhoan} đ
+                    {this.state.soTienTaiKhoanCu} đ
                   </Text>
                 </Right>
               </Item>
@@ -559,9 +575,7 @@ export default class DieuChinhSoDu extends React.Component {
                   }}
                   placeholderTextColor="#3a455c"
                   keyboardType="numeric"
-                  selectTextOnFocus
-                  onChangeText={text => this.formatMoney(text)}
-                  value={this.state.soTienThucTe}
+                  value={this.state.soTienThucTeCu}
                 />
                 <Text
                   style={{ fontSize: 18, color: "#3a455c", fontWeight: "bold" }}
@@ -588,24 +602,14 @@ export default class DieuChinhSoDu extends React.Component {
                     }}
                   >
                     {" "}
-                    {this.state.soDu} đ
+                    {this.state.soDuCu} đ
                   </Text>
                 </Right>
               </Item>
             </CardItem>
           </Card>
-
           <Card>
             <CardItem
-              button
-              onPress={() =>
-                navigation.navigate(
-                  this.state.loaiDieuChinh == "chitieu"
-                    ? "ChonHangMucChi"
-                    : "ChonHangMucThu",
-                  { returnDataHangMuc: this.returnDataHangMuc.bind(this) }
-                )
-              }
               style={{
                 borderColor: "grey",
                 borderBottomWidth: 0.7,
@@ -651,9 +655,7 @@ export default class DieuChinhSoDu extends React.Component {
                 />
                 <Input
                   value={this.state.moTa}
-                  selectTextOnFocus
                   style={{ flex: 9, borderBottomWidth: 0.1 }}
-                  onChangeText={moTa => this.setState({ moTa })}
                 />
               </Item>
             </CardItem>
@@ -662,10 +664,10 @@ export default class DieuChinhSoDu extends React.Component {
             block
             info
             style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
-            onPress={this.buttonOnClick}
+            onPress={this.XoaDieuChinh}
           >
             <Icon name="save" style={{ fontSize: 18, color: "white" }} />
-            <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
+            <Text style={{ color: "white", marginLeft: 5 }}>Xóa</Text>
           </Button>
         </Content>
         <MyFooter navigation={this.props.navigation} />

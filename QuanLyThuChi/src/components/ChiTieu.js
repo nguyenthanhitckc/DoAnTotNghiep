@@ -237,7 +237,6 @@ export default class ChiTieu extends React.Component {
   render() {
     const { navigation } = this.props;
     const { params } = this.props.navigation.state;
-    console.log("aaaa", this.state.iconHangMuc);
     return (
       <Container>
         <Header style={styles.header}>
@@ -298,7 +297,7 @@ export default class ChiTieu extends React.Component {
                     borderRadius: 20,
                     width: 40,
                     height: 40,
-                    backgroundColor: "grey"
+                    backgroundColor: "#b8b8b8"
                   }}
                 />
               </Left>

@@ -26,7 +26,7 @@ export default class ThemMoi extends Component {
         (tx, results) => {
           var len = results.rows.length;
           if (len == 0) {
-            navigation.navigate('ThemTaiKhoan');
+            navigation.navigate("ThemTaiKhoan");
             Alert.alert(
               "Thông báo",
               "Bạn chưa có tài khoản hoạt động nào, hãy tạo tài khoản đầu tiên của bạn nào!",
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     marginBottom: 2
   },
   content: {
-    width:"100%",
+    width: "100%",
     left: 0,
     right: 0,
     height: height - 104,
@@ -119,10 +119,10 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: "rgb(228,242,253)",
     borderRadius: 5,
-    margin: 10,
+    margin: 10
   },
   textButton: {
-  color:"rgb(76,171,242)",
-  fontSize:15
+    color: "rgb(76,171,242)",
+    fontSize: 15
   }
 });

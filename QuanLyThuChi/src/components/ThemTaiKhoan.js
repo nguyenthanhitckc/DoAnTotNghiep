@@ -297,9 +297,12 @@ export default class ThemTaiKhoan extends React.Component {
             <Button vertical onPress={() => navigation.navigate("ThemMoi")}>
               <Icon name="plus-circle" style={styles.iconPlusCircle} />
             </Button>
-            <Button vertical onPress={() => navigation.navigate("HanMucChi")}>
+            <Button
+              vertical
+              onPress={() => navigation.navigate("LichSuGhiChep")}
+            >
               <Icon name="filter" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Hạn mức chi</Text>
+              <Text style={styles.textFooter}> Ghi chép </Text>
             </Button>
             <Button vertical onPress={() => navigation.navigate("Khac")}>
               <Icon name="ellipsis-h" style={styles.iconHeader} />

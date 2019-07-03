@@ -336,11 +336,7 @@ export default class ChinhSuaChiTieu extends React.Component {
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>CHỈNH SỬA CHI TIÊU</Text>
           </Body>
-          <Right style={{ flex: 2 }}>
-            <Button transparent onPress={this.buttonOnClick}>
-              <Icon name="check" style={styles.iconHeader} />
-            </Button>
-          </Right>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Content style={styles.content}>

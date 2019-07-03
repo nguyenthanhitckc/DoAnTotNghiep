@@ -76,7 +76,7 @@ export default class ChonHangMucThu extends Component {
                   params.returnDataHangMuc(item.icon, item.ma_thu, item.ten);
                   goBack();
                 }}
-                style={styles.buttonCardItem}
+                style={{ ...styles.buttonCardItem, backgroundColor: "white" }}
               >
                 <Left style={{ flex: 1 }}>
                   <Image
@@ -84,14 +84,13 @@ export default class ChonHangMucThu extends Component {
                     style={{
                       borderRadius: 20,
                       width: 40,
-                      height: 40,
-                      backgroundColor: "grey"
+                      height: 40
                     }}
                   />
                 </Left>
                 <Body style={{ flex: 8 }}>
                   <Text
-                    style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
+                    style={{ fontSize: 20, color: "black", marginLeft: 10 }}
                   >
                     {item.ten}
                   </Text>

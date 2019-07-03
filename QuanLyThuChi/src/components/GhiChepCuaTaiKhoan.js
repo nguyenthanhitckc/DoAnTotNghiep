@@ -149,6 +149,10 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                     navigation.navigate("ChinhSuaChuyenKhoan", {
                       ma_chuyen_khoan: item.ma_chuyen_khoan
                     });
+                  } else if (item.loai == "dcsd") {
+                    navigation.navigate("ChinhSuaDieuChinhSoDu", {
+                      ma_dieu_chinh: item.ma_dieu_chinh
+                    });
                   }
                 }}
                 style={styles.cardItem}
