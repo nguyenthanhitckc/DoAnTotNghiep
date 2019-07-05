@@ -85,7 +85,7 @@ export default class ChonTaiKhoan extends Component {
                 <Left style={{ flex: 1 }}>
                   <Icon name="credit-card" style={styles.icon} />
                 </Left>
-                <Body style={{ flex: 6 }}>
+                <Body style={{ flex: 6, marginLeft: 5 }}>
                   <Text style={styles.textContent}>{item.ten_tai_khoan}</Text>
                 </Body>
                 <Right style={{ flex: 6 }}>
@@ -106,9 +106,9 @@ export default class ChonTaiKhoan extends Component {
 
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "black",
+    backgroundColor: "#009933",
     borderBottomWidth: 0.7,
-    borderColor: "grey",
+    borderColor: "black",
     height: 50,
     marginTop: 5
   },
@@ -121,7 +121,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     height: 50,
     marginTop: 5,
-    backgroundColor: "black"
+    backgroundColor: "white"
   },
   content: {
     backgroundColor: "#F1F1F1",
@@ -141,7 +141,7 @@ const styles = StyleSheet.create({
     height: 40
   },
   icon: {
-    color: "white",
+    color: "black",
     fontSize: 18
   },
   iconPlusCircle: {
@@ -149,12 +149,12 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   textContent: {
-    color: "white",
+    color: "black",
     fontSize: 20,
-    fontWeight: "bold"
+    fontStyle: "italic"
   },
   textContentMoney: {
-    color: "white",
+    color: "black",
     fontSize: 20
   },
   textHeader: {

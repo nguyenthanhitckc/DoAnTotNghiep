@@ -445,7 +445,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         mataikhoandichcu == mataikhoannguonmoi
       ) {
         sotientrongvinguonmoi = sotientrongvinguonmoi - sotiencu;
-        sotientrongvidichmoi = sotientrongvidichmoi + sotiencu;
+        sotientrongvidichmoi = sotientrongvidichmoi + sotiencu + phickcu;
       }
       // Trả về giá trị ban đầu
       db.transaction(function(tx) {
@@ -476,7 +476,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                             sotienmoi,
                             "hmc0014",
                             "Chuyển đến tài khoản " + tentaikhoandichmoi,
-                            "credit-card",
+                            "https://nguyenthanhitckc.github.io/images/tien_lai.png",
                             ngay,
                             mota,
                             machuyenkhoan,
@@ -492,7 +492,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                                 sotienmoi,
                                 "hmt0007",
                                 "Nhận từ tài khoản " + tentaikhoannguonmoi,
-                                "credit-card",
+                                "https://nguyenthanhitckc.github.io/images/tien_lai.png",
                                 ngay,
                                 mota,
                                 machuyenkhoan,
@@ -512,7 +512,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                                         tentaikhoannguonmoi +
                                         " đến " +
                                         tentaikhoandichmoi,
-                                      "credit-card",
+                                      "https://nguyenthanhitckc.github.io/images/tien_lai.png",
                                       ngay,
                                       mota,
                                       machuyenkhoan,

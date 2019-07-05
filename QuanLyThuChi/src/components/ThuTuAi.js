@@ -110,7 +110,7 @@ export default class ThuTuAi extends Component {
       <Container>
         <Header
           style={{
-            backgroundColor: "black",
+            backgroundColor: "#009933",
             height: 40,
             borderBottomColor: "black"
           }}
@@ -124,7 +124,6 @@ export default class ThuTuAi extends Component {
 
         <Content
           style={{
-            // position: 'absolute',
             left: 0,
             right: 0,
             height: height - 104,
@@ -142,7 +141,7 @@ export default class ThuTuAi extends Component {
                     color: "black",
                     fontWeight: "bold"
                   }}
-                  placeholderTextColor="red"
+                  placeholderTextColor="black"
                   keyboardType="default"
                   onChangeText={nguoiThuMoi =>
                     this.setState({ nguoiThuMoi: nguoiThuMoi })
@@ -168,7 +167,7 @@ export default class ThuTuAi extends Component {
                   borderBottomWidth: 0.7,
                   height: 50,
                   marginTop: 5,
-                  backgroundColor: "rgb(76,171,242)"
+                  backgroundColor: "#009933"
                 }}
               >
                 <Left style={{ flex: 1 }}>

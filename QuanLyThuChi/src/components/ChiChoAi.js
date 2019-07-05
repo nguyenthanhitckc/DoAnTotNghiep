@@ -129,7 +129,7 @@ export default class ChiChoAi extends Component {
                     color: "black",
                     fontWeight: "bold"
                   }}
-                  placeholderTextColor="red"
+                  placeholderTextColor="black"
                   keyboardType="default"
                   onChangeText={nguoiChiMoi =>
                     this.setState({ nguoiChiMoi: nguoiChiMoi })
@@ -150,7 +150,13 @@ export default class ChiChoAi extends Component {
                   params.returnDataNguoiChi(item.ma_nguoi_chi, item.ten);
                   goBack();
                 }}
-                style={styles.buttonCardItem}
+                style={{
+                  borderColor: "grey",
+                  borderBottomWidth: 0.7,
+                  height: 50,
+                  marginTop: 5,
+                  backgroundColor: "#009933"
+                }}
               >
                 <Left style={{ flex: 1 }}>
                   <Icon name="user" style={styles.icon} />
@@ -193,7 +199,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-
     right: 0
   },
   footer: {

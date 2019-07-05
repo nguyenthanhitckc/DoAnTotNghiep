@@ -100,8 +100,6 @@ export default class ChonHangMucThu extends Component {
             ))}
           </Card>
         </Content>
-
-        <MyFooter navigation={this.props.navigation} />
       </Container>
     );
   }

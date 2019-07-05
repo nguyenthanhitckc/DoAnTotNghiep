@@ -61,7 +61,7 @@ export default class ChonTaiKhoanDich extends Component {
       <Container>
         <Header
           style={{
-            backgroundColor: "rgb(76,171,242)",
+            backgroundColor: "#009933",
             height: 40,
             borderBottomColor: "black"
           }}
@@ -69,7 +69,7 @@ export default class ChonTaiKhoanDich extends Component {
           <Left style={{ flex: 2 }} />
           <Body style={{ flex: 8 }}>
             <Text style={{ color: "white", fontWeight: "bold" }}>
-              CHỌN TÀI KHOẢN
+              CHỌN TÀI KHOẢN ĐÍCH
             </Text>
           </Body>
           <Right style={{ flex: 2 }} />
@@ -102,24 +102,28 @@ export default class ChonTaiKhoanDich extends Component {
                   borderBottomWidth: 0.7,
                   height: 50,
                   marginTop: 5,
-                  backgroundColor: "rgb(76,171,242)"
+                  backgroundColor: "white"
                 }}
               >
                 <Left style={{ flex: 1 }}>
                   <Icon
                     name="credit-card"
-                    style={{ fontSize: 18, color: "white" }}
+                    style={{ fontSize: 18, color: "black" }}
                   />
                 </Left>
                 <Body style={{ flex: 5 }}>
                   <Text
-                    style={{ fontSize: 20, color: "white", fontWeight: "bold" }}
+                    style={{
+                      fontSize: 20,
+                      color: "black",
+                      fontStyle: "italic"
+                    }}
                   >
                     {item.ten_tai_khoan}
                   </Text>
                 </Body>
                 <Right style={{ flex: 4 }}>
-                  <Text style={{ fontSize: 20, color: "white" }}>
+                  <Text style={{ fontSize: 20, color: "black" }}>
                     {this.formatMoney(item.so_tien)} đ
                   </Text>
                 </Right>

@@ -428,7 +428,7 @@ export default class ThuNhap extends React.Component {
                 />
               </Left>
               <Body style={{ flex: 8 }}>
-                <Text style={{ fontSize: 15, color: "black", paddingLeft: 10 }}>
+                <Text style={{ fontSize: 20, color: "black", paddingLeft: 10 }}>
                   {this.state.tenTaiKhoan}
                 </Text>
               </Body>
