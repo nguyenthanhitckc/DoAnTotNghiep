@@ -20,6 +20,7 @@ import {
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 import db from "../../connectionDB";
+import MyFooter from "../MyFooter";
 
 // Const & Variable:
 const { height, width } = Dimensions.get("window");
@@ -44,6 +45,8 @@ export default class ThemTaiKhoan extends React.Component {
 
   formatMoney(money) {
     var x = money.replace(/,/g, "");
+    var length = x.length;
+    if (length > 9) x = x.substring(0, 9);
     var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     this.setState({ soTien: y });
     return y;
@@ -97,7 +100,7 @@ export default class ThemTaiKhoan extends React.Component {
         "Bạn chưa nhập số dư tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -108,7 +111,7 @@ export default class ThemTaiKhoan extends React.Component {
         "Bạn chưa nhập tên tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -119,7 +122,7 @@ export default class ThemTaiKhoan extends React.Component {
         "Bạn chưa chọn loại tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -154,7 +157,7 @@ export default class ThemTaiKhoan extends React.Component {
                 "Bạn đã thêm thành công",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -201,10 +204,10 @@ export default class ThemTaiKhoan extends React.Component {
                   placeholder="0"
                   style={{
                     ...styles.input,
-                    color: "#3a455c",
+                    color: "black",
                     fontWeight: "bold"
                   }}
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   keyboardType="numeric"
                   selectTextOnFocus
                   onChangeText={this.formatMoney}
@@ -221,7 +224,7 @@ export default class ThemTaiKhoan extends React.Component {
                 <Icon active name="credit-card" style={styles.icon} />
                 <Input
                   placeholder="Tên tài khoản"
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   style={{ ...styles.textContent, paddingLeft: 28 }}
                   onChangeText={tenTaiKhoan => this.setState({ tenTaiKhoan })}
                 />
@@ -240,12 +243,12 @@ export default class ThemTaiKhoan extends React.Component {
                   iosIcon={<Icon name="arrow-down" />}
                   style={{ paddingLeft: 12 }}
                   placeholder="Chọn loại tài khoản"
-                  placeholderStyle={{ color: "#3a455c" }}
-                  placeholderIconColor="#3a455c"
+                  placeholderStyle={{ color: "black" }}
+                  placeholderIconColor="black"
                   selectedValue={this.state.loaiTaiKhoan}
                   onValueChange={this.chonLoaiTaiKhoan}
                   valueStyle={{
-                    color: "#3a455c",
+                    color: "black",
                     fontSize: 20,
                     fontWeight: "bold"
                   }}
@@ -262,7 +265,7 @@ export default class ThemTaiKhoan extends React.Component {
                 <Icon active name="comments" style={styles.icon} />
                 <Input
                   placeholder="Mô tả"
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   style={{ ...styles.textContent, paddingLeft: 34 }}
                   onChangeText={moTa => this.setState({ moTa })}
                 />
@@ -271,7 +274,7 @@ export default class ThemTaiKhoan extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#3a455c" }}
+              style={{ height: 40, backgroundColor: "#009933" }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={styles.iconHeader} />
@@ -284,32 +287,7 @@ export default class ThemTaiKhoan extends React.Component {
           </Card>
         </Content>
 
-        <Footer style={styles.footer}>
-          <FooterTab style={styles.footer}>
-            <Button vertical onPress={() => navigation.navigate("TongQuan")}>
-              <Icon name="home" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Tổng quan</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("TaiKhoan")}>
-              <Icon name="credit-card" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Tài khoản</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("ThemMoi")}>
-              <Icon name="plus-circle" style={styles.iconPlusCircle} />
-            </Button>
-            <Button
-              vertical
-              onPress={() => navigation.navigate("LichSuGhiChep")}
-            >
-              <Icon name="filter" style={styles.iconHeader} />
-              <Text style={styles.textFooter}> Ghi chép </Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("Khac")}>
-              <Icon name="ellipsis-h" style={styles.iconHeader} />
-              <Text style={styles.textFooter}>Khác</Text>
-            </Button>
-          </FooterTab>
-        </Footer>
+        <MyFooter navigation={this.props.navigation} />
       </Container>
     );
   }
@@ -317,7 +295,7 @@ export default class ThemTaiKhoan extends React.Component {
 
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -337,21 +315,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "#3a445c",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -363,7 +341,7 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },

@@ -210,7 +210,15 @@ export default class LichSuGhiChep extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Text style={styles.textHeader}>LỊCH SỬ GHI CHÉP</Text>
+          <Left style={{ flex: 2 }}>
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
+            </Button>
+          </Left>
+          <Body style={{ flex: 8 }}>
+            <Text style={styles.textHeader}>LỊCH SỬ GHI CHÉP</Text>
+          </Body>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Content style={styles.content}>
@@ -227,7 +235,7 @@ export default class LichSuGhiChep extends React.Component {
             <Icon
               active
               name="chevron-circle-right"
-              style={{ marginLeft: 10, color: "#3a455c" }}
+              style={{ marginLeft: 10, color: "black" }}
             />
           </Button>
           <Card>
@@ -266,7 +274,7 @@ export default class LichSuGhiChep extends React.Component {
 }
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -285,23 +293,23 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40,
     justifyContent: "center",
     alignItems: "center"
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -313,17 +321,17 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },
   textContentMoney: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20
   },
   textHeader: {

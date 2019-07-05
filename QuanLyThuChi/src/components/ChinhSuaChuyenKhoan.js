@@ -16,6 +16,7 @@ import {
   Right
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
+import MateIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import moment from "moment";
 import DateTimePicker from "react-native-modal-datetime-picker";
 import MyFooter from "./../MyFooter";
@@ -132,6 +133,8 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
 
   formatMoney(money) {
     var x = money.replace(/,/g, "");
+    var length = x.length;
+    if (length > 9) x = x.substring(0, 9);
     var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     this.setState({ soTienSuaDoi: y });
     return y;
@@ -252,12 +255,12 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
       "Bạn có chắc chắn muốn xóa chi tiêu này",
       [
         {
-          text: "Cancel",
+          text: "Hủy",
           onPress: () => {},
           style: "cancel"
         },
         {
-          text: "OK",
+          text: "Đồng ý",
           onPress: () => {
             db.transaction(tx => {
               tx.executeSql(
@@ -293,7 +296,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                     "Bạn đã xóa chuyển khoản thành công",
                     [
                       {
-                        text: "Ok"
+                        text: "Đồng ý"
                       }
                     ],
                     { cancelable: false }
@@ -326,7 +329,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         "Bạn chưa nhập số tiền!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -337,7 +340,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         "Bạn chưa chọn tài khoản nguồn!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -348,7 +351,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         "Bạn chưa chọn tài khoản đích!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -359,7 +362,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         "Bạn không thể chuyển khoản trong cùng 1 tài khoản",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -392,24 +395,6 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         "YYYY/MM/DD HH:mm:ss"
       );
       let mota = this.state.moTa;
-      console.log(
-        "so tien moi: ",
-        sotienmoi,
-        "so tien cu: ",
-        sotiencu,
-        "phi chuyen khoan cu: ",
-        phickcu,
-        "phi chuyen khoan moi: ",
-        phickmoi,
-        "so tien trong vi nguon cu: ",
-        sotientrongvinguoncu,
-        "so tien trong vi nguon moi: ",
-        sotientrongvinguonmoi,
-        "sotien trong vi dich cu: ",
-        sotientrongvidichcu,
-        "so tien trong vi dich moi: ",
-        sotientrongvidichmoi
-      );
       // Update chuyển khoản
       db.transaction(function(tx) {
         tx.executeSql(
@@ -429,7 +414,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 "Bạn đã chỉnh sửa thành công!",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -440,7 +425,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 "Bạn đã chỉnh sửa không thành công!",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -593,11 +578,8 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flex: 2 }}>
-            <Button
-              transparent
-              onPress={() => navigation.navigate("LichSuGhiChep")}
-            >
-              <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
             </Button>
           </Left>
           <Body style={{ flex: 8 }}>
@@ -617,24 +599,24 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               <InputGroup borderType="underline">
                 <Icon
                   name="money"
-                  style={{ color: "#3a455c", fontSize: 18, fontWeight: "bold" }}
+                  style={{ color: "black", fontSize: 18, fontWeight: "bold" }}
                 />
                 <Input
                   placeholder="0"
                   style={{
                     fontSize: 20,
-                    color: "#3a455c",
+                    color: "black",
                     textAlign: "right",
                     fontWeight: "bold"
                   }}
                   selectTextOnFocus
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   keyboardType="numeric"
                   onChangeText={this.formatMoney}
                   value={this.state.soTienSuaDoi}
                 />
                 <Text
-                  style={{ fontSize: 18, color: "#3a455c", fontWeight: "bold" }}
+                  style={{ fontSize: 18, color: "black", fontWeight: "bold" }}
                 >
                   đ
                 </Text>
@@ -661,7 +643,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               <Left style={{ flex: 1 }}>
                 <Icon
                   name="credit-card"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>
@@ -672,7 +654,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               <Right style={{ flex: 1 }}>
                 <Icon
                   name="chevron-circle-right"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Right>
             </CardItem>
@@ -693,7 +675,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               <Left style={{ flex: 1 }}>
                 <Icon
                   name="credit-card"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>
@@ -704,7 +686,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               <Right style={{ flex: 1 }}>
                 <Icon
                   name="chevron-circle-right"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Right>
             </CardItem>
@@ -722,7 +704,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 <Icon
                   active
                   name="comments"
-                  style={{ fontSize: 18, color: "#3a455c", flex: 1 }}
+                  style={{ fontSize: 18, color: "black", flex: 1 }}
                 />
                 <Input
                   placeholder="Mô tả"
@@ -744,7 +726,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 <Icon
                   active
                   name="calendar"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>
@@ -755,7 +737,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                   mode={"datetime"}
                   is24Hour={true}
                   titleIOS={"Chọn ngày chuyển khoản"}
-                  titleStyle={{ color: "#3a455c", fontSize: 20 }}
+                  titleStyle={{ color: "black", fontSize: 20 }}
                   locale={"vie"}
                   customConfirmButtonIOS={
                     <Text
@@ -783,7 +765,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               <InputGroup borderType="underline">
                 <Icon
                   name="money"
-                  style={{ color: "#3a455c", fontSize: 18, fontWeight: "bold" }}
+                  style={{ color: "black", fontSize: 18, fontWeight: "bold" }}
                 />
                 <Input
                   placeholder="0"
@@ -800,7 +782,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                   value={this.state.phiChuyenKhoanSuaDoi}
                 />
                 <Text
-                  style={{ fontSize: 18, color: "#3a455c", fontWeight: "bold" }}
+                  style={{ fontSize: 18, color: "black", fontWeight: "bold" }}
                 >
                   đ
                 </Text>
@@ -810,7 +792,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
             <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+              style={{ height: 40, backgroundColor: "#009933", margin: 5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -827,7 +809,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
               }}
               onPress={this.XoaChuyenKhoan}
             >
-              <Icon name="delete" style={styles.iconHeader} />
+              <MateIcon name="delete" style={styles.iconHeader} />
               <Text
                 style={{ color: "white", marginLeft: 10, fontWeight: "bold" }}
               >
@@ -849,7 +831,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -869,21 +851,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -895,12 +877,12 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },

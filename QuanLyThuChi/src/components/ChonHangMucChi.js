@@ -49,11 +49,7 @@ export default class ChonHangMucChi extends Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
-            </Button>
-          </Left>
+          <Left style={{ flex: 2 }} />
           <Body style={{ flex: 8 }}>
             <Text style={{ color: "white", fontWeight: "bold" }}>
               CHỌN HẠNG MỤC
@@ -217,21 +213,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -243,12 +239,12 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },

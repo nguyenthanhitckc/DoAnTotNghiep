@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Text, StyleSheet, Dimensions, Alert, Image } from "react-native";
 import {
   Button,
   Body,
@@ -93,7 +93,15 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Text style={styles.textHeader}>{this.state.ten_tai_khoan}</Text>
+          <Left style={{ flex: 2 }}>
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
+            </Button>
+          </Left>
+          <Body style={{ flex: 8 }}>
+            <Text style={styles.textHeader}>{this.state.ten_tai_khoan}</Text>
+          </Body>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Content style={styles.content}>
@@ -158,16 +166,26 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
                 style={styles.cardItem}
               >
                 <Left style={{ flex: 1 }}>
-                  <MateIcon name={item.icon_hang_muc} style={styles.icon} />
+                  <Image
+                    source={{ uri: item.icon_hang_muc }}
+                    style={{
+                      borderRadius: 15,
+                      width: 30,
+                      height: 30,
+                      backgroundColor: "white"
+                    }}
+                  />
                 </Left>
                 <Body
-                  style={{ flex: 6, flexDirection: "column", marginLeft: 10 }}
+                  style={{ flex: 6, flexDirection: "column", marginLeft: 15 }}
                 >
                   <Text style={{ fontSize: 20 }}>{item.ten_hang_muc}</Text>
-                  <Text style={{ fontSize: 15, marginTop: 5 }}>
+                  <Text
+                    style={{ fontSize: 15, marginTop: 5, fontStyle: "italic" }}
+                  >
                     {item.mo_ta}
                   </Text>
-                  <Text style={{ fontSize: 20, marginTop: 5 }}>
+                  <Text style={{ fontSize: 18, marginTop: 5 }}>
                     {moment(item.ngay).format("DD/MM/YYYY")}
                   </Text>
                 </Body>
@@ -211,7 +229,7 @@ export default class GhiChepCuaTaiKhoan extends React.Component {
 }
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -230,22 +248,22 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40,
     alignItems: "center"
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -257,17 +275,17 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },
   textContentMoney: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20
   },
   textHeader: {

@@ -206,7 +206,7 @@ export default class ChuyenKhoan extends React.Component {
         "Bạn chưa nhập số tiền!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -217,7 +217,7 @@ export default class ChuyenKhoan extends React.Component {
         "Bạn chưa chọn tài khoản nguồn!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -228,7 +228,7 @@ export default class ChuyenKhoan extends React.Component {
         "Bạn chưa chọn tài khoản đích!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -239,7 +239,7 @@ export default class ChuyenKhoan extends React.Component {
         "Bạn không thể chuyển khoản trong cùng 1 tài khoản",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -269,7 +269,7 @@ export default class ChuyenKhoan extends React.Component {
                 "Bạn đã chuyển khoản thành công!",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -280,7 +280,7 @@ export default class ChuyenKhoan extends React.Component {
                 "Bạn đã chuyển khoản không thành công!",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -302,7 +302,7 @@ export default class ChuyenKhoan extends React.Component {
             sotien,
             "hmc0014",
             "Chuyển đến tài khoản " + tentaikhoandich,
-            "credit-card",
+            "https://nguyenthanhitckc.github.io/images/tien_lai.png",
             ngay,
             mota,
             machuyenkhoan,
@@ -346,7 +346,7 @@ export default class ChuyenKhoan extends React.Component {
             sotien,
             "hmt0007",
             "Nhận từ tài khoản " + tentaikhoannguon,
-            "credit-card",
+            "https://nguyenthanhitckc.github.io/images/tien_lai.png",
             ngay,
             mota,
             machuyenkhoan,
@@ -400,7 +400,7 @@ export default class ChuyenKhoan extends React.Component {
                 tentaikhoannguon +
                 " đến " +
                 tentaikhoandich,
-              "credit-card",
+              "https://nguyenthanhitckc.github.io/images/tien_lai.png",
               ngay,
               mota,
               machuyenkhoan,
@@ -456,11 +456,8 @@ export default class ChuyenKhoan extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flex: 2 }}>
-            <Button
-              transparent
-              onPress={() => navigation.navigate("LichSuGhiChep")}
-            >
-              <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
             </Button>
           </Left>
           <Body style={{ flex: 8 }}>
@@ -676,7 +673,7 @@ export default class ChuyenKhoan extends React.Component {
           <Button
             block
             info
-            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            style={{ height: 40, backgroundColor: "#009933", margin: 5 }}
             onPress={this.buttonOnClick}
           >
             <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -696,7 +693,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -716,7 +713,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
     right: 0
   },
   footer: {
@@ -725,12 +721,12 @@ const styles = StyleSheet.create({
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -742,12 +738,12 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },

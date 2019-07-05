@@ -73,6 +73,8 @@ export default class ChiTieuCopy extends React.Component {
 
   formatMoney(money) {
     var x = money.replace(/,/g, "");
+    var length = x.length;
+    if (length > 9) x = x.substring(0, 9);
     var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     this.setState({ soTien: y });
     return y;
@@ -131,7 +133,7 @@ export default class ChiTieuCopy extends React.Component {
         "Bạn chưa nhập số tiền!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -142,7 +144,7 @@ export default class ChiTieuCopy extends React.Component {
         "Bạn chưa chọn hạng mục chi!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -153,7 +155,7 @@ export default class ChiTieuCopy extends React.Component {
         "Bạn chưa chọn tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -193,7 +195,7 @@ export default class ChiTieuCopy extends React.Component {
                 "Bạn đã thêm thành công",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -251,14 +253,7 @@ export default class ChiTieuCopy extends React.Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2 }}>
-            <Button
-              transparent
-              onPress={() => navigation.navigate("LichSuGhiChep")}
-            >
-              <Icon name="bars" style={styles.iconHeader} />
-            </Button>
-          </Left>
+          <Left style={{ flex: 2 }} />
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>THÊM CHI TIÊU</Text>
           </Body>
@@ -308,7 +303,7 @@ export default class ChiTieuCopy extends React.Component {
                     borderRadius: 20,
                     width: 40,
                     height: 40,
-                    backgroundColor: "#b8b8b8"
+                    backgroundColor: "white"
                   }}
                 />
               </Left>
@@ -325,7 +320,7 @@ export default class ChiTieuCopy extends React.Component {
                 <Icon active name="comments" style={styles.icon} />
                 <Input
                   placeholder="Mô tả"
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   selectTextOnFocus
                   style={{ ...styles.textContent, paddingLeft: 22 }}
                   value={this.state.moTa}
@@ -350,7 +345,7 @@ export default class ChiTieuCopy extends React.Component {
                   mode={"datetime"}
                   is24Hour={true}
                   titleIOS={"Chọn ngày chi"}
-                  titleStyle={{ color: "#3a455c", fontSize: 20 }}
+                  titleStyle={{ color: "black", fontSize: 20 }}
                   locale={"vie"}
                   customConfirmButtonIOS={
                     <Text
@@ -432,7 +427,7 @@ export default class ChiTieuCopy extends React.Component {
           <Button
             block
             info
-            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            style={{ height: 40, backgroundColor: "#009933", margin: 5 }}
             onPress={this.buttonOnClick}
           >
             <Icon name="save" style={styles.iconHeader} />
@@ -445,37 +440,8 @@ export default class ChiTieuCopy extends React.Component {
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>
-            <Button vertical onPress={() => navigation.navigate("TongQuan")}>
-              <Icon name="home" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Tổng quan</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("TaiKhoan")}>
-              <Icon name="credit-card" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Tài khoản</Text>
-            </Button>
-            <Button
-              vertical
-              onPress={() =>
-                navigation.navigate("ThemMoiCopy", {
-                  so_tien: this.state.soTien,
-                  mo_ta: this.state.moTa,
-                  ma_tai_khoan: this.state.taiKhoan,
-                  ten_tai_khoan: this.state.tenTaiKhoan
-                })
-              }
-            >
+            <Button vertical onPress={() => navigation.navigate("ThemMoi")}>
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
-            </Button>
-            <Button
-              vertical
-              onPress={() => navigation.navigate("LichSuGhiChep")}
-            >
-              <Icon name="filter" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Ghi chép</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("Khac")}>
-              <Icon name="ellipsis-h" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Khác</Text>
             </Button>
           </FooterTab>
         </Footer>
@@ -486,7 +452,7 @@ export default class ChiTieuCopy extends React.Component {
 
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -506,21 +472,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -532,12 +498,12 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },
@@ -563,21 +529,21 @@ const stylesFooter = StyleSheet.create({
     fontSize: 18
   },
   iconFooter: {
-    color: "rgb(76,171,242)",
+    color: "grey",
     fontSize: 18
   },
   iconPlusCircle: {
-    color: "rgb(76,171,242)",
+    color: "#009933",
     fontSize: 30
   },
   footer: {
-    backgroundColor: "rgb(235,239,242)",
-    color: "rgb(235,239,242)",
+    backgroundColor: "white",
+    color: "black",
     height: 40
   },
   textFooter: {
-    color: "rgb(76,171,242)",
-    fontSize: 10,
+    color: "black",
+    fontSize: 12,
     fontFamily: "Times New Roman"
   }
 });

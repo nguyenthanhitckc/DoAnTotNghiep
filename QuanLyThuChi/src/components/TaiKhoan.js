@@ -179,7 +179,7 @@ export default class TaiKhoan extends Component {
                   <Text
                     style={{
                       ...styles.textContentMoney,
-                      color: item.so_tien >= 0 ? "#3a455c" : "red"
+                      color: item.so_tien >= 0 ? "black" : "red"
                     }}
                   >
                     {this.formatMoney(item.so_tien)}đ
@@ -244,7 +244,7 @@ export default class TaiKhoan extends Component {
                   <Text
                     style={{
                       ...styles.textContentMoney,
-                      color: item.so_tien >= 0 ? "#3a455c" : "red"
+                      color: item.so_tien >= 0 ? "black" : "red"
                     }}
                   >
                     {this.formatMoney(item.so_tien)}đ
@@ -262,7 +262,7 @@ export default class TaiKhoan extends Component {
 
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -282,21 +282,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -308,17 +308,17 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },
   textContentMoney: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20
   },
   textHeader: {
@@ -338,18 +338,22 @@ const stylesFooter = StyleSheet.create({
     color: "white",
     fontSize: 18
   },
+  iconFooter: {
+    color: "grey",
+    fontSize: 18
+  },
   iconPlusCircle: {
-    color: "white",
+    color: "#009933",
     fontSize: 30
   },
   footer: {
-    backgroundColor: "#3a455c",
-    color: "white",
+    backgroundColor: "white",
+    color: "black",
     height: 40
   },
   textFooter: {
-    color: "white",
-    fontSize: 10,
+    color: "black",
+    fontSize: 12,
     fontFamily: "Times New Roman"
   }
 });

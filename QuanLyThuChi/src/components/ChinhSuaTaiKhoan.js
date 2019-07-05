@@ -60,6 +60,8 @@ export default class ChinhSuaTaiKhoan extends React.Component {
 
   formatMoney(money) {
     var x = money.replace(/,/g, "");
+    var length = x.length;
+    if (length > 9) x = x.substring(0, 9);
     var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     this.setState({ soTien: y });
     return y;
@@ -73,7 +75,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
         "Bạn chưa nhập số dư tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -84,7 +86,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
         "Bạn chưa nhập tên tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -95,7 +97,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
         "Bạn chưa chọn loại tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -119,7 +121,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                 "Bạn đã cập nhật thành công",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -141,12 +143,12 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       "Bạn có chắc chắn muốn xóa tài khoản",
       [
         {
-          text: "Cancel",
+          text: "Hủy",
           onPress: () => {},
           style: "cancel"
         },
         {
-          text: "OK",
+          text: "Đồng ý",
           onPress: () => {
             db.transaction(tx => {
               tx.executeSql(
@@ -159,7 +161,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                       "Bạn đã xóa tài khoản",
                       [
                         {
-                          text: "Ok"
+                          text: "Đồng ý"
                         }
                       ],
                       { cancelable: false }
@@ -185,12 +187,12 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       "Bạn có chắc chắn muốn ngưng sử dụng tài khoản",
       [
         {
-          text: "Cancel",
+          text: "Hủy",
           onPress: () => {},
           style: "cancel"
         },
         {
-          text: "OK",
+          text: "Đồng ý",
           onPress: () => {
             db.transaction(tx => {
               tx.executeSql(
@@ -203,7 +205,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                       "Bạn đã ngưng sử dụng tài khoản",
                       [
                         {
-                          text: "Ok"
+                          text: "Đồng ý"
                         }
                       ],
                       { cancelable: false }
@@ -229,12 +231,12 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       "Bạn có chắc chắn muốn sử dụng lại tài khoản",
       [
         {
-          text: "Cancel",
+          text: "Hủy",
           onPress: () => {},
           style: "cancel"
         },
         {
-          text: "OK",
+          text: "Đồng ý",
           onPress: () => {
             db.transaction(tx => {
               tx.executeSql(
@@ -247,7 +249,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                       "Bạn đã sử dụng lại tài khoản",
                       [
                         {
-                          text: "Ok"
+                          text: "Đồng ý"
                         }
                       ],
                       { cancelable: false }
@@ -276,8 +278,8 @@ export default class ChinhSuaTaiKhoan extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="bars" style={styles.iconHeader} />
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
             </Button>
           </Left>
           <Body style={{ flex: 8 }}>
@@ -298,10 +300,10 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                   placeholder="0"
                   style={{
                     ...styles.input,
-                    color: "#3a455c",
+                    color: "black",
                     fontWeight: "bold"
                   }}
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   keyboardType="numeric"
                   selectTextOnFocus
                   onChangeText={this.formatMoney}
@@ -318,7 +320,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                 <Icon active name="credit-card" style={styles.icon} />
                 <Input
                   placeholder="Tên tài khoản"
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   style={{ ...styles.textContent, paddingLeft: 28 }}
                   onChangeText={tenTaiKhoan => this.setState({ tenTaiKhoan })}
                   value={this.state.tenTaiKhoan}
@@ -338,12 +340,12 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                   iosIcon={<Icon name="arrow-down" />}
                   style={{ paddingLeft: 12 }}
                   placeholder="Chọn loại tài khoản"
-                  placeholderStyle={{ color: "#3a455c" }}
-                  placeholderIconColor="#3a455c"
+                  placeholderStyle={{ color: "black" }}
+                  placeholderIconColor="black"
                   selectedValue={this.state.loaiTaiKhoan}
                   onValueChange={this.chonLoaiTaiKhoan}
                   valueStyle={{
-                    color: "#3a455c",
+                    color: "black",
                     fontSize: 20,
                     fontWeight: "bold"
                   }}
@@ -360,7 +362,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                 <Icon active name="comments" style={styles.icon} />
                 <Input
                   placeholder="Mô tả"
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   style={{ ...styles.textContent, paddingLeft: 34 }}
                   onChangeText={moTa => this.setState({ moTa })}
                 />
@@ -378,7 +380,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                 style={{
                   flex: 1,
                   height: 40,
-                  backgroundColor: "#4cabf2",
+                  backgroundColor: "#009933",
                   margin: 4
                 }}
                 onPress={this.buttonOnClick}
@@ -405,7 +407,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
                 style={{
                   flex: 1,
                   height: 40,
-                  backgroundColor: "#3a455c",
+                  backgroundColor: "black",
                   margin: 4
                 }}
                 onPress={
@@ -453,7 +455,7 @@ export default class ChinhSuaTaiKhoan extends React.Component {
 
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -473,21 +475,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -499,7 +501,7 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },

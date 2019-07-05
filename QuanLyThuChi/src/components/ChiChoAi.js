@@ -110,11 +110,7 @@ export default class ChiChoAi extends Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Left style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="bars" style={styles.icon} />
-            </Button>
-          </Left>
+          <Left style={{ flex: 2 }} />
           <Body style={{ flex: 8 }}>
             <Text style={styles.textHeader}>VỚI AI</Text>
           </Body>
@@ -130,7 +126,7 @@ export default class ChiChoAi extends Component {
                   placeholder="Nhập người chi mới"
                   style={{
                     ...styles.input,
-                    color: "#3a455c",
+                    color: "black",
                     fontWeight: "bold"
                   }}
                   placeholderTextColor="red"
@@ -176,7 +172,7 @@ export default class ChiChoAi extends Component {
 
 const styles = StyleSheet.create({
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -191,23 +187,23 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     height: 50,
     marginTop: 5,
-    backgroundColor: "#3a455c"
+    backgroundColor: "black"
   },
   content: {
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "#3a445c",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {

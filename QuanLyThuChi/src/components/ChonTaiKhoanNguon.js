@@ -63,14 +63,10 @@ export default class ChonTaiKhoanNguon extends Component {
           style={{
             backgroundColor: "rgb(76,171,242)",
             height: 40,
-            borderBottomColor: "#757575"
+            borderBottomColor: "black"
           }}
         >
-          <Left style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
-            </Button>
-          </Left>
+          <Left style={{ flex: 2 }} />
           <Body style={{ flex: 8 }}>
             <Text style={{ color: "white", fontWeight: "bold" }}>
               CHỌN TÀI KHOẢN

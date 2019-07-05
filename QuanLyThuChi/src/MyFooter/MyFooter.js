@@ -11,24 +11,8 @@ export default class MyFooter extends Component {
       <View>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>
-            <Button vertical onPress={() => navigation.navigate("TongQuan")}>
-              <Icon name="home" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Tổng quan</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("TaiKhoan")}>
-              <Icon name="credit-card" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Tài khoản</Text>
-            </Button>
             <Button vertical onPress={() => navigation.navigate("ThemMoi")}>
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("LichSuGhiChep")}>
-              <Icon name="filter" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Ghi chép</Text>
-            </Button>
-            <Button vertical onPress={() => navigation.navigate("Khac")}>
-              <Icon name="ellipsis-h" style={stylesFooter.iconFooter} />
-              <Text style={stylesFooter.textFooter}>Khác</Text>
             </Button>
           </FooterTab>
         </Footer>
@@ -42,21 +26,21 @@ const stylesFooter = StyleSheet.create({
     fontSize: 18
   },
   iconFooter: {
-    color: "rgb(76,171,242)",
+    color: "grey",
     fontSize: 18
   },
   iconPlusCircle: {
-    color: "rgb(76,171,242)",
+    color: "#009933",
     fontSize: 30
   },
   footer: {
-    backgroundColor: "rgb(235,239,242)",
-    color: "rgb(235,239,242)",
+    backgroundColor: "white",
+    color: "black",
     height: 40
   },
   textFooter: {
-    color: "rgb(76,171,242)",
-    fontSize: 10,
+    color: "black",
+    fontSize: 12,
     fontFamily: "Times New Roman"
   }
 });

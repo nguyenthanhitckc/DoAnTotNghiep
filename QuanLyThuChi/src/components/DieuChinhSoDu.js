@@ -65,6 +65,8 @@ export default class DieuChinhSoDu extends React.Component {
 
   async formatMoney(money) {
     var x = money.replace(/,/g, "");
+    var length = x.length;
+    if (length > 9) x = x.substring(0, 9);
     var y = x.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
     await this.setState({ soTienThucTe: y });
     let soTienTaiKhoanTmp = this.state.soTienTaiKhoan.replace(/,/g, "");
@@ -251,7 +253,7 @@ export default class DieuChinhSoDu extends React.Component {
         "Bạn chưa nhập số tiền!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -262,7 +264,7 @@ export default class DieuChinhSoDu extends React.Component {
         "Số tiền hiện tại bằng số tiền thực tế!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -273,7 +275,7 @@ export default class DieuChinhSoDu extends React.Component {
         "Bạn chưa chọn hạng mục!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -284,7 +286,7 @@ export default class DieuChinhSoDu extends React.Component {
         "Bạn chưa chọn tài khoản!",
         [
           {
-            text: "Ok"
+            text: "Đồng ý"
           }
         ],
         { cancelable: false }
@@ -331,7 +333,7 @@ export default class DieuChinhSoDu extends React.Component {
                 "Bạn đã thêm thành công",
                 [
                   {
-                    text: "Ok"
+                    text: "Đồng ý"
                   }
                 ],
                 { cancelable: false }
@@ -427,11 +429,8 @@ export default class DieuChinhSoDu extends React.Component {
       <Container>
         <Header style={styles.header}>
           <Left style={{ flex: 2 }}>
-            <Button
-              transparent
-              onPress={() => navigation.navigate("LichSuGhiChep")}
-            >
-              <Icon name="bars" style={{ color: "white", fontSize: 18 }} />
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
             </Button>
           </Left>
           <Body style={{ flex: 8, alignItems: "center" }}>
@@ -464,7 +463,7 @@ export default class DieuChinhSoDu extends React.Component {
               <Left style={{ flex: 1 }}>
                 <Icon
                   name="credit-card"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>
@@ -475,7 +474,7 @@ export default class DieuChinhSoDu extends React.Component {
               <Right style={{ flex: 1 }}>
                 <Icon
                   name="chevron-circle-right"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Right>
             </CardItem>
@@ -489,7 +488,7 @@ export default class DieuChinhSoDu extends React.Component {
                 <Icon
                   active
                   name="calendar"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>
@@ -500,7 +499,7 @@ export default class DieuChinhSoDu extends React.Component {
                   mode={"datetime"}
                   is24Hour={true}
                   titleIOS={"Chọn ngày chi"}
-                  titleStyle={{ color: "#3a455c", fontSize: 20 }}
+                  titleStyle={{ color: "black", fontSize: 20 }}
                   locale={"vie"}
                   customConfirmButtonIOS={
                     <Text
@@ -547,24 +546,24 @@ export default class DieuChinhSoDu extends React.Component {
               <InputGroup borderType="underline">
                 <Icon
                   name="money"
-                  style={{ color: "#3a455c", fontSize: 18, fontWeight: "bold" }}
+                  style={{ color: "black", fontSize: 18, fontWeight: "bold" }}
                 />
                 <Input
                   placeholder="0"
                   style={{
                     fontSize: 20,
-                    color: "#3a455c",
+                    color: "black",
                     textAlign: "right",
                     fontWeight: "bold"
                   }}
-                  placeholderTextColor="#3a455c"
+                  placeholderTextColor="black"
                   keyboardType="numeric"
                   selectTextOnFocus
                   onChangeText={text => this.formatMoney(text)}
                   value={this.state.soTienThucTe}
                 />
                 <Text
-                  style={{ fontSize: 18, color: "#3a455c", fontWeight: "bold" }}
+                  style={{ fontSize: 18, color: "black", fontWeight: "bold" }}
                 >
                   đ
                 </Text>
@@ -619,19 +618,19 @@ export default class DieuChinhSoDu extends React.Component {
                     borderRadius: 20,
                     width: 40,
                     height: 40,
-                    backgroundColor: "grey"
+                    backgroundColor: "white"
                   }}
                 />
               </Left>
               <Body style={{ flex: 8 }}>
-                <Text style={{ fontSize: 20, color: "black" }}>
+                <Text style={{ fontSize: 20, color: "black", marginLeft: 10 }}>
                   {this.state.tenHangMuc}
                 </Text>
               </Body>
               <Right style={{ flex: 1 }}>
                 <Icon
                   name="chevron-circle-right"
-                  style={{ fontSize: 18, color: "#3a455c" }}
+                  style={{ fontSize: 18, color: "black" }}
                 />
               </Right>
             </CardItem>
@@ -647,7 +646,7 @@ export default class DieuChinhSoDu extends React.Component {
                 <Icon
                   active
                   name="comments"
-                  style={{ fontSize: 18, color: "#3a455c", flex: 1 }}
+                  style={{ fontSize: 18, color: "black", flex: 1 }}
                 />
                 <Input
                   value={this.state.moTa}
@@ -661,7 +660,7 @@ export default class DieuChinhSoDu extends React.Component {
           <Button
             block
             info
-            style={{ height: 40, backgroundColor: "#4cabf2", margin: 5 }}
+            style={{ height: 40, backgroundColor: "#009933", margin: 5 }}
             onPress={this.buttonOnClick}
           >
             <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -681,7 +680,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   buttonCardItem: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     borderBottomWidth: 0.7,
     borderColor: "grey",
     height: 50,
@@ -701,21 +700,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#F1F1F1",
     height: height - 104,
     left: 0,
-    // position: "absolute",
+
     right: 0
   },
   footer: {
-    backgroundColor: "#3a455c",
+    backgroundColor: "black",
     color: "white",
     height: 40
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
-    borderBottomColor: "#757575",
+    backgroundColor: "#009933",
+    borderBottomColor: "black",
     height: 40
   },
   icon: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 18
   },
   iconHeader: {
@@ -727,12 +726,12 @@ const styles = StyleSheet.create({
     fontSize: 30
   },
   input: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     textAlign: "right"
   },
   textContent: {
-    color: "#3a455c",
+    color: "black",
     fontSize: 20,
     paddingLeft: 10
   },

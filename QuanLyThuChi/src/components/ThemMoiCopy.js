@@ -1,6 +1,6 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions } from "react-native";
+import { Text, StyleSheet, Dimensions, Image } from "react-native";
 import {
   Button,
   Body,
@@ -23,60 +23,136 @@ export default class ThemMoiCopy extends Component {
     return (
       <Container>
         <Header style={styles.header}>
+          <Left style={{ flex: 2 }}>
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
+            </Button>
+          </Left>
           <Body>
             <Text style={{ color: "white", fontWeight: "bold" }}>THÊM</Text>
           </Body>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Body style={styles.content}>
           <Button
-            onPress={() => {
-              navigation.navigate("ChiTieuCopy", {
-                so_tien: params.so_tien,
-                mo_ta: params.mo_ta,
-                ma_tai_khoan: params.ma_tai_khoan,
-                ten_tai_khoan: params.ten_tai_khoan
-              });
-            }}
-            block
-            info
+            onPress={() => navigation.navigate("ChiTieu")}
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Chi tiêu</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/cho_vay.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Chi tiêu</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
 
           <Button
-            onPress={() =>
-              navigation.navigate("ThuNhapCopy", {
-                so_tien: params.so_tien,
-                mo_ta: params.mo_ta,
-                ma_tai_khoan: params.ma_tai_khoan,
-                ten_tai_khoan: params.ten_tai_khoan
-              })
-            }
-            block
-            info
+            onPress={() => navigation.navigate("ThuNhap")}
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Thu nhập</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/thu_no.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Thu nhập</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
 
           <Button
             onPress={() => navigation.navigate("ChuyenKhoan")}
-            block
-            info
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Chuyển khoản</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/khac.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Chuyển Khoản</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
 
           <Button
             onPress={() => navigation.navigate("DieuChinhSoDu")}
-            block
-            info
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Điều chỉnh số dư</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/tien_lai.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Điều chỉnh số dư</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
         </Body>
         <MyFooter navigation={this.props.navigation} />
@@ -90,14 +166,14 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
+    backgroundColor: "#009933",
     height: 40,
-    borderBottomColor: "#757575",
+    borderBottomColor: "black",
     marginBottom: 2
   },
   content: {
-    width:"100%",
-    left: 0,
+    width: "100%",
+    left: 10,
     right: 0,
     height: height - 104,
     backgroundColor: "#ffffff",
@@ -108,10 +184,10 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: "rgb(228,242,253)",
     borderRadius: 5,
-    margin: 10,
+    margin: 10
   },
   textButton: {
-  color:"rgb(76,171,242)",
-  fontSize:15
+    color: "rgb(76,171,242)",
+    fontSize: 15
   }
 });

@@ -1,14 +1,15 @@
 // Import thư viện
 import React, { Component } from "react";
-import { Text, StyleSheet, Dimensions, Alert } from "react-native";
+import { Alert, Dimensions, Image, StyleSheet, Text } from "react-native";
 import {
-  Button,
   Body,
+  Button,
   Container,
-  Content,
   Header,
-  Left,
-  Right
+  CardItem,
+  Card,
+  Right,
+  Left
 } from "native-base";
 import Icon from "react-native-vector-icons/FontAwesome";
 import db from "../../connectionDB";
@@ -32,7 +33,7 @@ export default class ThemMoi extends Component {
               "Bạn chưa có tài khoản hoạt động nào, hãy tạo tài khoản đầu tiên của bạn nào!",
               [
                 {
-                  text: "Ok"
+                  text: "Đồng ý"
                 }
               ],
               { cancelable: false }
@@ -48,46 +49,136 @@ export default class ThemMoi extends Component {
     return (
       <Container>
         <Header style={styles.header}>
-          <Body>
+          <Left style={{ flex: 2 }}>
+            <Button transparent onPress={() => navigation.navigate("TaiKhoan")}>
+              <Icon name="credit-card" style={styles.iconHeader} />
+            </Button>
+          </Left>
+          <Body style={{ flex: 8 }}>
             <Text style={{ color: "white", fontWeight: "bold" }}>THÊM</Text>
           </Body>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Body style={styles.content}>
           <Button
             onPress={() => navigation.navigate("ChiTieu")}
-            block
-            info
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Chi tiêu</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/cho_vay.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Chi tiêu</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
 
           <Button
             onPress={() => navigation.navigate("ThuNhap")}
-            block
-            info
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Thu nhập</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/thu_no.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Thu nhập</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
 
           <Button
             onPress={() => navigation.navigate("ChuyenKhoan")}
-            block
-            info
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Chuyển khoản</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/khac.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Chuyển Khoản</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
 
           <Button
             onPress={() => navigation.navigate("DieuChinhSoDu")}
-            block
-            info
+            full
+            light
             style={styles.buttonCardItem}
           >
-            <Text style={styles.textButton}>Điều chỉnh số dư</Text>
+            <Left style={{ flex: 2 }}>
+              <Image
+                source={{
+                  uri: "https://nguyenthanhitckc.github.io/images/tien_lai.png"
+                }}
+                style={{
+                  borderRadius: 25,
+                  width: 50,
+                  height: 50,
+                  backgroundColor: "white"
+                }}
+              />
+            </Left>
+            <Body
+              style={{
+                flex: 7,
+                alignItems: "flex-start"
+              }}
+            >
+              <Text style={styles.textButton}>Điều chỉnh số dư</Text>
+            </Body>
+            <Right style={{ flex: 1 }} />
           </Button>
         </Body>
         <MyFooter navigation={this.props.navigation} />
@@ -101,9 +192,9 @@ const styles = StyleSheet.create({
     fontSize: 18
   },
   header: {
-    backgroundColor: "rgb(76,171,242)",
+    backgroundColor: "#009933",
     height: 40,
-    borderBottomColor: "#757575",
+    borderBottomColor: "black",
     marginBottom: 2
   },
   content: {
@@ -117,12 +208,11 @@ const styles = StyleSheet.create({
   },
   buttonCardItem: {
     height: 80,
-    backgroundColor: "rgb(228,242,253)",
     borderRadius: 5,
     margin: 10
   },
   textButton: {
-    color: "rgb(76,171,242)",
-    fontSize: 15
+    color: "black",
+    fontSize: 20
   }
 });
