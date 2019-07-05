@@ -788,11 +788,12 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 </Text>
               </InputGroup>
             </CardItem>
-
-            <Button
+             </Card>
+          <Card style={{flexDirection:"row"}}>
+          <Button
               block
               info
-              style={{ height: 40, backgroundColor: "#009933", margin: 5 }}
+              style={{flex:1, height: 40, backgroundColor: "#009933", margin: 5 }}
               onPress={this.buttonOnClick}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
@@ -816,6 +817,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 Xóa
               </Text>
             </Button>
+         
           </Card>
         </Content>
         <MyFooter navigation={this.props.navigation} />

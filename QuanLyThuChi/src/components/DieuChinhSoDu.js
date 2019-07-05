@@ -433,7 +433,7 @@ export default class DieuChinhSoDu extends React.Component {
               <Icon name="credit-card" style={styles.iconHeader} />
             </Button>
           </Left>
-          <Body style={{ flex: 8, alignItems: "center" }}>
+          <Body style={{ flex: 8}}>
             <Text style={styles.textHeader}>ĐIỀU CHỈNH SỐ DƯ</Text>
           </Body>
           <Right style={{ flex: 2 }}>
