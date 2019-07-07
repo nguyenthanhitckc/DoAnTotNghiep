@@ -167,6 +167,7 @@ export default class ChinhSuaThuNhap extends React.Component {
       );
     } else {
       const { goBack } = this.props.navigation;
+      const { navigation } = this.props;
       let mathunhap = this.state.maThuNhap;
       let mataikhoan = this.state.taiKhoanMoi;
       let moneycu = this.state.soTien.replace(/,/g, "");
@@ -248,10 +249,12 @@ export default class ChinhSuaThuNhap extends React.Component {
         );
       });
     }
+    navigation.navigate("TaiKhoan");
   }
 
   XoaThuNhap() {
     const { goBack } = this.props.navigation;
+    const { navigation } = this.props;
     let moneycu = this.state.soTien.replace(/,/g, "");
     let sotiencu = Number(moneycu);
     console.log(sotiencu);
@@ -294,7 +297,7 @@ export default class ChinhSuaThuNhap extends React.Component {
                     ],
                     { cancelable: false }
                   );
-                  goBack();
+                  navigation.navigate("TaiKhoan");
                 }
               );
             });

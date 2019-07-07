@@ -59,6 +59,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
     this.formatPhiChuyenKhoan = this.formatPhiChuyenKhoan.bind(this);
     this.phatSinhMaChiTieu = this.phatSinhMaChiTieu.bind(this);
     this.phatSinhMaThuNhap = this.phatSinhMaThuNhap.bind(this);
+    this.KiemTra = this.KiemTra.bind(this);
   }
 
   // Function
@@ -246,6 +247,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
 
   XoaChuyenKhoan() {
     const { goBack } = this.props.navigation;
+    const { navigation } = this.props;
     let moneycuTmp = this.state.soTien.replace(/,/g, "");
     let sotiencu = Number(moneycuTmp);
     let phickTmp = this.state.phiChuyenKhoan.replace(/,/g, "");
@@ -301,7 +303,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                     ],
                     { cancelable: false }
                   );
-                  goBack();
+                  navigation.navigate("TaiKhoan");
                 }
               );
             });
@@ -368,6 +370,7 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
         { cancelable: false }
       );
     } else {
+      const { navigation } = this.props;
       let machuyenkhoan = this.state.maChuyenKhoan;
       let mataikhoannguoncu = this.state.maTaiKhoanNguon;
       let mataikhoandichcu = this.state.maTaiKhoanDich;
@@ -552,6 +555,34 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
           }
         );
       });
+    }
+    navigation.navigate("TaiKhoan");
+  }
+
+  async KiemTra() {
+    let moneyTmp = this.state.soTien.replace(/,/g, "");
+    let sotien = Number(moneyTmp);
+    let soTienViNguon = this.state.soTienTrongViNguonMoi;
+
+    if (soTienViNguon < sotien) {
+      Alert.alert(
+        "Thông báo",
+        "Số tiền bạn chuyển đang nhiều hơn số dư trong tài khoản!",
+        [
+          {
+            text: "Hủy",
+            onPress: () => {},
+            style: "cancel"
+          },
+          {
+            text: "Đồng ý",
+            onPress: this.buttonOnClick
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.buttonOnClick();
     }
   }
 
@@ -788,13 +819,18 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 </Text>
               </InputGroup>
             </CardItem>
-             </Card>
-          <Card style={{flexDirection:"row"}}>
-          <Button
+          </Card>
+          <Card style={{ flexDirection: "row" }}>
+            <Button
               block
               info
-              style={{flex:1, height: 40, backgroundColor: "#009933", margin: 5 }}
-              onPress={this.buttonOnClick}
+              style={{
+                flex: 1,
+                height: 40,
+                backgroundColor: "#009933",
+                margin: 5
+              }}
+              onPress={this.KiemTra}
             >
               <Icon name="save" style={{ fontSize: 18, color: "white" }} />
               <Text style={{ color: "white", marginLeft: 5 }}>Lưu</Text>
@@ -817,7 +853,6 @@ export default class ChinhSuaChuyenKhoan extends React.Component {
                 Xóa
               </Text>
             </Button>
-         
           </Card>
         </Content>
         <MyFooter navigation={this.props.navigation} />

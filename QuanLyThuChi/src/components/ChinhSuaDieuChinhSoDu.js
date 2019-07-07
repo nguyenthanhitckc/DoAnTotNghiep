@@ -395,6 +395,7 @@ export default class ChinhSuaDieuChinhSoDu extends React.Component {
 
   XoaDieuChinh() {
     const { goBack } = this.props.navigation;
+    const { navigation } = this.props;
     let so_tien_dieu_chinhTmp = this.state.soDuCu.replace(/,/g, "");
     let so_tien_dieu_chinh = Number(so_tien_dieu_chinhTmp);
     let so_tien_hien_tai = this.state.soTienTrongViCu;
@@ -448,7 +449,7 @@ export default class ChinhSuaDieuChinhSoDu extends React.Component {
                     ],
                     { cancelable: false }
                   );
-                  goBack();
+                  navigation.navigate("TaiKhoan");
                 }
               );
             });

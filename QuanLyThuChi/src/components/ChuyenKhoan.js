@@ -49,6 +49,7 @@ export default class ChuyenKhoan extends React.Component {
     this.buttonOnClick = this.buttonOnClick.bind(this);
     this.formatMoney = this.formatMoney.bind(this);
     this.formatPhiChuyenKhoan = this.formatPhiChuyenKhoan.bind(this);
+    this.KiemTra = this.KiemTra.bind(this);
   }
 
   // Function
@@ -434,6 +435,44 @@ export default class ChuyenKhoan extends React.Component {
     }
   }
 
+  async KiemTra() {
+    let moneyTmp = this.state.soTien.replace(/,/g, "");
+    let sotien = Number(moneyTmp);
+    let soTienViNguon = await new Promise((resolve, reject) => {
+      db.transaction(tx => {
+        tx.executeSql(
+          "SELECT * FROM taikhoan WHERE ma_tai_khoan like ?",
+          [this.state.taiKhoanNguon],
+          (tx, results) => {
+            let soTienTrongViNguon = results.rows.item(0).so_tien;
+            resolve(soTienTrongViNguon);
+          }
+        );
+      });
+    });
+
+    if (soTienViNguon < sotien) {
+      Alert.alert(
+        "Thông báo",
+        "Số tiền bạn chuyển đang nhiều hơn số dư trong tài khoản!",
+        [
+          {
+            text: "Hủy",
+            onPress: () => {},
+            style: "cancel"
+          },
+          {
+            text: "Đồng ý",
+            onPress: this.buttonOnClick
+          }
+        ],
+        { cancelable: false }
+      );
+    } else {
+      this.buttonOnClick();
+    }
+  }
+
   returnDataTaiKhoanNguon(taiKhoanNguon, tenTaiKhoanNguon, soTien) {
     this.setState({
       taiKhoanNguon: taiKhoanNguon,
@@ -674,7 +713,7 @@ export default class ChuyenKhoan extends React.Component {
             block
             info
             style={{ height: 40, backgroundColor: "#009933", margin: 5 }}
-            onPress={this.buttonOnClick}
+            onPress={this.KiemTra}
           >
             <Icon name="save" style={{ fontSize: 18, color: "white" }} />
             <Text style={{ color: "white", marginLeft: 5 }}>Ghi</Text>
