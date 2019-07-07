@@ -116,7 +116,10 @@ export default class ThemTaiKhoan extends React.Component {
         ],
         { cancelable: false }
       );
-    } else if (this.state.loaiTaiKhoan == "") {
+    } else if (
+      this.state.loaiTaiKhoan == "" ||
+      this.state.loaiTaiKhoan == "khong"
+    ) {
       Alert.alert(
         "Thông báo",
         "Bạn chưa chọn loại tài khoản!",
@@ -253,6 +256,7 @@ export default class ThemTaiKhoan extends React.Component {
                     fontWeight: "bold"
                   }}
                 >
+                  <Picker.Item label="Chọn loại tài khoản" value="khong" />
                   <Picker.Item label="Tiền mặt" value="tien_mat" />
                   <Picker.Item label="Thẻ ngân hàng" value="the_ngan_hang" />
                   <Picker.Item label="Đầu tư" value="dau_tu" />
