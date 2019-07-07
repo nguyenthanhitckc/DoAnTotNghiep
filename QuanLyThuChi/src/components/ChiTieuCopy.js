@@ -440,7 +440,17 @@ export default class ChiTieuCopy extends React.Component {
         </Content>
         <Footer style={stylesFooter.footer}>
           <FooterTab style={stylesFooter.footer}>
-            <Button vertical onPress={() => navigation.navigate("ThemMoi")}>
+            <Button
+              vertical
+              onPress={() =>
+                navigation.navigate("ThemMoiCopy", {
+                  so_tien: this.state.soTien,
+                  mo_ta: this.state.moTa,
+                  ma_tai_khoan: this.state.taiKhoan,
+                  ten_tai_khoan: this.state.tenTaiKhoan
+                })
+              }
+            >
               <Icon name="plus-circle" style={stylesFooter.iconPlusCircle} />
             </Button>
           </FooterTab>

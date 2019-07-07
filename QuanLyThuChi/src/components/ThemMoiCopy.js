@@ -36,7 +36,14 @@ export default class ThemMoiCopy extends Component {
 
         <Body style={styles.content}>
           <Button
-            onPress={() => navigation.navigate("ChiTieu")}
+            onPress={() =>
+              navigation.navigate("ChiTieuCopy", {
+                so_tien: params.so_tien,
+                mo_ta: params.mo_ta,
+                ma_tai_khoan: params.ma_tai_khoan,
+                ten_tai_khoan: params.ten_tai_khoan
+              })
+            }
             full
             light
             style={styles.buttonCardItem}
@@ -66,7 +73,14 @@ export default class ThemMoiCopy extends Component {
           </Button>
 
           <Button
-            onPress={() => navigation.navigate("ThuNhap")}
+            onPress={() =>
+              navigation.navigate("ThuNhapCopy", {
+                so_tien: params.so_tien,
+                mo_ta: params.mo_ta,
+                ma_tai_khoan: params.ma_tai_khoan,
+                ten_tai_khoan: params.ten_tai_khoan
+              })
+            }
             full
             light
             style={styles.buttonCardItem}
