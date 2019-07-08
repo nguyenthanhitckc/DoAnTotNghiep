@@ -59,11 +59,7 @@ export default class ChonHangMucThu extends Component {
               CHỌN HẠNG MỤC
             </Text>
           </Body>
-          <Right style={{ flex: 2 }}>
-            <Button transparent>
-              <Icon name="plus" style={{ color: "white", fontSize: 18 }} />
-            </Button>
-          </Right>
+          <Right style={{ flex: 2 }} />
         </Header>
 
         <Content style={styles.content}>
